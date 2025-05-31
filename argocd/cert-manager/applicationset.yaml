@@ -6,7 +6,8 @@ metadata:
 spec:
   ## https://argo-cd.readthedocs.io/en/stable/operator-manual/applicationset/GoTemplate/
   goTemplate: true
-  goTemplateOptions: ['missingkey=error']
+  goTemplateOptions:
+    - 'missingkey=error'
   generators:
     # https://argocd-applicationset.readthedocs.io/en/stable/Generators-Matrix/
     - matrix:
@@ -16,6 +17,7 @@ spec:
               repoURL: https://github.com/somerandow/homelab
               revision: main
               files:
+                - path: "argocd/cert-manager/git-generator-defaults.yaml"
                 - path: "argocd/clusters/**/cert-manager/git-generator-overrides.yaml"
           ## https://argocd-applicationset.readthedocs.io/en/stable/Generators-Cluster/
           - clusters:
@@ -38,7 +40,7 @@ spec:
       project: default ## Can use dynamic project name from git file generator. (project shoud be created before hand and can be part of bootstrap)
       sources:
         - repoURL: https://charts.jetstack.io
-          targetRevision: '{{dig "chartVersion" "1.15.0" .}}'
+          targetRevision: '{{dig "chartVersion" "1.12.0" .}}'
           chart: cert-manager
           helm:
             # Helm values files for overriding values in the helm chart
