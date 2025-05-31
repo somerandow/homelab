@@ -10,3 +10,6 @@ podLabels:
   app.kubernetes.io/part-of: dev-fleet
   region: us-east-01
   cloud: aws
+tolerations:
+  - key: node-role.kubernetes.io/control-plane
+    operator: Exists
