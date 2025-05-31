@@ -13,3 +13,15 @@ podLabels:
 tolerations:
   - key: node-role.kubernetes.io/control-plane
     operator: Exists
+webhook:
+  tolerations:
+    - key: node-role.kubernetes.io/control-plane
+      operator: Exists
+cainjector:
+  tolerations:
+    - key: node-role.kubernetes.io/control-plane
+      operator: Exists
+startupapicheck:
+  tolerations:
+    - key: node-role.kubernetes.io/control-plane
+      operator: Exists
