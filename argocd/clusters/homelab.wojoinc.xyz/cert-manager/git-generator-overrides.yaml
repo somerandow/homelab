@@ -1,3 +1,2 @@
-chartVersion: "1.15.0"
 environment: "prod"
 app: cert-manager
