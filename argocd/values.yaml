@@ -1,0 +1,28 @@
+createAggregateRoles: true
+global:
+  domain: argo.wojoinc.xyz
+  tolerations:
+    - key: node-role.kubernetes.io/control-plane
+      operator: Exists
+redis-ha:
+  enabled: true
+  tolerations:
+    - key: node-role.kubernetes.io/control-plane
+      operator: Exists
+
+
+controller:
+  replicas: 1
+
+server:
+  autoscaling:
+    enabled: true
+    minReplicas: 2
+
+repoServer:
+  autoscaling:
+    enabled: true
+    minReplicas: 2
+
+applicationSet:
+  replicas: 2
