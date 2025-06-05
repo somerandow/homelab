@@ -1,0 +1,99 @@
+deployment:
+  enabled: true
+  kind: Deployment
+  replicas: 1
+  additionalVolumes:
+    - name: tls
+      configMap:
+        name: homelab-ca-trust
+additionalVolumeMounts:
+  - name: tls
+    mountPath: /tls
+podDisruptionBudget:
+  enabled: true
+  minAvailable: 1
+ingressClass:
+  enabled: true
+  isDefaultClass: false
+  name: traefik-external
+gateway:
+  enabled: false
+gatewayClass:
+  enabled: false
+# Create an IngressRoute for the dashboard
+ingressRoute:
+  dashboard:
+    enabled: false
+rollingUpdate:
+  maxUnavailable: 1
+  maxSurge: 1
+providers:
+  kubernetesCRD:
+    enabled: true
+    ingressClass: traefik-external
+  kubernetesIngress:
+    ingressClass: traefik-external
+    enabled: true
+    publishedService:
+      enabled: true
+  kubernetesGateway:
+    enabled: true
+    experimentalChannel: true
+logs:
+  general:
+    level: INFO
+  access:
+    enabled: false
+    level: WARN
+globalArguments:
+  - "--global.checknewversion"
+additionalArguments:
+  - "--entrypoints.web.http.redirections.entryPoint.to=:443"
+  - "--entrypoints.web.http.redirections.entryPoint.permanent=true"
+  - "--serverstransport.rootcas=/tls/ca.crt"
+ports:
+  web:
+    port: 8000
+    expose:
+      default: true
+    exposedPort: 80
+  websecure:
+    port: 8443
+    expose:
+      default: true
+    exposedPort: 443
+  metrics:
+    port: 9100
+    expose:
+      default: false
+    exposedPort: 9100
+service:
+  enabled: true
+  type: LoadBalancer
+autoscaling:
+  enabled: false
+rbac:
+  enabled: true
+podSecurityPolicy:
+  enabled: false
+resources:
+  limits:
+    cpu: "1"
+    memory: 400Mi
+  requests:
+    cpu: 200m
+    memory: 150Mi
+securityContext:
+  capabilities:
+    drop: [ ALL ]
+  readOnlyRootFilesystem: true
+  runAsGroup: 65532
+  runAsNonRoot: true
+  runAsUser: 65532
+  allowPrivilegeEscalation: false
+podSecurityContext:
+  fsGroup: 65532
+metrics:
+  prometheus:
+    service:
+      enabled: false
