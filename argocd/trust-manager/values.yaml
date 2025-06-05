@@ -1,0 +1,7 @@
+secretTargets:
+  enabled: true
+  authorizedSecretsAll: false
+  authorizedSecrets:
+    - "homelab-ca-bundle"
+    - "homelab-ca-secret"
+    - "ca-secret"
