@@ -2,7 +2,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: cert-manager
+  name: traefik
   namespace: argocd
 spec:
   ## https://argo-cd.readthedocs.io/en/stable/operator-manual/applicationset/GoTemplate/
@@ -22,12 +22,12 @@ spec:
                     repoURL: https://github.com/somerandow/homelab
                     revision: main
                     files:
-                      - path: "argocd/cert-manager/git-generator-defaults.yaml"
+                      - path: "argocd/traefik/git-generator-defaults.yaml"
                 - git:
                     repoURL: https://github.com/somerandow/homelab
                     revision: main
                     files:
-                      - path: "argocd/clusters/**/cert-manager/git-generator-overrides.yaml"
+                      - path: "argocd/clusters/**/traefik/git-generator-overrides.yaml"
           ## https://argocd-applicationset.readthedocs.io/en/stable/Generators-Cluster/
           - clusters:
               selector:
@@ -37,7 +37,7 @@ spec:
                   argocd.argoproj.io/secret-type: cluster
   template:
     metadata:
-      name: 'cert-manager-{{.environment}}' ## in case detailed name is required.
+      name: 'traefik-{{.environment}}' ## in case detailed name is required.
       labels:
         app.kubernetes.io/component: argocd-application
         app.kubernetes.io/part-of: '{{.environment}}'
@@ -45,13 +45,13 @@ spec:
     spec:
       project: default ## Can use dynamic project name from git file generator. (project shoud be created before hand and can be part of bootstrap)
       sources:
-        - repoURL: https://charts.jetstack.io
-          targetRevision: '{{dig "chartVersion" "1.12.0" .}}'
-          chart: cert-manager
+        - repoURL: ghcr.io/traefik/helm
+          targetRevision: '{{dig "chartVersion" "35.4.0" .}}'
+          chart: traefik
           helm:
             # Helm values files for overriding values in the helm chart
             valueFiles:
-              - $values/argocd/cert-manager/values.yaml
+              - $values/argocd/traefik/values.yaml
               - $values/{{.path.path}}/values.yaml ## single isolated values file.
             skipCrds: false
         - repoURL: 'https://github.com/somerandow/homelab'

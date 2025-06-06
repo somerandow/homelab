@@ -2,7 +2,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: cert-manager-issuers
+  name: cert-manager-resources
   namespace: argocd
 spec:
   ## https://argo-cd.readthedocs.io/en/stable/operator-manual/applicationset/GoTemplate/
