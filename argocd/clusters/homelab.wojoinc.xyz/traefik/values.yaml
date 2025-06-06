@@ -10,7 +10,7 @@ ingressRoute:
     entryPoints: ["websecure"]
 service:
   spec:
-    loadBalancerIP: "10.3.5.0"
+    loadBalancerIP: "10.3.7.0"
     externalTrafficPolicy: Local
     internalTrafficPolicy: Cluster
 autoscaling:
