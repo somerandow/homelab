@@ -6,3 +6,4 @@ resources:
   - bootstrap-issuer.yaml
   - root-ca.yaml
   - homelab-ca.yaml
+  - acme.yaml

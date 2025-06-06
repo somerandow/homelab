@@ -46,7 +46,7 @@ spec:
       project: default ## Can use dynamic project name from git file generator. (project shoud be created before hand and can be part of bootstrap)
       sources:
         - repoURL: https://charts.jetstack.io
-          targetRevision: '{{dig "chartVersion" "1.12.0" .}}'
+          targetRevision: '{{dig "chartVersion" ">= 1.12.0" .}}'
           chart: cert-manager
           helm:
             # Helm values files for overriding values in the helm chart

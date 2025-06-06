@@ -59,6 +59,16 @@ spec:
                     name: not-used
                   spec:
                     commonName: {{.clusterCommonName}}
+              - target:
+                  kind: ClusterIssuer
+                  name: acme
+                patch: |-
+                  kind: ClusterIssuer
+                  metadata:
+                    name: not-used
+                  spec:
+                    acme:
+                      server: {{.acmeUrl}}
       destination:
         server: '{{.server}}'
         namespace: '{{.path.basenameNormalized}}'

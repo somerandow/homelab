@@ -1,0 +1,17 @@
+---
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: acme
+spec:
+  acme:
+    email: wojoinc+acme@pm.me
+    server: "TO_BE_FILLED"
+    privateKeySecretRef:
+      name: cloudflare-acme-issuer-key
+    solvers:
+      - dns01:
+          cloudflare:
+            apiTokenSecretRef:
+              name: cloudflare-api-token
+              key: api-token
