@@ -32,7 +32,7 @@ spec:
                   argocd.argoproj.io/secret-type: cluster
   template:
     metadata:
-      name: 'metrics-server-{{.name}}'
+      name: 'metrics-server-{{.name | slugify}}'
       labels:
         app.kubernetes.io/component: argocd-application
         app.kubernetes.io/part-of: '{{.environment}}'
