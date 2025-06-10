@@ -40,9 +40,9 @@ spec:
     spec:
       project: default
       sources:
-        - repoURL: https://kubernetes-sigs.github.io/metrics-server/
-          targetRevision: '{{.chartVersion}}'
-          chart: metrics-server
+        - repoURL: https://github.com/kubernetes-sigs/metrics-server
+          targetRevision: '{{.repoRef}}'
+          path: "charts/metrics-server"
           helm:
             # Helm values files for overriding values in the helm chart
             valueFiles:
