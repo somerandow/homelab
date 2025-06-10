@@ -9,5 +9,5 @@ tls:
       enabled: true
       kind: "ClusterIssuer"
       name: "homelab-ca"
-    duration: "2592000"
-    renewBefore: "604800"
+    duration: "2592000s"
+    renewBefore: "604800s"
