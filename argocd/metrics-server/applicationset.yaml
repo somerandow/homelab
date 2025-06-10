@@ -1,0 +1,67 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: metrics-server
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions:
+    - 'missingkey=error'
+  generators:
+    - matrix:
+        generators:
+          - merge:
+              mergeKeys:
+                - app
+              generators:
+                - git:
+                    repoURL: https://github.com/somerandow/homelab
+                    revision: main
+                    files:
+                      - path: "argocd/metrics-server/git-generator-defaults.yaml"
+                - git:
+                    repoURL: https://github.com/somerandow/homelab
+                    revision: main
+                    files:
+                      - path: "argocd/clusters/**/metrics-server/git-generator-overrides.yaml"
+          - clusters:
+              selector:
+                matchLabels:
+                  app.kubernetes.io/part-of: '{{.environment}}'
+                  argocd.argoproj.io/secret-type: cluster
+  template:
+    metadata:
+      name: 'metrics-server-{{.name}}'
+      labels:
+        app.kubernetes.io/component: argocd-application
+        app.kubernetes.io/part-of: '{{.environment}}'
+        homelab.wojoinc.xyz/app-group: 'infra'
+    spec:
+      project: default
+      sources:
+        - repoURL: https://kubernetes-sigs.github.io/metrics-server/
+          targetRevision: '{{.chartVersion}}'
+          chart: metrics-server
+          helm:
+            # Helm values files for overriding values in the helm chart
+            valueFiles:
+              - $values/argocd/metrics-server/values.yaml
+              - $values/{{.path.path}}/values.yaml ## single isolated values file.
+            skipCrds: false
+        - repoURL: 'https://github.com/somerandow/homelab'
+          targetRevision: main
+          ref: values
+      destination:
+        server: '{{.server}}'
+        namespace: '{{.namespace}}'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true          ## https://argo-cd.readthedocs.io/en/stable/user-guide/sync-options/#create-namespace
+          - ApplyOutOfSyncOnly=true       ## https://argo-cd.readthedocs.io/en/stable/user-guide/sync-options/#selective-sync
+          - ServerSideApply=true          ## https://argo-cd.readthedocs.io/en/stable/user-guide/sync-options/#server-side-apply
+          - RespectIgnoreDifferences=true ## https://argo-cd.readthedocs.io/en/stable/user-guide/sync-options/#respect-ignore-difference-configs
+      ignoreDifferences: []               ## https://argo-cd.readthedocs.io/en/stable/user-guide/diffing/

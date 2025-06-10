@@ -1,0 +1,13 @@
+apiService:
+  insecureSkipTLSVerify: false
+tls:
+  type: "cert-manager"
+  clusterDomain: cluster.local
+  certManager:
+    addInjectorAnnotations: true
+    existingIssuer:
+      enabled: true
+      kind: "ClusterIssuer"
+      name: "homelab-ca"
+    duration: "30d"
+    renewBefore: "7d"
