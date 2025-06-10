@@ -2,7 +2,7 @@ apiService:
   insecureSkipTLSVerify: false
 tls:
   type: "cert-manager"
-  clusterDomain: cluster.local
+  clusterDomain: homelab.wojoinc.local
   certManager:
     addInjectorAnnotations: true
     existingIssuer:
