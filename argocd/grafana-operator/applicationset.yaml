@@ -54,6 +54,7 @@ spec:
               - $values/argocd/grafana-operator/values.yaml
               - $values/{{.path.path}}/values.yaml ## single isolated values file.
             skipCrds: false
+            ignoreMissingValueFiles: true
         - repoURL: 'https://github.com/somerandow/homelab'
           targetRevision: main
           ref: values
