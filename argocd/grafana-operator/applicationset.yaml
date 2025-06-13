@@ -37,7 +37,7 @@ spec:
                   argocd.argoproj.io/secret-type: cluster
   template:
     metadata:
-      name: 'grafana-operator-{{.environment}}' ## in case detailed name is required.
+      name: 'grafana-operator-{{.name | slugify}}' ## in case detailed name is required.
       labels:
         app.kubernetes.io/component: argocd-application
         app.kubernetes.io/part-of: '{{.environment}}'
