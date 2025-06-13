@@ -1,0 +1,74 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: grafana-operator
+  namespace: argocd
+spec:
+  ## https://argo-cd.readthedocs.io/en/stable/operator-manual/applicationset/GoTemplate/
+  goTemplate: true
+  goTemplateOptions:
+    - 'missingkey=error'
+  generators:
+    # https://argocd-applicationset.readthedocs.io/en/stable/Generators-Matrix/
+    - matrix:
+        generators:
+          - merge:
+              mergeKeys:
+                - app
+              generators:
+                ## https://argocd-applicationset.readthedocs.io/en/stable/Generators-Git/
+                - git:
+                    repoURL: https://github.com/somerandow/homelab
+                    revision: main
+                    files:
+                      - path: "argocd/grafana-operator/git-generator-defaults.yaml"
+                - git:
+                    repoURL: https://github.com/somerandow/homelab
+                    revision: main
+                    files:
+                      - path: "argocd/clusters/**/grafana-operator/git-generator-overrides.yaml"
+          ## https://argocd-applicationset.readthedocs.io/en/stable/Generators-Cluster/
+          - clusters:
+              selector:
+                ## required labels on the cluster secret, controls the logic of cluster selection on the basis of labels/filters.
+                matchLabels:
+                  app.kubernetes.io/part-of: '{{.environment}}' ## filter on environment type
+                  argocd.argoproj.io/secret-type: cluster
+  template:
+    metadata:
+      name: 'grafana-operator-{{.environment}}' ## in case detailed name is required.
+      labels:
+        app.kubernetes.io/component: argocd-application
+        app.kubernetes.io/part-of: '{{.environment}}'
+        homelab.wojoinc.xyz/app-group: 'monitoring'
+    spec:
+      project: default ## Can use dynamic project name from git file generator. (project shoud be created before hand and can be part of bootstrap)
+      sources:
+        - repoURL: ghcr.io/grafana-operator/helm-charts
+          targetRevision: '{{.chartVersion}}'
+          chart: grafana-operator
+          helm:
+            # Helm values files for overriding values in the helm chart
+            valueFiles:
+              - $values/argocd/grafana-operator/values.yaml
+              - $values/{{.path.path}}/values.yaml ## single isolated values file.
+            skipCrds: false
+        - repoURL: 'https://github.com/somerandow/homelab'
+          targetRevision: main
+          ref: values
+      destination:
+        server: '{{.server}}'
+        namespace: '{{.namespace}}'
+      syncPolicy:
+        ## https://argo-cd.readthedocs.io/en/stable/user-guide/auto_sync/#automated-sync-policy
+        automated:
+          prune: true
+          selfHeal: true
+        ## https://argo-cd.readthedocs.io/en/stable/user-guide/sync-options/#sync-options
+        syncOptions:
+          - CreateNamespace=true          ## https://argo-cd.readthedocs.io/en/stable/user-guide/sync-options/#create-namespace
+          - ApplyOutOfSyncOnly=true       ## https://argo-cd.readthedocs.io/en/stable/user-guide/sync-options/#selective-sync
+          - ServerSideApply=true          ## https://argo-cd.readthedocs.io/en/stable/user-guide/sync-options/#server-side-apply
+          - RespectIgnoreDifferences=true ## https://argo-cd.readthedocs.io/en/stable/user-guide/sync-options/#respect-ignore-difference-configs
+      ignoreDifferences: []               ## https://argo-cd.readthedocs.io/en/stable/user-guide/diffing/

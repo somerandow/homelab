@@ -1,0 +1,3 @@
+chartVersion: ">= 5.0.0"
+app: grafana-operator
+namespace: monitoring
