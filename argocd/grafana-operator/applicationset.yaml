@@ -45,7 +45,7 @@ spec:
     spec:
       project: default ## Can use dynamic project name from git file generator. (project shoud be created before hand and can be part of bootstrap)
       sources:
-        - repoURL: ghcr.io/grafana/helm-charts/grafana-operator
+        - repoURL: ghcr.io/grafana/helm-charts
           targetRevision: '{{.chartVersion}}'
           chart: grafana-operator
           helm:
