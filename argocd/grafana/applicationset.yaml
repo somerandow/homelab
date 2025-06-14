@@ -47,10 +47,9 @@ spec:
           kustomize:
             patches:
               - target:
-                  apiVersion: grafana.integreatly.org/v1beta1
+                  version: grafana.integreatly.org/v1beta1
                   kind: Grafana
-                  metadata:
-                    name: grafana
+                  name: grafana
                 patch: |-
                   apiVersion: grafana.integreatly.org/v1beta1
                   kind: Grafana
@@ -68,10 +67,9 @@ spec:
                       server:
                         root_url: {{.config.root_url}}
               - target:
-                  apiVersion: grafana.integreatly.org/v1beta1
+                  version: grafana.integreatly.org/v1beta1
                   kind: Grafana
-                  metadata:
-                    name: grafana
+                  name: grafana
                 patch: |-
                   - op: replace
                     path: /spec/ingress/spec/rules/0/host
