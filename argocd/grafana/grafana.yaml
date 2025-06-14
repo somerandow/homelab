@@ -1,0 +1,77 @@
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: Grafana
+metadata:
+  name: grafana
+  labels:
+    monitoring.homelab.wojoinc.xyz/grafana-instance: grafana
+spec:
+  deployment:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: grafana
+              envFrom:
+                - secretRef:
+                    # TODO: Move to VaultStaticSecret
+                    name: grafana-oauth
+        metadata:
+          labels:
+            monitoring.homelab.wojoinc.xyz/grafana-instance: grafana
+  config:
+    log:
+      mode: "console"
+      level: "debug"
+    auth:
+      disable_login_form: "true"
+      disable_signout_menu: "false"
+      signout_redirect_url: "***** TO_BE_FILLED *****"
+    auth.basic:
+      enabled: "true"
+    auth.anonymous:
+      enabled: "false"
+    auth.generic_oauth:
+      name: Keycloak
+      allow_sign_up: "true"
+      enabled: "true"
+      scopes: openid profile email groups offline_access
+      use_refresh_token: "true"
+      use_pkce: "true"
+      auth_url: "***** TO_BE_FILLED *****"
+      token_url: "***** TO_BE_FILLED *****"
+      api_url: "***** TO_BE_FILLED *****"
+      role_attribute_path: "***** TO_BE_FILLED *****"
+    users:
+      allow_org_create: "false"
+      auto_assign_org: "true"
+      auto_assign_org_id: "1"
+      auto_assign_org_role: Viewer
+    server:
+      serve_from_sub_path: "false"
+      root_url: "***** TO_BE_FILLED *****"
+  ingress:
+    metadata:
+      annotations:
+        # TODO Parameterize these
+        cert-manager.io/cluster-issuer: acme
+        external-dns.alpha.kubernetes.io/target: "wojoinc.xyz."
+        dns.homelab.wojoinc.xyz/publish-external: "true"
+    spec:
+      ingressClassName: traefik-external
+      rules:
+        - host: "***** TO_BE_FILLED *****"
+          http:
+            paths:
+              - backend:
+                  service:
+                    name: grafana-service
+                    port:
+                      number: 3000
+                path: /
+                pathType: Prefix
+      tls:
+        - hosts: [] # TO_BE_FILLED
+          secretName: grafana-cert
+  client:
+    preferIngress: False

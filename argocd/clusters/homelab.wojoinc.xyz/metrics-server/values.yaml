@@ -1,4 +1,5 @@
 apiService:
+  # TODO NEEDS a kustomization
   insecureSkipTLSVerify: false
 tls:
   type: "cert-manager"

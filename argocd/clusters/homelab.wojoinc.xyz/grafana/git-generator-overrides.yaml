@@ -1,0 +1,12 @@
+---
+environment: prod
+app: grafana
+config:
+  signout_redirect_url: https://kc.wojoinc.xyz/realms/homelab/protocol/openid-connect/logout
+  auth_url: https://kc.wojoinc.xyz/realms/homelab/protocol/openid-connect/auth
+  token_url: https://kc.wojoinc.xyz/realms/homelab/protocol/openid-connect/token
+  api_url: https://kc.wojoinc.xyz/realms/homelab/protocol/openid-connect/userinfo
+  role_attribute_path: "contains(groups[*], 'Monitoring Admins') && 'Admin' || 'Viewer'"
+  root_url: https://grafana2.wojoinc.xyz
+ingress:
+  host: grafana2.wojoinc.xyz
