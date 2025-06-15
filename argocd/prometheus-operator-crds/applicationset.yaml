@@ -1,0 +1,63 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: prometheus-operator-crds
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions:
+    - 'missingkey=error'
+  generators:
+    - matrix:
+        generators:
+          - merge:
+              mergeKeys:
+                - app
+              generators:
+                - git:
+                    repoURL: https://github.com/somerandow/homelab
+                    revision: main
+                    files:
+                      - path: "argocd/prometheus-operator-crds/git-generator-defaults.yaml"
+                - git:
+                    repoURL: https://github.com/somerandow/homelab
+                    revision: main
+                    files:
+                      - path: "argocd/clusters/**/prometheus-operator-crds/git-generator-overrides.yaml"
+          - clusters:
+              selector:
+                matchLabels:
+                  app.kubernetes.io/part-of: '{{.environment}}'
+                  argocd.argoproj.io/secret-type: cluster
+  template:
+    metadata:
+      name: 'prometheus-operator-crds-{{.name | slugify}}'
+      labels:
+        app.kubernetes.io/component: argocd-application
+        app.kubernetes.io/part-of: '{{.environment}}'
+        homelab.wojoinc.xyz/app-group: 'monitoring'
+    spec:
+      project: default
+      sources:
+        - repoURL: https://prometheus-community.github.io/helm-charts
+          targetRevision: '{{.chartVersion}}'
+          chart: prometheus-operator-crds
+          helm:
+            skipCrds: false
+        - repoURL: 'https://github.com/somerandow/homelab'
+          targetRevision: main
+          ref: values
+      destination:
+        server: '{{.server}}'
+        namespace: '{{.namespace}}'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+          - ApplyOutOfSyncOnly=true
+          - ServerSideApply=true
+          - RespectIgnoreDifferences=true
+      ignoreDifferences: []

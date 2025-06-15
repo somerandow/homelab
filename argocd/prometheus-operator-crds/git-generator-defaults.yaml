@@ -1,0 +1,3 @@
+chartVersion: ">= 18.0.0"
+app: prometheus-operator-crds
+namespace: monitoring
