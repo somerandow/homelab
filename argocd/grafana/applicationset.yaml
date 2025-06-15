@@ -75,7 +75,8 @@ spec:
                   - op: add
                     path: /spec/ingress/spec/tls/0/hosts/0
                     value: {{.ingress.host}}
-
+            components:
+              - datasources/local-cluster
       destination:
         server: '{{.server}}'
         namespace: '{{.namespace}}'
