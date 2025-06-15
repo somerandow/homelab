@@ -73,7 +73,7 @@ spec:
                     path: /spec/ingress/spec/rules/0/host
                     value: {{.ingress.host}}
                   - op: add
-                    path: /spec/ingress/spec/tls/0/hosts
+                    path: /spec/ingress/spec/tls/0/hosts/0
                     value: {{.ingress.host}}
 
       destination:
