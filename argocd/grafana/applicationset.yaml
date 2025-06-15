@@ -47,7 +47,6 @@ spec:
           kustomize:
             patches:
               - target:
-                  version: grafana.integreatly.org/v1beta1
                   kind: Grafana
                   name: grafana
                 patch: |-
@@ -67,7 +66,6 @@ spec:
                       server:
                         root_url: {{.config.root_url}}
               - target:
-                  version: grafana.integreatly.org/v1beta1
                   kind: Grafana
                   name: grafana
                 patch: |-
