@@ -44,6 +44,7 @@ spec:
           targetRevision: '{{.chartVersion}}'
           chart: kube-prometheus-stack
           helm:
+            releaseName: "kube-prometheus-stack"
             skipCrds: true
             valueFiles:
               - $values/argocd/kube-prometheus-stack/values.yaml
