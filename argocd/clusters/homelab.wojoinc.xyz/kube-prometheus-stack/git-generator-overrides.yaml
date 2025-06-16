@@ -1,0 +1,2 @@
+environment: "prod"
+app: kube-prometheus-stack

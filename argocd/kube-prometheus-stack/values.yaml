@@ -1,0 +1,136 @@
+cleanPrometheusOperatorObjectNames: true
+fullnameOverride: ""
+global:
+  rbac:
+    create: true
+    createAggregateClusterRoles: true
+nodeExporter:
+  enabled: true
+  operatingSystems:
+    darwin:
+      enabled: false
+prometheus-node-exporter:
+  prometheus:
+    monitor:
+      enabled: true
+      additionalLabels:
+        monitoring.homelab.wojoinc.xyz/enabled: "true"
+alertmanager:
+  enabled: false
+  ingress:
+    enabled: true
+    annotations:
+      external-dns.alpha.kubernetes.io/target: "wojoinc.xyz."
+      dns.homelab.wojoinc.xyz/publish-external: "true"
+      cert-manager.io/cluster-issuer: acme
+      traefik.ingress.kubernetes.io/router.middlewares: media-forward-auth-all@kubernetescrd,media-forward-auth@kubernetescrd
+    ingressClassName: traefik-external
+    hosts:
+      - alert.wojoinc.xyz
+    paths:
+      - /
+    pathType: Prefix
+    tls:
+      - secretName: alert-cert
+        hosts:
+          - alert.wojoinc.xyz
+  alertManagerSpec:
+    useExistingSecret: true
+    replicas: 2
+    externalUrl: "https://alert.wojoinc.xyz"
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          accessModes:
+            - ReadWriteOnce
+          storageClassName: openebs-zfspv-quicktank
+          resources:
+            requests:
+              storage: 1Gi
+grafana:
+  enabled: false
+kubeProxy:
+  enabled: false
+kubeStateMetrics:
+  enabled: true
+prometheus:
+  enabled: false
+  ingress:
+    enabled: true
+    ingressClassName: traefik-external
+    annotations:
+      external-dns.alpha.kubernetes.io/target: "wojoinc.xyz."
+      dns.homelab.wojoinc.xyz/publish-external: "true"
+      cert-manager.io/cluster-issuer: acme
+      traefik.ingress.kubernetes.io/router.middlewares: media-forward-auth-all@kubernetescrd,media-forward-auth@kubernetescrd
+    hosts:
+      - prom.wojoinc.xyz
+    paths:
+      - /
+    pathType: Prefix
+    tls:
+      - secretName: prom-cert
+        hosts:
+          - prom.wojoinc.xyz
+  prometheusSpec:
+    scrapeInterval: "20s"
+    scrapeTimeout: "17s"
+    ## WebTLSConfig defines the TLS parameters for HTTPS
+    ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#webtlsconfig
+    web: {}
+
+    ## Alertmanagers to which alerts will be sent
+    ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#alertmanagerendpoints
+    ##
+    ## Default configuration will connect to the alertmanager deployed as part of this release
+    ##
+    alertingEndpoints: []
+    # - name: ""
+    #   namespace: ""
+    #   port: http
+    #   scheme: http
+    #   pathPrefix: ""
+    #   tlsConfig: {}
+    #   bearerTokenFile: ""
+    #   apiVersion: v2
+    externalUrl: "https://prom.wojoinc.xyz"
+    ruleSelector:
+      monitoring.homelab.wojoinc.xyz/enabled: "true"
+    serviceMonitorSelector:
+      monitoring.homelab.wojoinc.xyz/enabled: "true"
+    podMonitorSelector:
+      monitoring.homelab.wojoinc.xyz/enabled: "true"
+    probeSelector:
+      monitoring.homelab.wojoinc.xyz/enabled: "true"
+    scrapeConfigSelector:
+      monitoring.homelab.wojoinc.xyz/enabled: "true"
+    retention: 90d
+    retentionSize: "50GB"
+    replicas: 2
+    shards: 1
+    logLevel: info
+    logFormat: logfmt
+    routePrefix: /
+    resources:
+      requests:
+        cpu: 200m
+        memory: 1024Mi
+      limits:
+        cpu: 3
+        memory: 3072Mi
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          accessModes:
+            - ReadWriteOnce
+          storageClassName: openebs-zfspv-quicktank
+          resources:
+            requests:
+              storage: 60Gi
+prometheusOperator:
+  enabled: true
+  revisionHistoryLimit: 2
+  clusterDomain: "homelab.wojoinc.xyz"
+  resources: { }
+  prometheusConfigReloader:
+    resources: { }

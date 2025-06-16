@@ -1,0 +1,67 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: kube-prometheus-stack
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions:
+    - 'missingkey=error'
+  generators:
+    - matrix:
+        generators:
+          - merge:
+              mergeKeys:
+                - app
+              generators:
+                - git:
+                    repoURL: https://github.com/somerandow/homelab
+                    revision: main
+                    files:
+                      - path: "argocd/kube-prometheus-stack/git-generator-defaults.yaml"
+                - git:
+                    repoURL: https://github.com/somerandow/homelab
+                    revision: main
+                    files:
+                      - path: "argocd/clusters/**/kube-prometheus-stack/git-generator-overrides.yaml"
+          - clusters:
+              selector:
+                matchLabels:
+                  app.kubernetes.io/part-of: '{{.environment}}'
+                  argocd.argoproj.io/secret-type: cluster
+  template:
+    metadata:
+      name: 'kube-prometheus-stack-{{.name | slugify}}'
+      labels:
+        app.kubernetes.io/component: argocd-application
+        app.kubernetes.io/part-of: '{{.environment}}'
+        homelab.wojoinc.xyz/app-group: 'monitoring'
+    spec:
+      project: default
+      sources:
+        - repoURL: https://prometheus-community.github.io/helm-charts
+          targetRevision: '{{.chartVersion}}'
+          chart: kube-prometheus-stack
+          helm:
+            skipCrds: true
+            valueFiles:
+              - $values/argocd/kube-prometheus-stack/values.yaml
+              - $values/argocd/{{.path.path}}/values.yaml
+            ignoreMissingValueFiles: true
+        - repoURL: 'https://github.com/somerandow/homelab'
+          targetRevision: main
+          ref: values
+      destination:
+        server: '{{.server}}'
+        namespace: '{{.namespace}}'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+          - ApplyOutOfSyncOnly=true
+          - ServerSideApply=true
+          - RespectIgnoreDifferences=true
+      ignoreDifferences: []
