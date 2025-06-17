@@ -45,7 +45,6 @@ spec:
       labels:
         app.kubernetes.io/component: argocd-application
         app.kubernetes.io/part-of: '{{ index .metadata.labels "cluster-environment" }}'
-        testlabel: '{{ .providerValue }}'
         testlabel2: '{{ .providerValueApp }}'
         homelab.wojoinc.xyz/app-group: 'monitoring'
     spec:
