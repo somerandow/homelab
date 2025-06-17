@@ -9,20 +9,24 @@ spec:
   goTemplateOptions:
     - 'missingkey=error'
   generators:
-    - matrix:
+    - merge:
+        mergeKeys:
+          - name
         generators:
+          - clusters:
+              values:
+                namespace: cert-manager
+                chartVersion: "1.17.2"
           - clusters:
               selector:
                 matchLabels:
                   cluster-environment: prod
                   argocd.argoproj.io/secret-type: cluster
               values:
-                namespace: cert-manager
-          - clusters:
-              values:
                 acmeUrl: "https://acme-v02.api.letsencrypt.org/directory"
-                chartVersion: "1.17.2"
                 clusterCommonName: '{{ index .metadata.labels "cluster-name" }}'
+
+
 #          - merge:
 #              mergeKeys:
 #                - name
