@@ -57,7 +57,7 @@ spec:
             releaseName: "kube-prometheus-stack"
             skipCrds: true
             valueFiles:
-              - $values/argocd/kube-prometheus-stack/values.yaml
+              - $values/argocd/app/kube-prometheus-stack/values.yaml
               - $values/argocd/{{.path.path}}/values.yaml
             ignoreMissingValueFiles: true
         - repoURL: 'https://github.com/somerandow/homelab'
@@ -65,7 +65,7 @@ spec:
           ref: values
         - repoURL: 'https://github.com/somerandow/homelab'
           targetRevision: main
-          path: argocd/kube-prometheus-stack
+          path: argocd/app/kube-prometheus-stack
           kustomize:
             patches:
               - target:
