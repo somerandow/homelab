@@ -23,6 +23,18 @@ spec:
                     repoURL: https://github.com/somerandow/homelab
                     revision: main
                     files:
+                      - path: argocd/provider/{{ index .metadata.labels "cluster-provider"}}/provider.yaml
+                      - path: argocd/provider/{{ index .metadata.labels "cluster-provider"}}/kube-prometheus-stack.yaml
+                - git:
+                    repoURL: https://github.com/somerandow/homelab
+                    revision: main
+                    files:
+                      - path: argocd/provider/{{ index .metadata.labels "cluster-environment"}}/environment.yaml
+                      - path: argocd/provider/{{ index .metadata.labels "cluster-environment"}}/kube-prometheus-stack.yaml
+                - git:
+                    repoURL: https://github.com/somerandow/homelab
+                    revision: main
+                    files:
                       - path: "argocd/kube-prometheus-stack/git-generator-defaults.yaml"
                 - git:
                     repoURL: https://github.com/somerandow/homelab
@@ -35,6 +47,8 @@ spec:
       labels:
         app.kubernetes.io/component: argocd-application
         app.kubernetes.io/part-of: '{{.environment}}'
+        testlabel: {{ .providerValue }}
+        testlabel2: {{ .providerValueApp }}
         homelab.wojoinc.xyz/app-group: 'monitoring'
     spec:
       project: default
