@@ -25,24 +25,6 @@ spec:
               values:
                 acmeUrl: "https://acme-v02.api.letsencrypt.org/directory"
                 clusterCommonName: '{{ index .metadata.labels "cluster-name" }}'
-
-
-#          - merge:
-#              mergeKeys:
-#                - name
-#              generators:
-#                - clusters:
-#                    values:
-#                      acmeUrl: "https://acme-v02.api.letsencrypt.org/directory"
-#                      chartVersion: "1.17.2"
-#                      clusterCommonName: '{{ index .metadata.labels "cluster-name" }}'
-#                - clusters:
-#                    selector:
-#                      matchLabels:
-#                        cluster-name: homelab.wojoinc.xyz
-#                    values:
-#                      clusterCommonName: homelab.wojoinc.xyz
-          
   template:
     metadata:
       name: 'cert-manager-{{.name | slugify}}'
