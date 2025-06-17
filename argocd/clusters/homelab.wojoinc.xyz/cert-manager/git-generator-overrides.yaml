@@ -1,4 +1,0 @@
-environment: "prod"
-app: cert-manager
-clusterCommonName: homelab.wojoinc.xyz
-acmeUrl: "https://acme-v02.api.letsencrypt.org/directory"

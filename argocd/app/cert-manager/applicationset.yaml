@@ -1,0 +1,67 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: cert-manager
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions:
+    - 'missingkey=error'
+  generators:
+    - matrix:
+        generators:
+          - clusters:
+              selector:
+                matchLabels:
+                  cluster-environment: prod
+                  argocd.argoproj.io/secret-type: cluster
+          - merge:
+              mergeKeys:
+                - name
+              generators:
+                - clusters:
+                    values:
+                      acmeUrl: "https://acme-v02.api.letsencrypt.org/directory"
+                      chartVersion: "1.17.2"
+                - clusters:
+                    selector:
+                      matchLabels:
+                        cluster-name: homelab.wojoinc.xyz
+                    values:
+                      clusterCommonName: homelab.wojoinc.xyz
+          
+  template:
+    metadata:
+      name: 'cert-manager-{{.environment}}'
+      labels:
+        app.kubernetes.io/component: argocd-application
+        app.kubernetes.io/part-of: '{{.environment}}'
+        homelab.wojoinc.xyz/app-group: 'infra'
+    spec:
+      project: default
+      sources:
+        - repoURL: https://charts.jetstack.io
+          targetRevision: '{{dig "chartVersion" ">= 1.12.0" .}}'
+          chart: cert-manager
+          helm:
+            valueFiles:
+              - $values/argocd/app/cert-manager/values.yaml
+              - '$values/clusters/{{ index .metadata.labels "cluster-name"}}/cert-manager-values.yaml'
+            skipCrds: false
+        - repoURL: 'https://github.com/somerandow/homelab'
+          targetRevision: main
+          ref: values
+      destination:
+        server: '{{.server}}'
+        namespace: '{{.path.basenameNormalized}}'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+          - ApplyOutOfSyncOnly=true
+          - ServerSideApply=true
+          - RespectIgnoreDifferences=true
+      ignoreDifferences: []
