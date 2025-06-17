@@ -53,6 +53,17 @@ spec:
         - repoURL: 'https://github.com/somerandow/homelab'
           targetRevision: main
           ref: values
+        - repoURL: 'https://github.com/somerandow/homelab'
+          targetRevision: main
+          path: argocd/kube-prometheus-stack
+          kustomize:
+            patches:
+              - target:
+                  kind: Namespace
+                patch: |-
+                  - op: replace
+                    path: /metadata/name
+                    value: {{.namespace}}
       destination:
         server: '{{.server}}'
         namespace: '{{.namespace}}'
