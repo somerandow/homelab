@@ -72,8 +72,8 @@ spec:
             components:
               - datasources/local-cluster
       destination:
-        server: '{{.server}}'
-        namespace: '{{.namespace}}'
+        server: '{{ .server }}'
+        namespace: '{{ .values.namespace }}'
       syncPolicy:
         automated:
           prune: true
