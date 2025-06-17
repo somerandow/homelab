@@ -1,0 +1,43 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: gateway-api
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions:
+    - 'missingkey=error'
+  generators:
+    - clusters:
+        selector:
+          matchLabels:
+            homelab.wojoinc.xyz/gateway-api: "true"
+            argocd.argoproj.io/secret-type: cluster
+            cluster-environment: prod
+        values:
+          targetRevision: 'v1.3.0'
+  template:
+    metadata:
+      name: 'gateway-api-{{ .name | slugify }}'
+      labels:
+        app.kubernetes.io/component: argocd-application
+        homelab.wojoinc.xyz/app-group: 'infra'
+    spec:
+      project: default
+      sources:
+        - repoURL: https://github.com/kubernetes-sigs/gateway-api
+          targetRevision: '{{ .values.targetRevision }}'
+          path: config/crd
+      destination:
+        server: '{{.server}}'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+          - ApplyOutOfSyncOnly=true
+          - ServerSideApply=true
+          - RespectIgnoreDifferences=true
+      ignoreDifferences: []
