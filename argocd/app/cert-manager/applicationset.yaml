@@ -54,6 +54,30 @@ spec:
         - repoURL: 'https://github.com/somerandow/homelab'
           targetRevision: main
           ref: values
+        - repoURL: 'https://github.com/somerandow/homelab'
+          targetRevision: main
+          path: argocd/app/cert-manager/resources
+          kustomize:
+            patches:
+              - patch: |-
+                  kind: Certificate
+                  metadata:
+                    name: not-used
+                  spec:
+                    commonName: {{.values.clusterCommonName}}
+                target:
+                  kind: Certificate
+                  name: root-ca
+              - patch: |-
+                  kind: ClusterIssuer
+                  metadata:
+                    name: not-used
+                  spec:
+                    acme:
+                      server: {{.values.acmeUrl}}
+                target:
+                  kind: ClusterIssuer
+                  name: acme
       destination:
         server: '{{.server}}'
         namespace: '{{.values.namespace}}'
