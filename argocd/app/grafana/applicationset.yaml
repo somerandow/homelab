@@ -31,7 +31,6 @@ spec:
       name: 'grafana-{{.name | slugify}}'
       labels:
         app.kubernetes.io/component: argocd-application
-        app.kubernetes.io/part-of: '{{.environment}}'
         homelab.wojoinc.xyz/app-group: 'monitoring'
     spec:
       project: default
