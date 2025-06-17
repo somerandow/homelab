@@ -33,7 +33,7 @@ spec:
                     repoURL: https://github.com/somerandow/homelab
                     revision: main
                     files:
-                      - path: "argocd/kube-prometheus-stack/generator.yaml"
+                      - path: "argocd/app/kube-prometheus-stack/generator.yaml"
                 - git:
                     repoURL: https://github.com/somerandow/homelab
                     revision: main
