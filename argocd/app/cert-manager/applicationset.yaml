@@ -48,8 +48,9 @@ spec:
           helm:
             valueFiles:
               - $values/argocd/app/cert-manager/values.yaml
-              - '$values/clusters/{{ index .metadata.labels "cluster-name"}}/cert-manager-values.yaml'
+              - '$values/argocd/clusters/{{ index .metadata.labels "cluster-name"}}/cert-manager-values.yaml'
             skipCrds: false
+            ignoreMissingValueFiles: true
         - repoURL: 'https://github.com/somerandow/homelab'
           targetRevision: main
           ref: values
