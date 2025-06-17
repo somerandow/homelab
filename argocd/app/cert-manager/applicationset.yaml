@@ -52,6 +52,7 @@ spec:
           targetRevision: '{{ .values.chartVersion }}'
           chart: cert-manager
           helm:
+            releaseName: cert-manager
             valueFiles:
               - $values/argocd/app/cert-manager/values.yaml
               - '$values/argocd/clusters/{{ index .metadata.labels "cluster-name"}}/cert-manager-values.yaml'
