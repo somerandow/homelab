@@ -15,8 +15,7 @@ spec:
         generators:
           - clusters:
               values:
-                idp:
-                  host: kc.wojoinc.xyz
+                idp.host: kc.wojoinc.xyz
                 namespace: monitoring
                 role_attribute_path: "contains(groups[*], 'Monitoring Admins') && 'Admin' || 'Viewer'"
           - clusters:
@@ -25,8 +24,7 @@ spec:
                   argocd.argoproj.io/secret-type: cluster
                   cluster-environment: prod
               values:
-                idp:
-                  realm: homelab
+                idp.realm: homelab
                 host: grafana2.wojoinc.xyz
   template:
     metadata:
