@@ -16,6 +16,8 @@ spec:
                 matchLabels:
                   cluster-environment: prod
                   argocd.argoproj.io/secret-type: cluster
+              values:
+                namespace: cert-manager
           - merge:
               mergeKeys:
                 - name
@@ -53,7 +55,7 @@ spec:
           ref: values
       destination:
         server: '{{.server}}'
-        namespace: '{{.path.basenameNormalized}}'
+        namespace: '{{.namespace}}'
       syncPolicy:
         automated:
           prune: true
