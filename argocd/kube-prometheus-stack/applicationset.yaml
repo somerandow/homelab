@@ -11,6 +11,11 @@ spec:
   generators:
     - matrix:
         generators:
+          - clusters:
+              selector:
+                matchLabels:
+                  app.kubernetes.io/part-of: '{{.environment}}'
+                  argocd.argoproj.io/secret-type: cluster
           - merge:
               mergeKeys:
                 - app
@@ -24,12 +29,7 @@ spec:
                     repoURL: https://github.com/somerandow/homelab
                     revision: main
                     files:
-                      - path: "argocd/clusters/**/kube-prometheus-stack/git-generator-overrides.yaml"
-          - clusters:
-              selector:
-                matchLabels:
-                  app.kubernetes.io/part-of: '{{.environment}}'
-                  argocd.argoproj.io/secret-type: cluster
+                      - path: "argocd/clusters/{{.name}}/kube-prometheus-stack/git-generator-overrides.yaml"
   template:
     metadata:
       name: 'kube-prometheus-stack-{{.name | slugify}}'
