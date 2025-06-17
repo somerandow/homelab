@@ -20,24 +20,34 @@ spec:
               mergeKeys:
                 - app
               generators:
+                # App defaults
                 - git:
-                    repoURL: https://github.com/somerandow/homelab
-                    revision: main
-                    files:
-                      - path: 'argocd/provider/{{ index .metadata.labels "cluster-provider"}}/kube-prometheus-stack/generator.yaml'
-                - git:
-                    repoURL: https://github.com/somerandow/homelab
-                    revision: main
-                    files:
-                      - path: 'argocd/env/{{ index .metadata.labels "cluster-environment"}}/kube-prometheus-stack/generator.yaml'
-                - git:
-                    repoURL: https://github.com/somerandow/homelab
-                    revision: main
+                    repoURL: &repo https://github.com/somerandow/homelab
+                    revision: &rev main
                     files:
                       - path: "argocd/app/kube-prometheus-stack/generator.yaml"
+                # Provider overrides
                 - git:
-                    repoURL: https://github.com/somerandow/homelab
-                    revision: main
+                    repoURL: *repo
+                    revision: *rev
+                    files:
+                      - path: 'argocd/provider/{{ index .metadata.labels "cluster-provider"}}/kube-prometheus-stack/generator.yaml'
+                # Flavor overrides
+                - git:
+                    repoURL: *repo
+                    revision: *rev
+                    files:
+                      - path: 'argocd/flavor/{{ index .metadata.labels "cluster-provider"}}/kube-prometheus-stack/generator.yaml'
+                # Environment overrides
+                - git:
+                    repoURL: *repo
+                    revision: *rev
+                    files:
+                      - path: 'argocd/env/{{ index .metadata.labels "cluster-environment"}}/kube-prometheus-stack/generator.yaml'
+                # Cluster overrides
+                - git:
+                    repoURL: *repo
+                    revision: *rev
                     files:
                       - path: "argocd/clusters/{{.name}}/kube-prometheus-stack/generator.yaml"
   template:
