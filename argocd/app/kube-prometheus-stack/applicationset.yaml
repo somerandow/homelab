@@ -23,24 +23,22 @@ spec:
                     repoURL: https://github.com/somerandow/homelab
                     revision: main
                     files:
-                      - path: 'argocd/provider/{{ index .metadata.labels "cluster-provider"}}/provider.yaml'
-                      - path: 'argocd/provider/{{ index .metadata.labels "cluster-provider"}}/kube-prometheus-stack/**.yaml'
+                      - path: 'argocd/provider/{{ index .metadata.labels "cluster-provider"}}/kube-prometheus-stack/generator.yaml'
                 - git:
                     repoURL: https://github.com/somerandow/homelab
                     revision: main
                     files:
-                      - path: 'argocd/env/{{ index .metadata.labels "cluster-environment"}}/environment.yaml'
-                      - path: 'argocd/env/{{ index .metadata.labels "cluster-environment"}}/kube-prometheus-stack.yaml'
+                      - path: 'argocd/env/{{ index .metadata.labels "cluster-environment"}}/kube-prometheus-stack/generator.yaml'
                 - git:
                     repoURL: https://github.com/somerandow/homelab
                     revision: main
                     files:
-                      - path: "argocd/kube-prometheus-stack/git-generator-defaults.yaml"
+                      - path: "argocd/kube-prometheus-stack/generator.yaml"
                 - git:
                     repoURL: https://github.com/somerandow/homelab
                     revision: main
                     files:
-                      - path: "argocd/clusters/{{.name}}/kube-prometheus-stack/git-generator-overrides.yaml"
+                      - path: "argocd/clusters/{{.name}}/kube-prometheus-stack/generator.yaml"
   template:
     metadata:
       name: 'kube-prometheus-stack-{{.name | slugify}}'
