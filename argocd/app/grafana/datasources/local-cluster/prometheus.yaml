@@ -13,8 +13,7 @@ spec:
     type: prometheus
     access: proxy
     orgId: 1
-    # TODO Parameterize this
-    url: http://prometheus-operated.monitoring.svc.homelab.wojoinc.xyz.:9090
+    url: host:9090
     isDefault: true
     editable: false
     jsonData:
