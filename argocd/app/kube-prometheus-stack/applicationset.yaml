@@ -48,7 +48,7 @@ spec:
               argocd.argoproj.io/sync-wave: "0"
             components:
               - ../../../flavor/{{index .metadata.labels "cluster-flavor"}}/kube-prometheus-stack
-            ignoreMissingComponents: true
+            ignoreMissingComponents: false
       destination:
         server: '{{.server}}'
         namespace: '{{.values.namespace}}'
