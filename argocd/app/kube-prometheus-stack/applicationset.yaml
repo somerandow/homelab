@@ -45,8 +45,7 @@ spec:
           path: argocd/app/kube-prometheus-stack/base
           kustomize:
             commonAnnotations:
-              annotations:
-                argocd.argoproj.io/sync-wave: "0"
+              argocd.argoproj.io/sync-wave: "0"
             components:
               - ../../../flavor/{{index .metadata.labels "cluster-flavor"}}/kube-prometheus-stack
             ignoreMissingComponents: true
