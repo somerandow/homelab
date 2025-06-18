@@ -31,7 +31,7 @@ spec:
           helm:
             valueFiles:
               - $values/argocd/grafana-operator/values.yaml
-              - $values/{{.path.path}}/values.yaml
+              - $values/argocd/clusters/{{.name}}/grafana-operator/values.yaml
             skipCrds: false
             ignoreMissingValueFiles: true
         - repoURL: 'https://github.com/somerandow/homelab'

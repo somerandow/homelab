@@ -31,7 +31,7 @@ spec:
           helm:
             valueFiles:
               - $values/argocd/trust-manager/values.yaml
-              - $values/{{.path.path}}/values.yaml
+              - $values/argocd/clusters/{{.name}}/trust-manager/values.yaml
             skipCrds: false
             ignoreMissingValueFiles: true
         - repoURL: 'https://github.com/somerandow/homelab'

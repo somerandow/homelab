@@ -31,7 +31,7 @@ spec:
           helm:
             valueFiles:
               - $values/argocd/traefik/values.yaml
-              - $values/{{.path.path}}/values.yaml
+              - $values/argocd/clusters/{{.name}}/traefik/values.yaml
             skipCrds: false
         - repoURL: 'https://github.com/somerandow/homelab'
           targetRevision: main
