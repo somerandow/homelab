@@ -6,6 +6,7 @@ global:
     createAggregateClusterRoles: true
 nodeExporter:
   enabled: true
+  namespaceOverride: node-exporter
   operatingSystems:
     darwin:
       enabled: false
@@ -53,6 +54,7 @@ kubeProxy:
   enabled: false
 kubeStateMetrics:
   enabled: true
+  namespaceOverride: kube-state-metrics
 prometheus:
   enabled: false
   ingress:

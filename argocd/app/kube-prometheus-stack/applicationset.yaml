@@ -9,90 +9,56 @@ spec:
   goTemplateOptions:
     - 'missingkey=error'
   generators:
-    - matrix:
-        generators:
-          - clusters:
-              selector:
-                matchLabels:
-                  cluster-environment: prod
-                  argocd.argoproj.io/secret-type: cluster
-          - merge:
-              mergeKeys:
-                - app
-              generators:
-                # App defaults
-                - git:
-                    repoURL: &repo https://github.com/somerandow/homelab
-                    revision: &rev main
-                    files:
-                      - path: "argocd/app/kube-prometheus-stack/generator.yaml"
-                # Provider overrides
-                - git:
-                    repoURL: *repo
-                    revision: *rev
-                    files:
-                      - path: 'argocd/provider/{{ index .metadata.labels "cluster-provider"}}/kube-prometheus-stack/generator.yaml'
-                # Flavor overrides
-                - git:
-                    repoURL: *repo
-                    revision: *rev
-                    files:
-                      - path: 'argocd/flavor/{{ index .metadata.labels "cluster-provider"}}/kube-prometheus-stack/generator.yaml'
-                # Environment overrides
-                - git:
-                    repoURL: *repo
-                    revision: *rev
-                    files:
-                      - path: 'argocd/env/{{ index .metadata.labels "cluster-environment"}}/kube-prometheus-stack/generator.yaml'
-                # Cluster overrides
-                - git:
-                    repoURL: *repo
-                    revision: *rev
-                    files:
-                      - path: "argocd/clusters/{{.name}}/kube-prometheus-stack/generator.yaml"
+    - clusters:
+        selector:
+          matchLabels:
+            cluster-environment: prod
+            argocd.argoproj.io/secret-type: cluster
+        values:
+          namespace: prometheus-operator
+          chartVersion: ">= 75.0.0"
   template:
     metadata:
       name: 'kube-prometheus-stack-{{.name | slugify}}'
       labels:
         app.kubernetes.io/component: argocd-application
         app.kubernetes.io/part-of: '{{ index .metadata.labels "cluster-environment" }}'
-        testlabel2: '{{ .providerValueApp }}'
         homelab.wojoinc.xyz/app-group: 'monitoring'
     spec:
       project: default
       sources:
         - repoURL: https://prometheus-community.github.io/helm-charts
-          targetRevision: '{{.chartVersion}}'
+          targetRevision: '{{.values.chartVersion}}'
           chart: kube-prometheus-stack
           helm:
             releaseName: "kube-prometheus-stack"
             skipCrds: true
             valueFiles:
               - $values/argocd/app/kube-prometheus-stack/values.yaml
-              - $values/argocd/{{.path.path}}/values.yaml
+              - '$values/argocd/clusters/{{.name}}/values.yaml'
             ignoreMissingValueFiles: true
         - repoURL: 'https://github.com/somerandow/homelab'
           targetRevision: main
           ref: values
         - repoURL: 'https://github.com/somerandow/homelab'
           targetRevision: main
-          path: argocd/app/kube-prometheus-stack
+          path: argocd/app/kube-prometheus-stack/base
           kustomize:
-            patches:
-              - target:
-                  kind: Namespace
-                patch: |-
-                  - op: replace
-                    path: /metadata/name
-                    value: {{.namespace}}
+            commonAnnotations:
+              annotations:
+                argocd.argoproj.io/sync-wave: "0"
+            components:
+              - ../../../flavor/{{index .metadata.labels "cluster-flavor"}}/kube-prometheus-stack
+            ignoreMissingComponents: true
       destination:
         server: '{{.server}}'
-        namespace: '{{.namespace}}'
+        namespace: '{{.values.namespace}}'
       syncPolicy:
         automated:
           prune: true
           selfHeal: true
         syncOptions:
+          - CreateNamespace=true
           - ApplyOutOfSyncOnly=true
           - ServerSideApply=true
           - RespectIgnoreDifferences=true
