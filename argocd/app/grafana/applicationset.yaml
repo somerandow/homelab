@@ -15,7 +15,8 @@ spec:
         generators:
           - clusters:
               values:
-                idp.host: kc.wojoinc.xyz
+                idp:
+                  host: kc.wojoinc.xyz
                 namespace: monitoring
                 role_attribute_path: "contains(groups[*], 'Monitoring Admins') && 'Admin' || 'Viewer'"
           - clusters:
@@ -39,38 +40,41 @@ spec:
           targetRevision: main
           path: argocd/app/grafana
           kustomize:
-            patches:
-              - target:
-                  kind: Grafana
-                  name: grafana
-                patch: |-
-                  apiVersion: grafana.integreatly.org/v1beta1
-                  kind: Grafana
-                  metadata:
-                    name: not-used
-                  spec:
-                    config:
-                      auth:
-                        signout_redirect_url: https://{{ .values.idp.host }}/realms/{{ .values.idp.realm }}/protocol/openid-connect/logout
-                      auth.generic_oauth:
-                        auth_url: https://{{ .values.idp.host }}/realms/{{ .values.idp.realm }}/protocol/openid-connect/auth
-                        token_url: https://{{ .values.idp.host }}/realms/{{ .values.idp.realm }}/protocol/openid-connect/token
-                        api_url: https://{{ .values.idp.host }}/realms/{{ .values.idp.realm }}/protocol/openid-connect/userinfo
-                        role_attribute_path: {{ .values.role_attribute_path }}
-                      server:
-                        root_url: https://{{ .values.host }}
-              - target:
-                  kind: Grafana
-                  name: grafana
-                patch: |-
-                  - op: replace
-                    path: /spec/ingress/spec/rules/0/host
-                    value: {{ .values.host }}
-                  - op: add
-                    path: /spec/ingress/spec/tls/0/hosts/0
-                    value: {{ .values.host }}
+            # TODO: Try components for patches instead of relying on generator logic
+#            patches:
+#              - target:
+#                  kind: Grafana
+#                  name: grafana
+#                patch: |-
+#                  apiVersion: grafana.integreatly.org/v1beta1
+#                  kind: Grafana
+#                  metadata:
+#                    name: not-used
+#                  spec:
+#                    config:
+#                      auth:
+#                        signout_redirect_url: https://{{ .values.idp.host }}/realms/{{ .values.idp.realm }}/protocol/openid-connect/logout
+#                      auth.generic_oauth:
+#                        auth_url: https://{{ .values.idp.host }}/realms/{{ .values.idp.realm }}/protocol/openid-connect/auth
+#                        token_url: https://{{ .values.idp.host }}/realms/{{ .values.idp.realm }}/protocol/openid-connect/token
+#                        api_url: https://{{ .values.idp.host }}/realms/{{ .values.idp.realm }}/protocol/openid-connect/userinfo
+#                        role_attribute_path: {{ .values.role_attribute_path }}
+#                      server:
+#                        root_url: https://{{ .values.host }}
+#              - target:
+#                  kind: Grafana
+#                  name: grafana
+#                patch: |-
+#                  - op: replace
+#                    path: /spec/ingress/spec/rules/0/host
+#                    value: {{ .values.host }}
+#                  - op: add
+#                    path: /spec/ingress/spec/tls/0/hosts/0
+#                    value: {{ .values.host }}
             components:
               - datasources/local-cluster
+              - ../../env/{{index .metadata.labels "cluster-environment"}}/grafana
+              - ../../clusters/{{index .metadata.labels "cluster-name"}}/grafana
       destination:
         server: '{{ .server }}'
         namespace: '{{ .values.namespace }}'

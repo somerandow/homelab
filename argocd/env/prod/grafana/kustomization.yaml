@@ -1,0 +1,21 @@
+---
+apiVersion: kustomize.config.k8s.io/v1alpha1
+kind: Component
+patches:
+  - target:
+      kind: Grafana
+      name: grafana
+    patch: |-
+      apiVersion: grafana.integreatly.org/v1beta1
+      kind: Grafana
+      metadata:
+        name: not-used
+      spec:
+        config:
+          auth:
+            signout_redirect_url: https://kc.wojoinc.xyz/realms/homelab/protocol/openid-connect/logout
+          auth.generic_oauth:
+            auth_url: https://kc.wojoinc.xyz/realms/homelab/protocol/openid-connect/auth
+            token_url: https://kc.wojoinc.xyz/realms/homelab/protocol/openid-connect/token
+            api_url: https://kc.wojoinc.xyz/realms/homelab/protocol/openid-connect/userinfo
+            role_attribute_path: "contains(groups[*], 'Monitoring Admins') && 'Admin' || 'Viewer'"
