@@ -45,7 +45,7 @@ spec:
             components:
               - ../../../env/{{index .metadata.labels "cluster-environment"}}/cert-manager
               - ../../../cluster/{{index .metadata.labels "cluster-name"}}/cert-manager
-            ignoreMissingComponents: true
+            ignoreMissingComponents: false
       destination:
         server: '{{.server}}'
         namespace: '{{.values.namespace}}'
