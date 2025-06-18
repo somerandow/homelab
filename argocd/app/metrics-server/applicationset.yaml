@@ -2,7 +2,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: cert-manager
+  name: metrics-server
   namespace: argocd
 spec:
   goTemplate: true
@@ -14,38 +14,28 @@ spec:
           matchLabels:
             argocd.argoproj.io/secret-type: cluster
         values:
-          namespace: cert-manager
-          chartVersion: "1.17.2"
+          namespace: metrics-server
+          targetRevision: 2b4f3e9bcc626737e9ef224a15bd8c4810261a8e
   template:
     metadata:
-      name: 'cert-manager-{{.name | slugify}}'
+      name: 'metrics-server-{{.name | slugify}}'
       labels:
         app.kubernetes.io/component: argocd-application
-        homelab.wojoinc.xyz/app-group: 'infra'
+        homelab.wojoinc.xyz/app-group: 'monitoring'
     spec:
       project: default
       sources:
-        - repoURL: https://charts.jetstack.io
-          targetRevision: '{{ .values.chartVersion }}'
-          chart: cert-manager
+        - repoURL: https://github.com/kubernetes-sigs/metrics-server
+          targetRevision: '{{.values.targetRevision}}'
+          path: "charts/metrics-server"
           helm:
-            releaseName: cert-manager
             valueFiles:
-              - $values/argocd/app/cert-manager/values.yaml
-              - '$values/argocd/clusters/{{ index .metadata.labels "cluster-name"}}/cert-manager/values.yaml'
+              - $values/argocd/metrics-server/values.yaml
+              - $values/{{.path.path}}/values.yaml
             skipCrds: false
-            ignoreMissingValueFiles: true
         - repoURL: 'https://github.com/somerandow/homelab'
           targetRevision: main
           ref: values
-        - repoURL: 'https://github.com/somerandow/homelab'
-          targetRevision: main
-          path: argocd/app/cert-manager/resources
-          kustomize:
-            components:
-              - ../../../env/{{index .metadata.labels "cluster-environment"}}/cert-manager
-              - ../../../cluster/{{index .metadata.labels "cluster-name"}}/cert-manager
-            ignoreMissingComponents: true
       destination:
         server: '{{.server}}'
         namespace: '{{.values.namespace}}'

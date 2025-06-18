@@ -2,7 +2,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: cert-manager
+  name: trust-manager
   namespace: argocd
 spec:
   goTemplate: true
@@ -15,10 +15,10 @@ spec:
             argocd.argoproj.io/secret-type: cluster
         values:
           namespace: cert-manager
-          chartVersion: "1.17.2"
+          chartVersion: ">= 0.17.1"
   template:
     metadata:
-      name: 'cert-manager-{{.name | slugify}}'
+      name: 'trust-manager-{{.name | slugify}}'
       labels:
         app.kubernetes.io/component: argocd-application
         homelab.wojoinc.xyz/app-group: 'infra'
@@ -26,13 +26,12 @@ spec:
       project: default
       sources:
         - repoURL: https://charts.jetstack.io
-          targetRevision: '{{ .values.chartVersion }}'
-          chart: cert-manager
+          targetRevision: '{{.values.chartVersion}}'
+          chart: trust-manager
           helm:
-            releaseName: cert-manager
             valueFiles:
-              - $values/argocd/app/cert-manager/values.yaml
-              - '$values/argocd/clusters/{{ index .metadata.labels "cluster-name"}}/cert-manager/values.yaml'
+              - $values/argocd/trust-manager/values.yaml
+              - $values/{{.path.path}}/values.yaml
             skipCrds: false
             ignoreMissingValueFiles: true
         - repoURL: 'https://github.com/somerandow/homelab'
@@ -40,12 +39,7 @@ spec:
           ref: values
         - repoURL: 'https://github.com/somerandow/homelab'
           targetRevision: main
-          path: argocd/app/cert-manager/resources
-          kustomize:
-            components:
-              - ../../../env/{{index .metadata.labels "cluster-environment"}}/cert-manager
-              - ../../../cluster/{{index .metadata.labels "cluster-name"}}/cert-manager
-            ignoreMissingComponents: true
+          path: argocd/app/trust-manager/base
       destination:
         server: '{{.server}}'
         namespace: '{{.values.namespace}}'

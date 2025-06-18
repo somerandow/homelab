@@ -1,0 +1,44 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: ksca
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions:
+    - 'missingkey=error'
+  generators:
+    - clusters:
+        selector:
+          matchLabels:
+            cluster-flavor: talos
+            argocd.argoproj.io/secret-type: cluster
+        values:
+          targetRevision: "v0.9.2"
+          namespace: kubelet-serving-cert-approver
+  template:
+    metadata:
+      name: 'ksca-{{.name | slugify}}'
+      labels:
+        app.kubernetes.io/component: argocd-application
+        homelab.wojoinc.xyz/app-group: 'infra'
+    spec:
+      project: default
+      sources:
+        - repoURL: https://github.com/alex1989hu/kubelet-serving-cert-approver
+          targetRevision: '{{.values.targetRevision}}'
+          path: "deploy/ha"
+      destination:
+        server: '{{.server}}'
+        namespace: '{{.values.namespace}}'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+          - ApplyOutOfSyncOnly=true
+          - ServerSideApply=true
+          - RespectIgnoreDifferences=true
+      ignoreDifferences: []

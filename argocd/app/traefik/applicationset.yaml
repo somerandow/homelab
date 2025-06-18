@@ -2,7 +2,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: cert-manager
+  name: traefik
   namespace: argocd
 spec:
   goTemplate: true
@@ -14,38 +14,28 @@ spec:
           matchLabels:
             argocd.argoproj.io/secret-type: cluster
         values:
-          namespace: cert-manager
-          chartVersion: "1.17.2"
+          chartVersion: ">= 35.3.0"
+          namespace: traefik
   template:
     metadata:
-      name: 'cert-manager-{{.name | slugify}}'
+      name: 'traefik-{{.name | slugify}}'
       labels:
         app.kubernetes.io/component: argocd-application
         homelab.wojoinc.xyz/app-group: 'infra'
     spec:
       project: default
       sources:
-        - repoURL: https://charts.jetstack.io
-          targetRevision: '{{ .values.chartVersion }}'
-          chart: cert-manager
+        - repoURL: ghcr.io/traefik/helm
+          targetRevision: '{{.values.chartVersion}}'
+          chart: traefik
           helm:
-            releaseName: cert-manager
             valueFiles:
-              - $values/argocd/app/cert-manager/values.yaml
-              - '$values/argocd/clusters/{{ index .metadata.labels "cluster-name"}}/cert-manager/values.yaml'
+              - $values/argocd/traefik/values.yaml
+              - $values/{{.path.path}}/values.yaml
             skipCrds: false
-            ignoreMissingValueFiles: true
         - repoURL: 'https://github.com/somerandow/homelab'
           targetRevision: main
           ref: values
-        - repoURL: 'https://github.com/somerandow/homelab'
-          targetRevision: main
-          path: argocd/app/cert-manager/resources
-          kustomize:
-            components:
-              - ../../../env/{{index .metadata.labels "cluster-environment"}}/cert-manager
-              - ../../../cluster/{{index .metadata.labels "cluster-name"}}/cert-manager
-            ignoreMissingComponents: true
       destination:
         server: '{{.server}}'
         namespace: '{{.values.namespace}}'

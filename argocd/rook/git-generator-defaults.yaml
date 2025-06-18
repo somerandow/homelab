@@ -1,3 +1,0 @@
-chartVersion: ">= 1.17.0"
-app: rook
-namespace: rook-ceph

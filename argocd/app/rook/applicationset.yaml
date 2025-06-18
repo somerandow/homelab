@@ -2,7 +2,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: cert-manager
+  name: rook
   namespace: argocd
 spec:
   goTemplate: true
@@ -13,39 +13,30 @@ spec:
         selector:
           matchLabels:
             argocd.argoproj.io/secret-type: cluster
+            apps.homelab.wojoinc.xyz/rook: "true"
         values:
-          namespace: cert-manager
-          chartVersion: "1.17.2"
+          chartVersion: ">= 1.17.0"
+          namespace: rook-ceph
   template:
     metadata:
-      name: 'cert-manager-{{.name | slugify}}'
+      name: 'rook-{{.name | slugify}}'
       labels:
         app.kubernetes.io/component: argocd-application
-        homelab.wojoinc.xyz/app-group: 'infra'
+        homelab.wojoinc.xyz/app-group: 'storage'
     spec:
       project: default
       sources:
-        - repoURL: https://charts.jetstack.io
-          targetRevision: '{{ .values.chartVersion }}'
-          chart: cert-manager
+        - repoURL: https://charts.rook.io/release
+          targetRevision: '{{.values.chartVersion}}'
+          chart: rook-ceph
           helm:
-            releaseName: cert-manager
             valueFiles:
-              - $values/argocd/app/cert-manager/values.yaml
-              - '$values/argocd/clusters/{{ index .metadata.labels "cluster-name"}}/cert-manager/values.yaml'
+              - $values/argocd/rook/values.yaml
+              - $values/{{.path.path}}/values.yaml
             skipCrds: false
-            ignoreMissingValueFiles: true
         - repoURL: 'https://github.com/somerandow/homelab'
           targetRevision: main
           ref: values
-        - repoURL: 'https://github.com/somerandow/homelab'
-          targetRevision: main
-          path: argocd/app/cert-manager/resources
-          kustomize:
-            components:
-              - ../../../env/{{index .metadata.labels "cluster-environment"}}/cert-manager
-              - ../../../cluster/{{index .metadata.labels "cluster-name"}}/cert-manager
-            ignoreMissingComponents: true
       destination:
         server: '{{.server}}'
         namespace: '{{.values.namespace}}'
