@@ -6,11 +6,11 @@ global:
     createAggregateClusterRoles: true
 nodeExporter:
   enabled: true
-  namespaceOverride: node-exporter
   operatingSystems:
     darwin:
       enabled: false
 prometheus-node-exporter:
+  namespaceOverride: node-exporter
   prometheus:
     monitor:
       enabled: true
