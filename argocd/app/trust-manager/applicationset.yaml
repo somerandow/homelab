@@ -30,7 +30,7 @@ spec:
           chart: trust-manager
           helm:
             valueFiles:
-              - $values/argocd/trust-manager/values.yaml
+              - $values/argocd/app/trust-manager/values.yaml
               - $values/argocd/clusters/{{.name}}/trust-manager/values.yaml
             skipCrds: false
             ignoreMissingValueFiles: true

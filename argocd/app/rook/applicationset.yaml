@@ -31,7 +31,7 @@ spec:
           chart: rook-ceph
           helm:
             valueFiles:
-              - $values/argocd/rook/values.yaml
+              - $values/argocd/app/rook/values.yaml
               - $values/argocd/clusters/{{.name}}/rook/values.yaml
             skipCrds: false
         - repoURL: 'https://github.com/somerandow/homelab'

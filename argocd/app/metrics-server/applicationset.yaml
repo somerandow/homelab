@@ -30,7 +30,7 @@ spec:
           path: "charts/metrics-server"
           helm:
             valueFiles:
-              - $values/argocd/metrics-server/values.yaml
+              - $values/argocd/app/metrics-server/values.yaml
               - $values/argocd/clusters/{{.name}}/metrics-server/values.yaml
             skipCrds: false
         - repoURL: 'https://github.com/somerandow/homelab'
