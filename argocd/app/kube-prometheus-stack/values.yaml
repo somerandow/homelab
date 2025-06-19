@@ -17,14 +17,14 @@ prometheus-node-exporter:
       additionalLabels:
         monitoring.homelab.wojoinc.xyz/enabled: "true"
 alertmanager:
-  enabled: false
+  enabled: true
   ingress:
     enabled: true
     annotations:
       external-dns.alpha.kubernetes.io/target: "wojoinc.xyz."
       dns.homelab.wojoinc.xyz/publish-external: "true"
       cert-manager.io/cluster-issuer: acme
-      traefik.ingress.kubernetes.io/router.middlewares: media-forward-auth-all@kubernetescrd,media-forward-auth@kubernetescrd
+#      traefik.ingress.kubernetes.io/router.middlewares: media-forward-auth-all@kubernetescrd,media-forward-auth@kubernetescrd
     ingressClassName: traefik-external
     hosts:
       - alert.wojoinc.xyz
@@ -38,16 +38,16 @@ alertmanager:
   alertManagerSpec:
     useExistingSecret: true
     replicas: 2
-    externalUrl: "https://alert.wojoinc.xyz"
-    storageSpec:
-      volumeClaimTemplate:
-        spec:
-          accessModes:
-            - ReadWriteOnce
-          storageClassName: openebs-zfspv-quicktank
-          resources:
-            requests:
-              storage: 1Gi
+    externalUrl: "https://alert2.wojoinc.xyz"
+#    storageSpec:
+#      volumeClaimTemplate:
+#        spec:
+#          accessModes:
+#            - ReadWriteOnce
+#          storageClassName: openebs-zfspv-quicktank
+#          resources:
+#            requests:
+#              storage: 1Gi
 grafana:
   enabled: false
 kubeProxy:
@@ -56,7 +56,7 @@ kubeStateMetrics:
   enabled: true
   namespaceOverride: kube-state-metrics
 prometheus:
-  enabled: false
+  enabled: true
   ingress:
     enabled: true
     ingressClassName: traefik-external
@@ -77,25 +77,7 @@ prometheus:
   prometheusSpec:
     scrapeInterval: "20s"
     scrapeTimeout: "17s"
-    ## WebTLSConfig defines the TLS parameters for HTTPS
-    ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#webtlsconfig
-    web: {}
-
-    ## Alertmanagers to which alerts will be sent
-    ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#alertmanagerendpoints
-    ##
-    ## Default configuration will connect to the alertmanager deployed as part of this release
-    ##
-    alertingEndpoints: []
-    # - name: ""
-    #   namespace: ""
-    #   port: http
-    #   scheme: http
-    #   pathPrefix: ""
-    #   tlsConfig: {}
-    #   bearerTokenFile: ""
-    #   apiVersion: v2
-    externalUrl: "https://prom.wojoinc.xyz"
+    externalUrl: "https://prom2.wojoinc.xyz"
     ruleSelector:
       monitoring.homelab.wojoinc.xyz/enabled: "true"
     serviceMonitorSelector:
@@ -106,6 +88,11 @@ prometheus:
       monitoring.homelab.wojoinc.xyz/enabled: "true"
     scrapeConfigSelector:
       monitoring.homelab.wojoinc.xyz/enabled: "true"
+    probeNamespaceSelector: {}
+    serviceMonitorNamespaceSelector: {}
+    podMonitorNamespaceSelector: {}
+    scrapeConfigNamespaceSelector: {}
+    ruleNamespaceSelector: {}
     retention: 90d
     retentionSize: "50GB"
     replicas: 2
@@ -120,15 +107,21 @@ prometheus:
       limits:
         cpu: 3
         memory: 3072Mi
-    storageSpec:
-      volumeClaimTemplate:
-        spec:
-          accessModes:
-            - ReadWriteOnce
-          storageClassName: openebs-zfspv-quicktank
-          resources:
-            requests:
-              storage: 60Gi
+    securityContext:
+      runAsNonRoot: true
+      runAsUser: 65534
+      runAsGroup: 65534
+      seccompProfile:
+        type: RuntimeDefault
+#    storageSpec:
+#      volumeClaimTemplate:
+#        spec:
+#          accessModes:
+#            - ReadWriteOnce
+#          storageClassName: openebs-zfspv-quicktank
+#          resources:
+#            requests:
+#              storage: 60Gi
 prometheusOperator:
   enabled: true
   revisionHistoryLimit: 2
