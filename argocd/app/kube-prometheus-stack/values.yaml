@@ -18,6 +18,7 @@ prometheus-node-exporter:
         monitoring.homelab.wojoinc.xyz/enabled: "true"
 alertmanager:
   enabled: true
+  namespaceOverride: monitoring
   ingress:
     enabled: true
     annotations:
@@ -57,6 +58,7 @@ kubeStateMetrics:
   namespaceOverride: kube-state-metrics
 prometheus:
   enabled: true
+  namespaceOverride: monitoring
   ingress:
     enabled: true
     ingressClassName: traefik-external
