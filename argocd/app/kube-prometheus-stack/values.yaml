@@ -79,15 +79,20 @@ prometheus:
     scrapeTimeout: "17s"
     externalUrl: "https://prom2.wojoinc.xyz"
     ruleSelector:
-      monitoring.homelab.wojoinc.xyz/enabled: "true"
+      matchLabels:
+        monitoring.homelab.wojoinc.xyz/enabled: "true"
     serviceMonitorSelector:
-      monitoring.homelab.wojoinc.xyz/enabled: "true"
+      matchLabels:
+        monitoring.homelab.wojoinc.xyz/enabled: "true"
     podMonitorSelector:
-      monitoring.homelab.wojoinc.xyz/enabled: "true"
+      matchLabels:
+        monitoring.homelab.wojoinc.xyz/enabled: "true"
     probeSelector:
-      monitoring.homelab.wojoinc.xyz/enabled: "true"
+      matchLabels:
+        monitoring.homelab.wojoinc.xyz/enabled: "true"
     scrapeConfigSelector:
-      monitoring.homelab.wojoinc.xyz/enabled: "true"
+      matchLabels:
+        monitoring.homelab.wojoinc.xyz/enabled: "true"
     probeNamespaceSelector: {}
     serviceMonitorNamespaceSelector: {}
     podMonitorNamespaceSelector: {}
