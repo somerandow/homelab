@@ -35,7 +35,7 @@ spec:
             skipCrds: true
             valueFiles:
               - $values/argocd/app/kube-state-metrics/values.yaml
-              - '$values/argocd/clusters/{{.name}}/values.yaml'
+              - '$values/argocd/clusters/{{.name}}/kube-state-metrics/values.yaml'
             ignoreMissingValueFiles: true
         - repoURL: 'https://github.com/somerandow/homelab'
           targetRevision: main
