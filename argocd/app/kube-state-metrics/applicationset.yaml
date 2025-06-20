@@ -2,7 +2,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: kube-prometheus-stack
+  name: kube-state-metrics
   namespace: argocd
 spec:
   goTemplate: true
@@ -15,11 +15,11 @@ spec:
             cluster-environment: prod
             argocd.argoproj.io/secret-type: cluster
         values:
-          namespace: prometheus-operator
-          chartVersion: ">= 75.0.0"
+          namespace: kube-state-metrics
+          chartVersion: ">= 5.37.0"
   template:
     metadata:
-      name: 'kube-prometheus-stack-{{.name | slugify}}'
+      name: 'kube-state-metrics-{{.name | slugify}}'
       labels:
         app.kubernetes.io/component: argocd-application
         app.kubernetes.io/part-of: '{{ index .metadata.labels "cluster-environment" }}'
@@ -29,12 +29,12 @@ spec:
       sources:
         - repoURL: https://prometheus-community.github.io/helm-charts
           targetRevision: '{{.values.chartVersion}}'
-          chart: kube-prometheus-stack
+          chart: kube-state-metrics
           helm:
-            releaseName: "kube-prometheus-stack"
+            releaseName: "kube-state-metrics"
             skipCrds: true
             valueFiles:
-              - $values/argocd/app/kube-prometheus-stack/values.yaml
+              - $values/argocd/app/kube-state-metrics/values.yaml
               - '$values/argocd/clusters/{{.name}}/values.yaml'
             ignoreMissingValueFiles: true
         - repoURL: 'https://github.com/somerandow/homelab'

@@ -5,17 +5,7 @@ global:
     create: true
     createAggregateClusterRoles: true
 nodeExporter:
-  enabled: true
-  operatingSystems:
-    darwin:
-      enabled: false
-prometheus-node-exporter:
-  namespaceOverride: node-exporter
-  prometheus:
-    monitor:
-      enabled: true
-      additionalLabels:
-        monitoring.homelab.wojoinc.xyz/enabled: "true"
+  enabled: false
 alertmanager:
   enabled: true
   namespaceOverride: monitoring
@@ -54,8 +44,7 @@ grafana:
 kubeProxy:
   enabled: false
 kubeStateMetrics:
-  enabled: true
-  namespaceOverride: kube-state-metrics
+  enabled: false
 prometheus:
   enabled: true
   namespaceOverride: monitoring

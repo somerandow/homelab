@@ -1,0 +1,5 @@
+prometheus:
+  monitor:
+    enabled: true
+    additionalLabels:
+      monitoring.homelab.wojoinc.xyz/enabled: "true"

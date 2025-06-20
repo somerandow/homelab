@@ -2,7 +2,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: kube-prometheus-stack
+  name: node-exporter
   namespace: argocd
 spec:
   goTemplate: true
@@ -15,11 +15,11 @@ spec:
             cluster-environment: prod
             argocd.argoproj.io/secret-type: cluster
         values:
-          namespace: prometheus-operator
-          chartVersion: ">= 75.0.0"
+          namespace: node-exporter
+          chartVersion: ">= 4.47.0"
   template:
     metadata:
-      name: 'kube-prometheus-stack-{{.name | slugify}}'
+      name: 'node-exporter-{{.name | slugify}}'
       labels:
         app.kubernetes.io/component: argocd-application
         app.kubernetes.io/part-of: '{{ index .metadata.labels "cluster-environment" }}'
@@ -29,17 +29,26 @@ spec:
       sources:
         - repoURL: https://prometheus-community.github.io/helm-charts
           targetRevision: '{{.values.chartVersion}}'
-          chart: kube-prometheus-stack
+          chart: prometheus-node-exporter
           helm:
-            releaseName: "kube-prometheus-stack"
+            releaseName: "node-exporter"
             skipCrds: true
             valueFiles:
-              - $values/argocd/app/kube-prometheus-stack/values.yaml
+              - $values/argocd/app/node-exporter/values.yaml
               - '$values/argocd/clusters/{{.name}}/values.yaml'
             ignoreMissingValueFiles: true
         - repoURL: 'https://github.com/somerandow/homelab'
           targetRevision: main
           ref: values
+        - repoURL: 'https://github.com/somerandow/homelab'
+          targetRevision: main
+          path: argocd/app/node-exporter/base
+          kustomize:
+            commonAnnotations:
+              argocd.argoproj.io/sync-wave: "0"
+            components:
+              - ../../../flavor/{{index .metadata.labels "cluster-flavor"}}/node-exporter
+            ignoreMissingComponents: false
       destination:
         server: '{{.server}}'
         namespace: '{{.values.namespace}}'
