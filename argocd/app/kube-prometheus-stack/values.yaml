@@ -7,7 +7,7 @@ global:
 nodeExporter:
   enabled: false
 alertmanager:
-  enabled: true
+  enabled: false
   namespaceOverride: monitoring
   ingress:
     enabled: true
@@ -46,7 +46,7 @@ kubeProxy:
 kubeStateMetrics:
   enabled: false
 prometheus:
-  enabled: true
+  enabled: false
   namespaceOverride: monitoring
   ingress:
     enabled: true
