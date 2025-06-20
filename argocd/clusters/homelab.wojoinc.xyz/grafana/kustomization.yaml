@@ -8,14 +8,14 @@ patches:
     patch: |-
       - op: replace
         path: /spec/datasource/url
-        value: http://prometheus-operated.monitoring.svc.homelab.wojoinc.local.:9090
+        value: http://prometheus.monitoring.svc.homelab.wojoinc.local.:9090
   - target:
       kind: Grafana
       name: grafana
     patch: |-
       - op: replace
         path: /spec/config/server/root_url
-        value: https://grafana2.wojoinc.xyz
+        value: https://grafana2.wojoinc.xyz/
       - op: replace
         path: /spec/ingress/spec/rules/0/host
         value: grafana2.wojoinc.xyz
