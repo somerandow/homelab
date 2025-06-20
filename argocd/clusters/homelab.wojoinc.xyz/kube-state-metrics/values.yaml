@@ -1,0 +1,6 @@
+prometheus:
+  monitor:
+    relabelings:
+      - action: replace
+        replacement: "homelab.wojoinc.xyz"
+        targetLabel: cluster
