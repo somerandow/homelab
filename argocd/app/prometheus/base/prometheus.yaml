@@ -1,0 +1,83 @@
+---
+apiVersion: monitoring.coreos.com/v1
+kind: Prometheus
+metadata:
+  name: prometheus
+  labels:
+    app: prometheus
+    app.kubernetes.io/instance: prometheus
+    app.kubernetes.io/part-of: prometheus
+spec:
+  automountServiceAccountToken: true
+  alerting:
+    alertmanagers:
+      - name: alertmanager
+        port: http-web
+        pathPrefix: "/"
+        apiVersion: v2
+  image: "quay.io/prometheus/prometheus:v3.4.1"
+  imagePullPolicy: "IfNotPresent"
+  version: v3.4.1
+  externalUrl: "TO_BE_FILLED"
+  paused: false
+  replicas: 3
+  shards: 1
+  logLevel:  info
+  logFormat:  logfmt
+  listenLocal: false
+  enableAdminAPI: false
+  scrapeInterval: 20s
+  scrapeTimeout: 17s
+  resources:
+    limits:
+      cpu: 3
+      memory: 3072Mi
+    requests:
+      cpu: 200m
+      memory: 1024Mi
+  retention: "90d"
+  retentionSize: "5GB"
+  tsdb:
+    outOfOrderTimeWindow: 0s
+  walCompression: true
+  routePrefix: "/"
+  serviceAccountName: prometheus
+  serviceMonitorSelector:
+    matchLabels:
+      monitoring.homelab.wojoinc.xyz/enabled: "true"
+  serviceMonitorNamespaceSelector: {}
+  podMonitorSelector:
+    matchLabels:
+      monitoring.homelab.wojoinc.xyz/enabled: "true"
+  podMonitorNamespaceSelector: {}
+  probeSelector:
+    matchLabels:
+      monitoring.homelab.wojoinc.xyz/enabled: "true"
+  probeNamespaceSelector: {}
+  securityContext:
+    fsGroup: 2000
+    runAsGroup: 65534
+    runAsNonRoot: true
+    runAsUser: 65534
+    seccompProfile:
+      type: RuntimeDefault
+  ruleNamespaceSelector: {}
+  ruleSelector:
+    matchLabels:
+      monitoring.homelab.wojoinc.xyz/enabled: "true"
+  scrapeConfigSelector:
+    matchLabels:
+      monitoring.homelab.wojoinc.xyz/enabled: "true"
+  scrapeConfigNamespaceSelector: {}
+  affinity:
+    podAntiAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 100
+        podAffinityTerm:
+          topologyKey: kubernetes.io/hostname
+          labelSelector:
+            matchExpressions:            
+            - {key: app.kubernetes.io/name, operator: In, values: [prometheus]}
+            - {key: app.kubernetes.io/instance, operator: In, values: [prometheus]}
+  portName: http-web
+  hostNetwork: false

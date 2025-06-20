@@ -1,0 +1,14 @@
+---
+apiVersion: kustomize.config.k8s.io/v1alpha1
+kind: Component
+patches:
+  # Ensure any ingress has the annotations needed for cert-manager
+  - target:
+      kind: Ingress
+    patch: |-
+      apiVersion: networking.k8s.io/v1
+      kind: Ingress
+      metadata:
+        name: not-used
+        annotations:
+          cert-manager.io/cluster-issuer: acme
