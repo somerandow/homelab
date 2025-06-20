@@ -27,7 +27,7 @@ spec:
       sources:
         - repoURL: 'https://github.com/somerandow/homelab'
           targetRevision: main
-          path: argocd/app/prometheus
+          path: argocd/app/prometheus/base
           kustomize:
             components:
               - ../../../clusters/{{.name}}/prometheus
