@@ -35,7 +35,7 @@ spec:
             skipCrds: true
             valueFiles:
               - $values/argocd/app/node-exporter/values.yaml
-              - '$values/argocd/clusters/{{.name}}/values.yaml'
+              - '$values/argocd/clusters/{{.name}}/node-exporter/values.yaml'
             ignoreMissingValueFiles: true
         - repoURL: 'https://github.com/somerandow/homelab'
           targetRevision: main
