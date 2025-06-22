@@ -125,3 +125,8 @@ prometheusOperator:
   resources: { }
   prometheusConfigReloader:
     resources: { }
+
+kubeApiServer:
+  serviceMonitor:
+    additionalLabels:
+      monitoring.homelab.wojoinc.xyz/enabled: "true"
