@@ -47,77 +47,6 @@ kubeStateMetrics:
   enabled: false
 prometheus:
   enabled: false
-  namespaceOverride: monitoring
-  ingress:
-    enabled: true
-    ingressClassName: traefik-external
-    annotations:
-      external-dns.alpha.kubernetes.io/target: "wojoinc.xyz."
-      dns.homelab.wojoinc.xyz/publish-external: "true"
-      cert-manager.io/cluster-issuer: acme
-      traefik.ingress.kubernetes.io/router.middlewares: media-forward-auth-all@kubernetescrd,media-forward-auth@kubernetescrd
-    hosts:
-      - prom.wojoinc.xyz
-    paths:
-      - /
-    pathType: Prefix
-    tls:
-      - secretName: prom-cert
-        hosts:
-          - prom.wojoinc.xyz
-  prometheusSpec:
-    scrapeInterval: "20s"
-    scrapeTimeout: "17s"
-    externalUrl: "https://prom2.wojoinc.xyz"
-    ruleSelector:
-      matchLabels:
-        monitoring.homelab.wojoinc.xyz/enabled: "true"
-    serviceMonitorSelector:
-      matchLabels:
-        monitoring.homelab.wojoinc.xyz/enabled: "true"
-    podMonitorSelector:
-      matchLabels:
-        monitoring.homelab.wojoinc.xyz/enabled: "true"
-    probeSelector:
-      matchLabels:
-        monitoring.homelab.wojoinc.xyz/enabled: "true"
-    scrapeConfigSelector:
-      matchLabels:
-        monitoring.homelab.wojoinc.xyz/enabled: "true"
-    probeNamespaceSelector: {}
-    serviceMonitorNamespaceSelector: {}
-    podMonitorNamespaceSelector: {}
-    scrapeConfigNamespaceSelector: {}
-    ruleNamespaceSelector: {}
-    retention: 90d
-    retentionSize: "50GB"
-    replicas: 2
-    shards: 1
-    logLevel: info
-    logFormat: logfmt
-    routePrefix: /
-    resources:
-      requests:
-        cpu: 200m
-        memory: 1024Mi
-      limits:
-        cpu: 3
-        memory: 3072Mi
-    securityContext:
-      runAsNonRoot: true
-      runAsUser: 65534
-      runAsGroup: 65534
-      seccompProfile:
-        type: RuntimeDefault
-#    storageSpec:
-#      volumeClaimTemplate:
-#        spec:
-#          accessModes:
-#            - ReadWriteOnce
-#          storageClassName: openebs-zfspv-quicktank
-#          resources:
-#            requests:
-#              storage: 60Gi
 prometheusOperator:
   enabled: true
   revisionHistoryLimit: 2
@@ -127,6 +56,26 @@ prometheusOperator:
     resources: { }
 
 kubeApiServer:
+  serviceMonitor:
+    additionalLabels:
+      monitoring.homelab.wojoinc.xyz/enabled: "true"
+kubelet:
+  serviceMonitor:
+    additionalLabels:
+      monitoring.homelab.wojoinc.xyz/enabled: "true"
+kubeControllerManager:
+  serviceMonitor:
+    additionalLabels:
+      monitoring.homelab.wojoinc.xyz/enabled: "true"
+coreDns:
+  serviceMonitor:
+    additionalLabels:
+      monitoring.homelab.wojoinc.xyz/enabled: "true"
+kubeEtcd:
+  serviceMonitor:
+    additionalLabels:
+      monitoring.homelab.wojoinc.xyz/enabled: "true"
+kubeScheduler:
   serviceMonitor:
     additionalLabels:
       monitoring.homelab.wojoinc.xyz/enabled: "true"
