@@ -1,5 +1,5 @@
 prometheusOperator:
   clusterDomain: "homelab.wojoinc.xyz"
-  extraArges:
+  extraArgs:
     - '--labels="cluster=homelab.wojoinc.xyz"'
     - '--feature-gates=PrometheusAgentDaemonSet'
