@@ -40,6 +40,9 @@ spec:
         - repoURL: 'https://github.com/somerandow/homelab'
           targetRevision: main
           ref: values
+        - repoURL: 'https://github.com/somerandow/homelab'
+          targetRevision: main
+          path: argocd/app/kube-prometheus-stack/base
       destination:
         server: '{{.server}}'
         namespace: '{{.values.namespace}}'
