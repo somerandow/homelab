@@ -13,7 +13,6 @@ spec:
         selector:
           matchLabels:
             argocd.argoproj.io/secret-type: cluster
-            apps.homelab.wojoinc.xyz/rook: "true"
         values:
           chartVersion: ">= 1.17.0"
           namespace: rook-ceph
