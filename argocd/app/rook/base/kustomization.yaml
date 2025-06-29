@@ -4,3 +4,4 @@ kind: Kustomization
 namespace: rook-ceph
 resources:
   - cluster.yaml
+  - ingress.yaml
