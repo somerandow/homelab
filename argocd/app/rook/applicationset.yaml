@@ -36,6 +36,9 @@ spec:
         - repoURL: 'https://github.com/somerandow/homelab'
           targetRevision: main
           ref: values
+        - repoURL: 'https://github.com/somerandow/homelab'
+          targetRevision: main
+          path: argocd/app/rook/base
       destination:
         server: '{{.server}}'
         namespace: '{{.values.namespace}}'
