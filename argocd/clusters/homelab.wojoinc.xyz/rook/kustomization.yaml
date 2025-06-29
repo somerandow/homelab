@@ -35,8 +35,8 @@ patches:
       kind: Ingress
     patch: |-
       - op: replace
-        path: /spec/ingress/spec/rules/0/host
+        path: /spec/rules/0/host
         value: ceph.wojoinc.xyz
       - op: add
-        path: /spec/ingress/spec/tls/0/hosts/0
+        path: /spec/tls/0/hosts/0
         value: ceph.wojoinc.xyz
