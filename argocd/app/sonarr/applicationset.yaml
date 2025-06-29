@@ -25,7 +25,7 @@ spec:
     spec:
       project: default
       sources:
-        - repoURL: gitlab.com/wojoinc/helm-charts
+        - repoURL: ghcr.io/somerandow/helm-charts
           targetRevision: '{{.values.chartVersion}}'
           chart: arr
           helm:
