@@ -5,6 +5,9 @@ components:
   - ../../../app/rook/components/host-networking
   - ../../../app/rook/components/host-storage
   - ../../../app/rook/components/osd-read-affinity
+  - ../../../env/prod/ingress-tls
+resources:
+  - serverstransport.yaml
 patches:
   - target:
       kind: CephCluster
@@ -18,3 +21,22 @@ patches:
       - op: add
         path: /spec/network/addressRanges/public/0
         value: "10.4.0.0/16"
+  - target:
+      kind: Ingress
+    patch: |-
+      apiVersion: networking.k8s.io/v1
+      kind: Ingress
+      metadata:
+        name: not-used
+        annotations:
+          traefik.ingress.kubernetes.io/service.serversscheme: https
+          traefik.ingress.kubernetes.io/service.serverstransport: rook-ceph-rook-dashboard@kubernetescrd
+  - target:
+      kind: Ingress
+    patch: |-
+      - op: replace
+        path: /spec/ingress/spec/rules/0/host
+        value: ceph.wojoinc.xyz
+      - op: add
+        path: /spec/ingress/spec/tls/0/hosts/0
+        value: ceph.wojoinc.xyz

@@ -3,7 +3,6 @@ apiVersion: ceph.rook.io/v1
 kind: CephCluster
 metadata:
   name: cluster
-  namespace: rook-ceph
 spec:
   cephVersion:
     image: quay.io/ceph/ceph:v19.2.2
