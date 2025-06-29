@@ -16,5 +16,5 @@ patches:
         path: /spec/dashboard/prometheusEndpointSSLVerify
         value: false
       - op: add
-        path: /spec/network/addressRanges/public
-        value: "10.4.0.16"
+        path: /spec/network/addressRanges/public/0
+        value: "10.4.0.0/16"
