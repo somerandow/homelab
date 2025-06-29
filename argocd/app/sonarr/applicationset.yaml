@@ -1,0 +1,52 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: sonarr
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions:
+    - 'missingkey=error'
+  generators:
+    - clusters:
+        selector:
+          matchLabels:
+            argocd.argoproj.io/secret-type: cluster
+        values:
+          chartVersion: "0.6.5"
+          namespace: media
+  template:
+    metadata:
+      name: 'sonarr-{{.name | slugify}}'
+      labels:
+        app.kubernetes.io/component: argocd-application
+        homelab.wojoinc.xyz/app-group: 'media'
+    spec:
+      project: default
+      sources:
+        - repoURL: gitlab.com/wojoinc/helm-charts
+          targetRevision: '{{.values.chartVersion}}'
+          chart: arr
+          helm:
+            valueFiles:
+              - $values/argocd/app/sonarr/values.yaml
+              - $values/argocd/clusters/{{.name}}/sonarr/values.yaml
+            skipCrds: false
+            ignoreMissingValueFiles: true
+        - repoURL: 'https://github.com/somerandow/homelab'
+          targetRevision: main
+          ref: values
+      destination:
+        server: '{{ .server }}'
+        namespace: '{{ .values.namespace }}'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+          - ApplyOutOfSyncOnly=true
+          - ServerSideApply=true
+          - RespectIgnoreDifferences=true
+      ignoreDifferences: []

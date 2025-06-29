@@ -1,0 +1,14 @@
+serviceAccount:
+  create: true
+service:
+  port: 8989
+image:
+  repository: ghcr.io/home-operations/sonarr
+  tag: 4.0.15
+probes:
+  livenessCmd:
+    - /usr/bin/env
+    - bash
+    - -c
+    - curl --fail localhost:8989/api/v3/system/status?apiKey=`IFS=\> && while read -d
+      \< E C; do if [[ $E = "ApiKey" ]]; then echo $C; fi; done < /config/config.xml`
