@@ -41,7 +41,7 @@ spec:
           path: argocd/app/rook/base
           kustomize:
             components:
-              - argocd/clusters/{{.name}}/rook
+              - ../../../clusters/{{.name}}/rook
       destination:
         server: '{{.server}}'
         namespace: '{{.values.namespace}}'
