@@ -2,9 +2,9 @@
 apiVersion: kustomize.config.k8s.io/v1alpha1
 kind: Component
 components:
-  - ../../../../argocd/app/rook/components/host-networking
-  - ../../../../argocd/app/rook/components/host-storage
-  - ../../../../argocd/app/rook/components/osd-read-affinity
+  - ../../../app/rook/components/host-networking
+  - ../../../app/rook/components/host-storage
+  - ../../../app/rook/components/osd-read-affinity
 patches:
   - target:
       kind: CephCluster
