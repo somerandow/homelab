@@ -9,7 +9,7 @@ spec:
     - hosts: []
       secretName: tls-rook-ingress
   rules:
-    - host: ""
+    - host: "TO_BE_FILLED"
       http:
         paths:
           - path: /
