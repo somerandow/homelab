@@ -29,7 +29,7 @@ spec:
         enabled: true
   dashboard:
     enabled: true
-    ssl: true
+    ssl: false # Disable for now, annotations have to be set on the service for this to work with ingress
   monitoring:
     enabled: true
     metricsDisabled: false
