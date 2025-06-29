@@ -1,0 +1,20 @@
+---
+apiVersion: kustomize.config.k8s.io/v1alpha1
+kind: Component
+components:
+  - ../../../../argocd/app/rook/components/host-networking
+  - ../../../../argocd/app/rook/components/host-storage
+  - ../../../../argocd/app/rook/components/osd-read-affinity
+patches:
+  - target:
+      kind: CephCluster
+    patch: |-
+      - op: add
+        path: /spec/dashboard/prometheusEndpoint
+        value: http://prometheus.monitoring.svc.homelab.wojoinc.local:9090
+      - op: add
+        path: /spec/dashboard/prometheusEndpointSSLVerify
+        value: false
+      - op: add
+        path: /spec/network/addressRanges/public
+        value: "10.4.0.16"

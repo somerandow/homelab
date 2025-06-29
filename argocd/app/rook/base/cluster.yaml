@@ -31,8 +31,6 @@ spec:
   dashboard:
     enabled: true
     ssl: true
-    prometheusEndpoint: http://prometheus.monitoring.svc.homelab.wojoinc.local:9090
-    prometheusEndpointSSLVerify: false
   monitoring:
     enabled: true
     metricsDisabled: false
@@ -40,9 +38,6 @@ spec:
       perfCountersPrioLimit: 5
       statsPeriodSeconds: 5
   network:
-    addressRanges:
-      public:
-        - 10.4.0.0/16
     connections:
       encryption:
         enabled: true
@@ -80,9 +75,6 @@ spec:
     mgr: system-cluster-critical
   storage:
     useAllNodes: true
-    useAllDevices: true
-    config:
-      encryptedDevice: "true"
     allowDeviceClassUpdate: true
     allowOsdCrushWeightUpdate: true
     scheduleAlways: false
@@ -90,9 +82,6 @@ spec:
   disruptionManagement:
     managePodBudgets: true
     osdMaintenanceTimeout: 30
-  csi:
-    readAffinity:
-      enabled: true
   healthCheck:
     daemonHealth:
       mon:

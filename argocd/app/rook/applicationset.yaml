@@ -39,6 +39,9 @@ spec:
         - repoURL: 'https://github.com/somerandow/homelab'
           targetRevision: main
           path: argocd/app/rook/base
+          kustomize:
+            components:
+              - argocd/clusters/{{.name}}/rook
       destination:
         server: '{{.server}}'
         namespace: '{{.values.namespace}}'

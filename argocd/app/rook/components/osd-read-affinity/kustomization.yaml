@@ -1,0 +1,15 @@
+---
+apiVersion: kustomize.config.k8s.io/v1alpha1
+kind: Component
+patches:
+  - target:
+      kind: CephCluster
+    patch: |-
+      apiVersion: ceph.rook.io/v1
+      kind: CephCluster
+      metadata:
+        name: not-used
+      spec:
+        csi:
+          readAffinity:
+            enabled: true
