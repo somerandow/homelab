@@ -23,6 +23,9 @@ patches:
       - op: add
         path: /spec/network/addressRanges/public/0
         value: "10.4.0.0/16"
+      - op: add
+        path: /spec/labels/monitoring/monitoring.homelab.wojoinc.xyz~1enabled
+        value: "true"
   - target:
       kind: Ingress
     patch: |-
