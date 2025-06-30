@@ -1,0 +1,31 @@
+ingress:
+  main:
+    enabled: true
+    className: "traefik-external"
+    host: "radarr.wojoinc.xyz"
+    tls: true
+    annotations:
+      cert-manager.io/cluster-issuer: acme
+      dns.homelab.wojoinc.xyz/publish-external: "true"
+      external-dns.alpha.kubernetes.io/target: wojoinc.xyz.
+#      traefik.ingress.kubernetes.io/router.middlewares: media-forward-auth-all@kubernetescrd,media-forward-auth@kubernetescrd
+  api:
+    enabled: true
+    className: "traefik-external"
+    host: "radarr.wojoinc.xyz"
+    path: "/api"
+    tls: true
+    annotations:
+      cert-manager.io/cluster-issuer: acme
+      dns.homelab.wojoinc.xyz/publish-external: "true"
+      external-dns.alpha.kubernetes.io/target: wojoinc.xyz.
+persistence:
+  config:
+    enabled: true
+    accessModes:
+      - ReadWriteOnce
+    size: "2Gi"
+    className: "rook-rbd-fast"
+  media:
+    existingClaim: "media-local"
+    enabled: false

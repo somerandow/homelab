@@ -2,7 +2,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: sonarr
+  name: radarr
   namespace: argocd
 spec:
   goTemplate: true
@@ -18,7 +18,7 @@ spec:
           namespace: media
   template:
     metadata:
-      name: 'sonarr-{{.name | slugify}}'
+      name: 'radarr-{{.name | slugify}}'
       labels:
         app.kubernetes.io/component: argocd-application
         homelab.wojoinc.xyz/app-group: 'media'
@@ -29,10 +29,10 @@ spec:
           targetRevision: '{{.values.chartVersion}}'
           chart: arr
           helm:
-            releaseName: sonarr
+            releaseName: radarr
             valueFiles:
-              - $values/argocd/app/sonarr/values.yaml
-              - $values/argocd/clusters/{{.name}}/sonarr/values.yaml
+              - $values/argocd/app/radarr/values.yaml
+              - $values/argocd/clusters/{{.name}}/radarr/values.yaml
             skipCrds: false
             ignoreMissingValueFiles: true
         - repoURL: 'https://github.com/somerandow/homelab'
