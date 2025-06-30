@@ -5,4 +5,4 @@ csi:
     enabled: true
     labels:
       monitoring.homelab.wojoinc.xyz/enabled: "true"
-logLevel: DEBUG
+logLevel: INFO

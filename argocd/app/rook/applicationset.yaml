@@ -33,6 +33,7 @@ spec:
               - $values/argocd/app/rook/values.yaml
               - $values/argocd/clusters/{{.name}}/rook/values.yaml
             skipCrds: false
+            ignoreMissingValueFiles: true
         - repoURL: 'https://github.com/somerandow/homelab'
           targetRevision: main
           ref: values
