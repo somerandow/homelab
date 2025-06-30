@@ -22,6 +22,9 @@ patches:
           spec:
             template:
               spec:
+                securityContext:
+                  fsGroupChangePolicy: "OnRootMismatch"
+                  fsGroup: 10001
                 volumes:
                   - name: grafana-data
                     persistentVolumeClaim:
