@@ -23,9 +23,17 @@ patches:
       - op: add
         path: /spec/network/addressRanges/public/0
         value: "10.4.0.0/16"
-      - op: add
-        path: /spec/labels/monitoring/monitoring.homelab.wojoinc.xyz~1enabled
-        value: "true"
+  - target:
+      kind: CephCluster
+    patch: |-
+      apiVersion: ceph.rook.io/v1
+      kind: CephCluster
+      metadata:
+        name: not-used
+      spec:
+        monitoring:
+          labels:
+            monitoring.homelab.wojoinc.xyz/enabled: "true"
   - target:
       kind: Ingress
     patch: |-
