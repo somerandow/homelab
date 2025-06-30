@@ -31,8 +31,9 @@ patches:
         name: not-used
       spec:
         persistentVolumeClaim:
-          accessModes:
-            - ReadWriteMany
-          resources:
-            storage: 1Gi
-          storageClassName: "rook-cephfs"
+          spec:
+            accessModes:
+              - ReadWriteMany
+            resources:
+              storage: 1Gi
+            storageClassName: "rook-cephfs"
