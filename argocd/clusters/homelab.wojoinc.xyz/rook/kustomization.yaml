@@ -34,6 +34,10 @@ patches:
         labels:
           monitoring:
             monitoring.homelab.wojoinc.xyz/enabled: "true"
+        annotations:
+          dashboard:
+            traefik.ingress.kubernetes.io/service.serversscheme: https
+            traefik.ingress.kubernetes.io/service.serverstransport: rook-ceph-rook-dashboard@kubernetescrd
   - target:
       kind: Ingress
     patch: |-
