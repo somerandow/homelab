@@ -1,0 +1,20 @@
+ingress:
+  main:
+    enabled: true
+    className: "traefik-external"
+    host: "prowlarr2.wojoinc.xyz"
+    tls: true
+    annotations:
+      cert-manager.io/cluster-issuer: acme
+      dns.homelab.wojoinc.xyz/publish-external: "true"
+      external-dns.alpha.kubernetes.io/target: wojoinc.xyz.
+#      traefik.ingress.kubernetes.io/router.middlewares: media-forward-auth-all@kubernetescrd,media-forward-auth@kubernetescrd
+persistence:
+  config:
+    enabled: true
+    accessModes:
+      - ReadWriteOnce
+    className: "ceph-rbd-fast"
+  media:
+    existingClaim: "media-local"
+    enabled: false
