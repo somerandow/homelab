@@ -22,3 +22,17 @@ patches:
       - op: add
         path: /spec/ingress/spec/tls/0/hosts/0
         value: grafana2.wojoinc.xyz
+  - target:
+      kind: Grafana
+    patch: |-
+      apiVersion: grafana.integreatly.org/v1beta1
+      kind: Grafana
+      metadata:
+        name: not-used
+      spec:
+        persistentVolumeClaim:
+          accessModes:
+            - ReadWriteMany
+          resources:
+            storage: 1Gi
+          storageClassName: "rook-cephfs"
