@@ -25,7 +25,7 @@ persistence:
     accessModes:
       - ReadWriteOnce
     size: "2Gi"
-    className: "ceph-rbd-fast"
+    className: "rook-rbd-fast"
   media:
     existingClaim: "media-local"
     enabled: false
