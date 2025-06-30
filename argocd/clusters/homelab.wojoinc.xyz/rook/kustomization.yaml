@@ -31,8 +31,8 @@ patches:
       metadata:
         name: not-used
       spec:
-        monitoring:
-          labels:
+        labels:
+          monitoring:
             monitoring.homelab.wojoinc.xyz/enabled: "true"
   - target:
       kind: Ingress
