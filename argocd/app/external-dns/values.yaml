@@ -1,0 +1,17 @@
+serviceMonitor:
+  enabled: true
+  additionalLabels:
+    monitoring.homelab.wojoinc.xyz/enabled: "true"
+logLevel: info
+logFormat: text
+sources:
+  - ingress
+policy: upsert-only
+registry: txt
+txtOwnerId: ""
+txtPrefix: ""
+txtSuffix: ""
+provider:
+  name: cloudflare
+extraArgs:
+  - "--cloudflare-proxied"

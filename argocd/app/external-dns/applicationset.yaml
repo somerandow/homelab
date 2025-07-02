@@ -2,7 +2,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: prowlarr
+  name: external-dns
   namespace: argocd
 spec:
   goTemplate: true
@@ -14,25 +14,25 @@ spec:
           matchLabels:
             argocd.argoproj.io/secret-type: cluster
         values:
-          chartVersion: "0.6.5"
-          namespace: media
+          chartVersion: ">=1.17.0"
+          namespace: external-dns
   template:
     metadata:
-      name: 'prowlarr-{{.name | slugify}}'
+      name: 'external-dns-{{.name | slugify}}'
       labels:
         app.kubernetes.io/component: argocd-application
         homelab.wojoinc.xyz/app-group: 'media'
     spec:
       project: default
       sources:
-        - repoURL: ghcr.io/somerandow/charts
+        - repoURL: https://kubernetes-sigs.github.io/external-dns/
           targetRevision: '{{.values.chartVersion}}'
           chart: arr
           helm:
-            releaseName: prowlarr
+            releaseName: external-dns
             valueFiles:
-              - $values/argocd/app/prowlarr/values.yaml
-              - $values/argocd/clusters/{{.name}}/prowlarr/values.yaml
+              - $values/argocd/app/external-dns/values.yaml
+              - $values/argocd/clusters/{{.name}}/external-dns/values.yaml
             skipCrds: false
             ignoreMissingValueFiles: true
         - repoURL: 'https://github.com/somerandow/homelab'
