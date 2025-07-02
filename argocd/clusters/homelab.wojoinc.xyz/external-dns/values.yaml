@@ -9,3 +9,4 @@ txtPrefix: "external-dns-"
 extraArgs:
   - "--zone-id-filter=35a698f03fa71685a016e2965c5794d6"
   - "--annotation-filter=dns.homelab.wojoinc.xyz/publish-external"
+  - "--cloudflare-proxied"
