@@ -40,7 +40,7 @@ spec:
           ref: values
         - repoURL: 'https://github.com/somerandow/homelab'
           targetRevision: main
-          path: argocd/app/vault-secrets-operator-base
+          path: argocd/app/vault-secrets-operator/base
       destination:
         server: '{{ .server }}'
         namespace: '{{ .values.namespace }}'
