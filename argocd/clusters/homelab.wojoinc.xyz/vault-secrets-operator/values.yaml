@@ -1,0 +1,44 @@
+controller:
+  replicas: 2
+  manager:
+    clientCache:
+      persistenceModel: "direct-encrypted"
+      storageEncryption:
+        enabled: true
+        vaultConnectionRef: default
+        keyName: "vault-secrets-operator"
+        transitMount: "transit"
+        namespace: "vault-operator"
+        method: kubernetes
+        mount: homelab
+        kubernetes:
+          role: "vault-secrets-operator"
+          serviceAccount: "vso-vault-secrets-operator-controller-manager"
+          tokenAudiences: [ "vault.wojoinc.xyz" ]
+  kubernetesClusterDomain: homelab.wojoinc.xyz
+defaultVaultConnection:
+  enabled: true
+  address: "https://vault.wojoinc.xyz:8200"
+  caCertSecret: "homelab-ca-bundle"
+  tlsServerName: "vault.wojoinc.xyz"
+  skipTLSVerify: false
+defaultAuthMethod:
+  enabled: true
+  namespace: "vault-operator"
+  method: kubernetes
+  mount: homelab
+  kubernetes:
+    role: "homelab-default"
+    serviceAccount: default
+    tokenAudiences: ["vault.wojoinc.xyz"]
+telemetry:
+  serviceMonitor:
+    enabled: true
+    selectors:
+      monitoring.homelab.wojoinc.xyz/enabled: "true"
+    scheme: https
+    port: https
+    path: /metrics
+    bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
+    interval: 30s
+    scrapeTimeout: 10s

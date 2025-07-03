@@ -1,0 +1,19 @@
+controller:
+  replicas: 1
+  controllerConfigMapYaml:
+    health:
+      healthProbeBindAddress: :8081
+    leaderElection:
+      leaderElect: true
+      resourceName: b0d477c0.hashicorp.com
+    metrics:
+      bindAddress: 127.0.0.1:8080
+    webhook:
+      port: 9443
+metricsService:
+  ports:
+    - name: https
+      port: 8443
+      protocol: TCP
+      targetPort: https
+  type: ClusterIP

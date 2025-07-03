@@ -1,0 +1,14 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: vault-token-creator
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: token-create-all
+subjects:
+  - kind: ServiceAccount
+    # TODO: Adjust/remove this. This is temporary until Vault is moved into the same cluster
+    name:  vso-vault-secrets-operator-controller-manager
+    namespace: vault-secrets-operator
