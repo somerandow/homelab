@@ -1,0 +1,46 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: generic-device-plugin
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions:
+    - 'missingkey=error'
+  generators:
+    - clusters:
+        selector:
+          matchLabels:
+            argocd.argoproj.io/secret-type: cluster
+        values:
+          targetRevision: main
+          namespace: kube-system
+  template:
+    metadata:
+      name: 'generic-device-plugin-{{.name | slugify}}'
+      labels:
+        app.kubernetes.io/component: argocd-application
+        homelab.wojoinc.xyz/app-group: 'system'
+    spec:
+      project: default
+      sources:
+        - repoURL: 'https://github.com/somerandow/homelab'
+          targetRevision: '{{.values.targetRevision}}'
+          path: argocd/app/generic-device-plugin/base
+          kustomize:
+            components:
+              - ../../../clusters/{{index .metadata.labels "cluster-name"}}/generic-device-plugin
+      destination:
+        server: '{{ .server }}'
+        namespace: '{{ .values.namespace }}'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+          - ApplyOutOfSyncOnly=true
+          - ServerSideApply=true
+          - RespectIgnoreDifferences=true
+      ignoreDifferences: []

@@ -1,0 +1,14 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: generic-device-plugin-config
+data:
+  config.yaml: |-
+    domain: "devices.wojoinc.xyz"
+    device:
+      - name: tpm
+        groups:
+          - paths:
+              - path: /dev/tpmrm*
+        count: 2
