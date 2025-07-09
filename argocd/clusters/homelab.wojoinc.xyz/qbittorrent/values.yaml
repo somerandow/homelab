@@ -1,0 +1,43 @@
+ingresses:
+  main:
+    enabled: true
+    annotations:
+      cert-manager.io/cluster-issuer: acme
+      external-dns.alpha.kubernetes.io/target: "wojoinc.xyz."
+      dns.homelab.wojoinc.xyz/publish-external: "true"
+#      traefik.ingress.kubernetes.io/router.middlewares: media-forward-auth-all@kubernetescrd,media-forward-auth@kubernetescrd
+    className: traefik-external
+    tls:
+      - hosts:
+          - "dl2.wojoinc.xyz"
+        secretName: "qbittorrent-cert"
+    rules:
+      - host: "dl2.wojoinc.xyz"
+        paths:
+          - path: "/"
+            pathType: Prefix
+            backend:
+              service:
+                name: qbittorrent
+                port:
+                  number: 8080
+pvcs:
+  config:
+    enabled: true
+    size: 1Gi
+    storageClass: "rook-rbd-fast"
+deployments:
+  main:
+    volumes:
+      config:
+        type: pvc
+      media:
+        type: pvc
+        name: tank-media
+    containers:
+      main:
+        volumeMounts:
+          config:
+            path: "/config"
+          media:
+            path: "/media"
