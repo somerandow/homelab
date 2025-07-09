@@ -2,7 +2,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: prowlarr
+  name: bazarr
   namespace: argocd
 spec:
   goTemplate: true
@@ -18,7 +18,7 @@ spec:
           namespace: media
   template:
     metadata:
-      name: 'prowlarr-{{.name | slugify}}'
+      name: 'bazarr-{{.name | slugify}}'
       labels:
         app.kubernetes.io/component: argocd-application
         homelab.wojoinc.xyz/app-group: 'media'
@@ -29,10 +29,10 @@ spec:
           targetRevision: '{{.values.chartVersion}}'
           chart: arr
           helm:
-            releaseName: prowlarr
+            releaseName: bazarr
             valueFiles:
-              - $values/argocd/app/prowlarr/values.yaml
-              - $values/argocd/clusters/{{.name}}/prowlarr/values.yaml
+              - $values/argocd/app/bazarr/values.yaml
+              - $values/argocd/clusters/{{.name}}/bazarr/values.yaml
             skipCrds: false
             ignoreMissingValueFiles: true
         - repoURL: 'https://github.com/somerandow/homelab'

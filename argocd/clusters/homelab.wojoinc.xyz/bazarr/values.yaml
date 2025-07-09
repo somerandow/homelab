@@ -16,5 +16,5 @@ persistence:
       - ReadWriteOnce
     className: "rook-rbd-fast"
   media:
-    existingClaim: "media-local"
-    enabled: false
+    enabled: true
+    existingClaim: tank-media
