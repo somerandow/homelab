@@ -14,7 +14,7 @@ spec:
           matchLabels:
             argocd.argoproj.io/secret-type: cluster
             # TODO: Remove this once ready to deploy qbt
-            qbitorrent/enabled: ""
+#            qbitorrent/enabled: ""
         values:
           chartVersion: "0.6.5"
           namespace: media
