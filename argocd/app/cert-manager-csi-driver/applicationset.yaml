@@ -14,7 +14,7 @@ spec:
           matchLabels:
             argocd.argoproj.io/secret-type: cluster
         values:
-          namespace: cert-manager
+          namespace: cert-manager-csi-driver
           chartVersion: ">=v0.10.4"
   template:
     metadata:
@@ -32,6 +32,15 @@ spec:
             releaseName: cert-manager-csi-driver
             skipCrds: false
             ignoreMissingValueFiles: true
+        - repoURL: 'https://github.com/somerandow/homelab'
+          targetRevision: main
+          path: argocd/app/cert-manager-csi-driver/base
+          kustomize:
+            commonAnnotations:
+              argocd.argoproj.io/sync-wave: "0"
+            components:
+              - ../../../flavor/{{index .metadata.labels "cluster-flavor"}}/cert-manager-csi-driver
+            ignoreMissingComponents: false
       destination:
         server: '{{.server}}'
         namespace: '{{.values.namespace}}'
