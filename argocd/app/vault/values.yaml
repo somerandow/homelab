@@ -1,0 +1,37 @@
+injector:
+  enabled: false
+global:
+  tlsDisable: false
+server:
+  image:
+    tag: "1.19.5"
+  volumes:
+    - name: tls
+      csi:
+        readOnly: true
+        driver: csi.cert-manager.io
+        volumeAttributes:
+          csi.cert-manager.io/issuer-name: homelab-ca
+          csi.cert-manager.io/issuer-kind: ClusterIssuer
+          csi.cert-manager.io/dns-names: "vault.wojoinc.xyz,*.vault-internal.${POD_NAMESPACE}.svc.homelab.wojoinc.xyz"
+          csi.cert-manager.io/ip-sans: 127.0.0.1
+          csi.cert-manager.io/fs-group: "1000"
+  volumeMounts:
+    - mountPath: "/tls"
+      name: tls
+      readOnly: true
+  extraEnvironmentVars:
+    VAULT_CAPATH: "/tls/ca.crt"
+  updateStrategyType: "OnDelete"
+  standalone:
+    enabled: false
+  resources:
+    requests:
+      memory: 256Mi
+      cpu: 250m
+    limits:
+      memory: 256Mi
+      cpu: 500m
+  affinity: ""
+ui:
+  enabled: false

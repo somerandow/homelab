@@ -1,0 +1,71 @@
+server:
+  volumes:
+    - name: secrets
+      secret:
+        secretName: gcp-sa-key
+  volumeMounts:
+    - mountPath: /var/run/secrets/vault
+      name: secrets
+      readOnly: true
+  service:
+    annotations:
+      traefik.ingress.kubernetes.io/service.serversscheme: https
+      traefik.ingress.kubernetes.io/service.serverstransport: cert-manager-ca-upstream-tls@kubernetescrd
+      traefik.ingress.kubernetes.io/service.passhostheader: "true"
+  ingress:
+    enabled: true
+    annotations:
+      cert-manager.io/cluster-issuer: acme
+    ingressClassName: traefik-external
+    hosts:
+      - host: 'vault2.wojoinc.xyz'
+        paths:
+          - /
+    tls:
+      - hosts:
+          - 'vault2.wojoinc.xyz'
+        secretName: vault-cert
+  extraEnvironmentVars:
+    GOOGLE_APPLICATION_CREDENTIALS: "/var/run/secrets/vault/wojoinc-homelab.json"
+  dataStorage:
+    storageClass: rook-rbd-fast
+  auditStorage:
+    storageClass: rook-rbd-fast
+  ha:
+    enabled: true
+    replicas: 5
+    raft:
+      enabled: true
+      setNodeId: true
+      config: |
+        ui = true
+        listener "tcp" {
+          tls_disable = 0
+          address = "[::]:8200"
+          cluster_address = "[::]:8201"
+          tls_cert_file = "/tls/tls.crt"
+          tls_key_file = "/tls/tls.key"
+        }
+        storage "raft" {
+          path = "/vault/data"
+          retry_join {
+            leader_tls_servername = "HOSTNAME.vault-internal.vault.svc.homelab.wojoinc.local"
+            leader_ca_cert_file = "/tls/ca.crt"
+            auto_join = "provider=k8s namespace=vault"
+          }
+        autopilot {
+            cleanup_dead_servers = "true"
+            last_contact_threshold = "200ms"
+            last_contact_failure_threshold = "10m"
+            max_trailing_logs = 250000
+            min_quorum = 3
+            server_stabilization_time = "10s"
+          }
+        }
+        service_registration "kubernetes" {}
+        seal "gcpckms" {
+          project = "wojoinc-homelab"
+          region = "global"
+          key_ring = "vault_keyring"
+          crypto_key = "vault_key"
+        }
