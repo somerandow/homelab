@@ -48,4 +48,4 @@ spec:
       volumes:
         - name: config
           persistentVolumeClaim:
-            claimName: overseerrr-config
+            claimName: overseerr-config
