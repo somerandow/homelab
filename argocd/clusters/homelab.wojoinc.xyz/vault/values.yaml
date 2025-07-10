@@ -10,7 +10,7 @@ server:
         volumeAttributes:
           csi.cert-manager.io/issuer-name: homelab-ca
           csi.cert-manager.io/issuer-kind: ClusterIssuer
-          csi.cert-manager.io/dns-names: "vault.wojoinc.xyz,*.vault-internal.${POD_NAMESPACE}.svc.homelab.wojoinc.xyz"
+          csi.cert-manager.io/dns-names: "vault.wojoinc.xyz,*.vault-internal.${POD_NAMESPACE}.svc.homelab.wojoinc.local"
           csi.cert-manager.io/ip-sans: 127.0.0.1
           csi.cert-manager.io/fs-group: "1000"
   volumeMounts:
