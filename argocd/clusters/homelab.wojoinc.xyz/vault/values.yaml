@@ -23,7 +23,7 @@ server:
   service:
     annotations:
       traefik.ingress.kubernetes.io/service.serversscheme: https
-      traefik.ingress.kubernetes.io/service.serverstransport: cert-manager-ca-upstream-tls@kubernetescrd
+      traefik.ingress.kubernetes.io/service.serverstransport: vault-upstream-tls@kubernetescrd
       traefik.ingress.kubernetes.io/service.passhostheader: "true"
   ingress:
     enabled: true

@@ -1,0 +1,10 @@
+---
+apiVersion: traefik.io/v1alpha1
+kind: ServersTransport
+metadata:
+  name: upstream-tls
+  namespace: vault
+spec:
+  rootCAsSecrets:
+    - ca-secret
+  serverName: '*.vault-internal.vault.svc.homelab.wojoinc.local'

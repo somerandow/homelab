@@ -4,3 +4,4 @@ kind: Kustomization
 resources:
   - clusterrole.yaml
   - clusterrolebinding.yaml
+  - serverstransport.yaml
