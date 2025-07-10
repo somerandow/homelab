@@ -10,7 +10,7 @@ patches:
         path: /spec/rules/0/host
         value: overseerr.wojoinc.xyz
       - op: add
-        path: /spec/ingress/spec/tls/0/hosts/0
+        path: /spec/tls/0/hosts/0
         value: overseerr.wojoinc.xyz
   - target:
       kind: PersistentVolumeClaim
