@@ -3,9 +3,22 @@ server:
     - name: secrets
       secret:
         secretName: gcp-sa-key
+    - name: tls
+      csi:
+        readOnly: true
+        driver: csi.cert-manager.io
+        volumeAttributes:
+          csi.cert-manager.io/issuer-name: homelab-ca
+          csi.cert-manager.io/issuer-kind: ClusterIssuer
+          csi.cert-manager.io/dns-names: "vault.wojoinc.xyz,*.vault-internal.${POD_NAMESPACE}.svc.homelab.wojoinc.xyz"
+          csi.cert-manager.io/ip-sans: 127.0.0.1
+          csi.cert-manager.io/fs-group: "1000"
   volumeMounts:
     - mountPath: /var/run/secrets/vault
       name: secrets
+      readOnly: true
+    - mountPath: "/tls"
+      name: tls
       readOnly: true
   service:
     annotations:
