@@ -27,7 +27,7 @@ spec:
       sources:
         - repoURL: 'https://github.com/somerandow/homelab'
           targetRevision: main
-          path: argocd/app/overseer/base
+          path: argocd/app/overseerr/base
           kustomize:
             components:
               - ../../../clusters/{{index .metadata.labels "cluster-name"}}/overseerr
@@ -37,7 +37,7 @@ spec:
       syncPolicy:
         automated:
           prune: true
-          selfHeal: false
+          selfHeal: true
         syncOptions:
           - CreateNamespace=true
           - ApplyOutOfSyncOnly=true
