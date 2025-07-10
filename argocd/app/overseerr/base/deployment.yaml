@@ -1,0 +1,51 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: overseerr
+  labels:
+    app.kubernetes.io/name: overseerr
+    app.kubernetes.io/instance: overseerr
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: overseerr
+      app.kubernetes.io/instance: overseerr
+  template:
+    metadata:
+      name: overseerr
+      labels:
+        app.kubernetes.io/name: overseerr
+        app.kubernetes.io/instance: overseerr
+    spec:
+      containers:
+        - name: overseerr
+          image: docker.io/sctx/overseerr:develop
+          imagePullPolicy: Always
+          env:
+            - name: LOG_LEVEL
+              value: info
+            - name: TZ
+              value: America/Chicago
+          ports:
+            - containerPort: 5055
+              protocol: TCP
+              name: http
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+          volumeMounts:
+            - mountPath: /app/config
+              name: config
+      restartPolicy: Always
+      securityContext:
+        runAsUser: 65534
+        runAsGroup: 65534
+        runAsNonRoot: true
+      volumes:
+        - name: config
+          persistentVolumeClaim:
+            claimName: overseerrr-config
