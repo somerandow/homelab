@@ -6,5 +6,5 @@ metadata:
   namespace: vault
 spec:
   rootCAs:
-    - homelab-ca-bundle
+    secret: homelab-ca-bundle
   serverName: '*.vault-internal.vault.svc.homelab.wojoinc.local'
