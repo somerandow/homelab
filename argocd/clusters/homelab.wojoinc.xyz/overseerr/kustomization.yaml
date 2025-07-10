@@ -7,9 +7,6 @@ patches:
       name: overseerr
     patch: |-
       - op: replace
-        path: /spec/config/server/root_url
-        value: https://grafana2.wojoinc.xyz/
-      - op: replace
         path: /spec/rules/0/host
         value: overseerr.wojoinc.xyz
       - op: add
