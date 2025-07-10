@@ -5,6 +5,6 @@ metadata:
   name: upstream-tls
   namespace: vault
 spec:
-  rootcas:
+  rootCAs:
     - homelab-ca-bundle
   serverName: '*.vault-internal.vault.svc.homelab.wojoinc.local'
