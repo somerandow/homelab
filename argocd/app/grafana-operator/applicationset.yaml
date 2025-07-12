@@ -28,6 +28,7 @@ spec:
         - repoURL: ghcr.io/grafana/helm-charts
           targetRevision: '{{.values.chartVersion}}'
           chart: grafana-operator
+          releaseName: grafana-operator
           helm:
             valueFiles:
               - $values/argocd/app/grafana-operator/values.yaml
