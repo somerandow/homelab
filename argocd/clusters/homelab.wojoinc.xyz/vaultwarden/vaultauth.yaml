@@ -12,4 +12,4 @@ spec:
     tokenExpirationSeconds: 600
   method: kubernetes
   mount: homelab
-  vaultConnectionRef: vault-operator/default
+  vaultConnectionRef: vault-secrets-operator/default
