@@ -1,0 +1,18 @@
+---
+apiVersion: secrets.hashicorp.com/v1beta1
+kind: VaultAuth
+metadata:
+  labels:
+    app.kubernetes.io/name: unpackerr
+  name: unpackerr
+  namespace: media
+spec:
+  kubernetes:
+    audiences:
+      - vault.wojoinc.xyz
+    role: homelab-default
+    serviceAccount: default
+    tokenExpirationSeconds: 600
+  method: kubernetes
+  mount: homelab
+  vaultConnectionRef: vault-secrets-operator/default
