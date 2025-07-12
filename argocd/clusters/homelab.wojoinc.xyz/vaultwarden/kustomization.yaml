@@ -36,5 +36,5 @@ patches:
               user: vaultwarden
               dbname: vaultwarden
             password:
-              name: vaultwarden-db-app
+              name: vaultwarden-db-app-old
               key: password
