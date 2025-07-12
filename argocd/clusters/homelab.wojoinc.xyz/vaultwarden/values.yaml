@@ -8,10 +8,10 @@ ingresses:
     className: traefik-external
     tls:
       - hosts:
-          - "bw2.wojoinc.xyz"
+          - "bw.wojoinc.xyz"
         secretName: "vaultwarden-cert"
     rules:
-      - host: "bw2.wojoinc.xyz"
+      - host: "bw.wojoinc.xyz"
         paths:
           - path: "/"
             pathType: Prefix
@@ -40,7 +40,7 @@ deployments:
           - name: DATA_FOLDER
             value: config
           - name: DOMAIN
-            value: https://bw2.wojoinc.xyz
+            value: https://bw.wojoinc.xyz
           - name: ROCKET_PORT
             value: "1080"
           - name: TZ
