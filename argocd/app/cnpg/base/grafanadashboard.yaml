@@ -6,5 +6,6 @@ metadata:
   labels:
     app: grafana
 spec:
+  allowCrossNamespaceImport: true
   folder: "General Dashboards"
   url: "https://grafana.com/api/dashboards/20417/revisions/3/download"
