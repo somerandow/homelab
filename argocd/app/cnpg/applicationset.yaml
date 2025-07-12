@@ -2,7 +2,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: vault-secrets-operator
+  name: cnpg
   namespace: argocd
 spec:
   goTemplate: true
@@ -14,37 +14,42 @@ spec:
           matchLabels:
             argocd.argoproj.io/secret-type: cluster
         values:
-          chartVersion: ">=0.10.0"
-          namespace: vault-secrets-operator
+          chartVersion: "0.24.0"
+          namespace: cnpg
   template:
     metadata:
-      name: 'vault-secrets-operator-{{.name | slugify}}'
+      name: 'cnpg-{{.name | slugify}}'
       labels:
         app.kubernetes.io/component: argocd-application
-        homelab.wojoinc.xyz/app-group: 'security'
+        homelab.wojoinc.xyz/app-group: 'infra'
     spec:
       project: default
       sources:
-        - repoURL: https://helm.releases.hashicorp.com
+        - repoURL: https://cloudnative-pg.github.io/charts
           targetRevision: '{{.values.chartVersion}}'
-          chart: vault-secrets-operator
+          chart: cloudnative-pg
           helm:
-            releaseName: vso
+            releaseName: cnpg
             valueFiles:
-              - $values/argocd/app/vault-secrets-operator/values.yaml
-              - $values/argocd/clusters/{{.name}}/vault-secrets-operator/values.yaml
+              - $values/argocd/clusters/{{.name}}/cnpg/values.yaml
             skipCrds: false
             ignoreMissingValueFiles: true
         - repoURL: 'https://github.com/somerandow/homelab'
           targetRevision: main
           ref: values
+        - repoURL: 'https://github.com/somerandow/homelab'
+          targetRevision: main
+          path: argocd/app/cnpg/base
+          kustomize:
+            components:
+              - ../../../clusters/{{.name}}/cnpg
       destination:
         server: '{{ .server }}'
         namespace: '{{ .values.namespace }}'
       syncPolicy:
         automated:
           prune: true
-          selfHeal: true
+          selfHeal: false
         syncOptions:
           - CreateNamespace=true
           - ApplyOutOfSyncOnly=true

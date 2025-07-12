@@ -37,6 +37,7 @@ server:
     tls:
       - hosts:
           - 'vault2.wojoinc.xyz'
+          - 'vault.wojoinc.xyz'
         secretName: vault-cert
   extraEnvironmentVars:
     GOOGLE_APPLICATION_CREDENTIALS: "/var/run/secrets/vault/wojoinc-homelab.json"

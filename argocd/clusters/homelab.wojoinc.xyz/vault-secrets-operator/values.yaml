@@ -15,10 +15,10 @@ controller:
           role: "vault-secrets-operator"
           serviceAccount: "vso-vault-secrets-operator-controller-manager"
           tokenAudiences: [ "vault.wojoinc.xyz" ]
-  kubernetesClusterDomain: homelab.wojoinc.xyz
+  kubernetesClusterDomain: homelab.wojoinc.local
 defaultVaultConnection:
   enabled: true
-  address: "https://vault.wojoinc.xyz:8200"
+  address: "https://vault.vault.svc.homelab.wojoinc.local:8200"
   caCertSecret: "homelab-ca-bundle"
   tlsServerName: "vault.wojoinc.xyz"
   skipTLSVerify: false
