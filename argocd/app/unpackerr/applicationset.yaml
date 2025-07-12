@@ -26,7 +26,7 @@ spec:
       project: default
       sources:
         - repoURL: 'https://github.com/somerandow/homelab'
-          targetRevision: {{.values.targetRevision}}
+          targetRevision: '{{.values.targetRevision}}'
           path: argocd/app/unpackerr/base
           kustomize:
             components:
@@ -37,7 +37,7 @@ spec:
       syncPolicy:
         automated:
           prune: true
-          selfHeal: false
+          selfHeal: true
         syncOptions:
           - CreateNamespace=true
           - ApplyOutOfSyncOnly=true
