@@ -1,2 +1,2 @@
 ---
-watchNamespaces: "monitoring,grafana-operator"
+watchNamespaces: ""
