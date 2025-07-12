@@ -9,6 +9,7 @@ patches:
       kind: GrafanaDashboard
       metadata:
         name: not-used
-      instanceSelector:
-        matchLabels:
-          monitoring.homelab.wojoinc.xyz/grafana-instance: grafana
+      spec:
+        instanceSelector:
+          matchLabels:
+            monitoring.homelab.wojoinc.xyz/grafana-instance: grafana
