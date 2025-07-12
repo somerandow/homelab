@@ -1,0 +1,18 @@
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  labels:
+    cnpg.io/cluster: vaultwarden-db
+  name: vaultwarden-db
+spec:
+  namespaceSelector: {}
+  podMetricsEndpoints:
+    - bearerTokenSecret:
+        key: ""
+        name: ""
+      port: metrics
+  selector:
+    matchLabels:
+      cnpg.io/cluster: vaultwarden-db
+      cnpg.io/podRole: instance

@@ -1,0 +1,52 @@
+ingresses:
+  main:
+    enabled: true
+    annotations:
+      cert-manager.io/cluster-issuer: acme
+      external-dns.alpha.kubernetes.io/target: "wojoinc.xyz."
+      dns.homelab.wojoinc.xyz/publish-external: "true"
+    className: traefik-external
+    tls:
+      - hosts:
+          - "bw2.wojoinc.xyz"
+        secretName: "vaultwarden-cert"
+    rules:
+      - host: "bw2.wojoinc.xyz"
+        paths:
+          - path: "/"
+            pathType: Prefix
+            backend:
+              service:
+                name: vaultwarden
+                port:
+                  number: 1080
+pvcs:
+  config:
+    enabled: true
+    size: 1Gi
+    storageClass: "rook-cephfs"
+deployments:
+  main:
+    replicas: 1
+    volumes:
+      config:
+        type: pvc
+    containers:
+      main:
+        volumeMounts:
+          config:
+            path: "/config"
+        env:
+          - name: DATA_FOLDER
+            value: config
+          - name: DOMAIN
+            value: https://bw2.wojoinc.xyz
+          - name: ROCKET_PORT
+            value: "1080"
+          - name: TZ
+            value: America/Chicago
+        envFrom:
+          - secretRef:
+              name: vaultwarden-env
+          - secretRef:
+              name: vaultwarden-db-auth

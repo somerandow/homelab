@@ -1,0 +1,40 @@
+---
+apiVersion: kustomize.config.k8s.io/v1alpha1
+kind: Component
+resources:
+  - vaultauth.yaml
+  - vaultstaticsecrets.yaml
+patches:
+  - target:
+      kind: PodMonitor
+    patch: |-
+      - op: add
+        path: /metadata/labels/monitoring.homelab.wojoinc.xyz~1enabled
+        value: "true"
+  - target:
+      kind: Cluster
+    patch: |-
+      apiVersion: postgresql.cnpg.io/v1
+      kind: Cluster
+      metadata:
+        name: not-used
+      spec:
+        bootstrap:
+          initdb:
+            import:
+              type: microservice
+              databases:
+                - vaultwarden
+              source:
+                externalCluster: old-vaultwarden
+        storage:
+          storageClass: rook-rbd-fast
+        externalClusters:
+          - name: old-vaultwarden
+            connectionParameters:
+              host: 10.3.0.0
+              user: vaultwarden
+              dbname: vaultwarden
+            password:
+              name: vaultwarden-db-app
+              key: password
