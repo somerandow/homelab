@@ -31,6 +31,7 @@ spec:
           helm:
             releaseName: cnpg
             valueFiles:
+              - $values/argocd/app/cnpg/values.yaml
               - $values/argocd/clusters/{{.name}}/cnpg/values.yaml
             skipCrds: false
             ignoreMissingValueFiles: true
