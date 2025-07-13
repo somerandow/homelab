@@ -2,8 +2,6 @@
 apiVersion: monitoring.coreos.com/v1
 kind: PodMonitor
 metadata:
-  labels:
-    cnpg.io/cluster: vaultwarden-db
   name: vaultwarden-db
 spec:
   namespaceSelector: {}
