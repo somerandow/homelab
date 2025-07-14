@@ -15,7 +15,7 @@ spec:
             argocd.argoproj.io/secret-type: cluster
         values:
           targetRevision: "main"
-          namespace: ombi
+          namespace: media
   template:
     metadata:
       name: 'ombi-{{.name | slugify}}'
