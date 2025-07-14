@@ -42,6 +42,7 @@ patches:
       spec:
         bootstrap:
           initdb:
-            secret: ombi-db-init
+            secret:
+              name: ombi-db-app
         storage:
           storageClass: rook-rbd-fast
