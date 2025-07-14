@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: acme
+  labels:
+    app.kubernetes.io/instance: ombi
+    app.kubernetes.io/name: ombi
+  name: ombi
+spec:
+  rules:
+  - host: "TO_BE_FILLED"
+    http:
+      paths:
+      - backend:
+          service:
+            name: ombi
+            port:
+              number: 3579
+        path: /
+        pathType: Prefix
+  tls:
+  - hosts: []
+    secretName: requests-cert

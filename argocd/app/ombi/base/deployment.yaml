@@ -1,0 +1,86 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/instance: ombi
+    app.kubernetes.io/name: ombi
+  name: ombi
+spec:
+  replicas: 1
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: ombi
+      app.kubernetes.io/name: ombi
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/instance: ombi
+        app.kubernetes.io/name: ombi
+    spec:
+      automountServiceAccountToken: true
+      containers:
+      - env:
+        - name: PGID
+          value: "568"
+        - name: PUID
+          value: "568"
+        - name: TZ
+          value: America/Chicago
+        image: ghcr.io/linuxserver/ombi:4.47.1
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          failureThreshold: 3
+          periodSeconds: 10
+          successThreshold: 1
+          tcpSocket:
+            port: 3579
+          timeoutSeconds: 1
+        name: ombi
+        ports:
+        - containerPort: 3579
+          name: http
+          protocol: TCP
+        readinessProbe:
+          failureThreshold: 3
+          periodSeconds: 10
+          successThreshold: 1
+          tcpSocket:
+            port: 3579
+          timeoutSeconds: 1
+        resources:
+          limits:
+            cpu: "1"
+            memory: 1Gi
+          requests:
+            cpu: 100m
+            memory: 500Mi
+        securityContext:
+          readOnlyRootFilesystem: false
+        startupProbe:
+          failureThreshold: 30
+          periodSeconds: 5
+          successThreshold: 1
+          tcpSocket:
+            port: 3579
+          timeoutSeconds: 1
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /config
+          name: config
+      dnsPolicy: ClusterFirst
+      enableServiceLinks: true
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext:
+        fsGroup: 568
+        fsGroupChangePolicy: Always
+      serviceAccountName: ombi
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - name: config
+        emptyDir: {}
