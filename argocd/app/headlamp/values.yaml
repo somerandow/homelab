@@ -1,0 +1,16 @@
+replicaCount: 2
+serviceAccount:
+  create: true
+  name: "headlamp"
+clusterRoleBinding:
+  create: false
+securityContext:
+  capabilities:
+    drop:
+      - ALL
+  readOnlyRootFilesystem: true
+  runAsNonRoot: true
+  privileged: false
+  runAsUser: 65534
+  runAsGroup: 65534
+resources: {}

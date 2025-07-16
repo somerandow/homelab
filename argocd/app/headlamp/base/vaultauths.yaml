@@ -1,0 +1,15 @@
+---
+apiVersion: secrets.hashicorp.com/v1beta1
+kind: VaultAuth
+metadata:
+  name: headlamp
+spec:
+  kubernetes:
+    audiences:
+      - vault.wojoinc.xyz
+    role: homelab-default
+    serviceAccount: headlamp
+    tokenExpirationSeconds: 600
+  method: kubernetes
+  mount: homelab
+  vaultConnectionRef: vault-secrets-operator/default

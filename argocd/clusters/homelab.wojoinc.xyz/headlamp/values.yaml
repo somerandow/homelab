@@ -1,0 +1,22 @@
+config:
+  oidc:
+    externalSecret:
+      enabled: true
+      name: oidc-config
+ingress:
+  enabled: true
+  # -- Annotations for Ingress resource
+  annotations:
+    cert-manager.io/cluster-issuer: acme
+    external-dns.alpha.kubernetes.io/target: "wojoinc.xyz."
+    dns.homelab.wojoinc.xyz/publish-external: "true"
+    kubernetes.io/ingress.class: traefik-external
+  hosts:
+    - host: "dash.wojoinc.xyz"
+      paths:
+        - path: "/"
+          type: Prefix
+  tls:
+    - secretName: headlamp-cert
+      hosts:
+        - "dash.wojoinc.xyz"
