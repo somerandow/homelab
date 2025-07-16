@@ -20,3 +20,9 @@ ingress:
     - secretName: headlamp-cert
       hosts:
         - "dash.wojoinc.xyz"
+persistentVolumeClaim:
+  enabled: true
+  accessModes:
+    - ReadWriteMany
+  size: 1Gi
+  storageClassName: rook-cephfs
