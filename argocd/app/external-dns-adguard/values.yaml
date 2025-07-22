@@ -1,0 +1,49 @@
+serviceMonitor:
+  enabled: true
+logLevel: info
+logFormat: text
+sources:
+  - ingress
+policy: upsert-only
+registry: txt
+txtOwnerId: ""
+txtPrefix: ""
+txtSuffix: ""
+provider:
+  name: webhook
+  webhook:
+    image:
+      repository: ghcr.io/muhlba91/external-dns-provider-adguard
+      tag: v9.0.1
+      pullPolicy: IfNotPresent
+    securityContext:
+      privileged: false
+      allowPrivilegeEscalation: false
+      readOnlyRootFilesystem: true
+      runAsNonRoot: true
+      runAsUser: 65532
+      runAsGroup: 65532
+      capabilities:
+        drop: [ "ALL" ]
+    env:
+      - name: ADGUARD_URL
+        valueFrom:
+          secretKeyRef:
+            name: adguard-auth
+            key: host
+      - name: ADGUARD_USER
+        valueFrom:
+          secretKeyRef:
+            name: adguard-auth
+            key: username
+      - name: ADGUARD_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: adguard-auth
+            key: password
+      - name: SERVER_HOST
+        value: "127.0.0.1"
+      - name: SERVER_PORT
+        value: "8080"
+    service:
+      port: 8080

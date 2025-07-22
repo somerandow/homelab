@@ -1,0 +1,102 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: calibre-web
+  labels:
+    app.kubernetes.io/name: "calibre-web"
+    app.kubernetes.io/instance: "calibre-web"
+  annotations: {}
+spec:
+  revisionHistoryLimit: 1
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels: 
+      app.kubernetes.io/name: "calibre-web"
+      app.kubernetes.io/instance: "calibre-web"
+  template:
+    metadata:
+      labels: 
+        app.kubernetes.io/name: "calibre-web"
+        app.kubernetes.io/instance: "calibre-web"
+    spec:
+      serviceAccountName: calibre-web
+      hostUsers: false
+      automountServiceAccountToken: true
+      securityContext: 
+        fsGroup: 568
+        runAsGroup: 568
+        runAsUser: 0
+      dnsPolicy: ClusterFirst
+      enableServiceLinks: true
+      containers:
+        - name: calibre-web
+          image: "ghcr.io/linuxserver/calibre-web:0.6.23"
+          imagePullPolicy: IfNotPresent
+          securityContext: 
+            allowPrivilegeEscalation: true
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: false
+          env: 
+            - name: DOCKER_MODS
+              value: ghcr.io/linuxserver/mods:universal-calibre
+            - name: PGID
+              value: "568"
+            - name: PUID
+              value: "568"
+            - name: TZ
+              value: America/Chicago
+          envFrom: []
+          ports: 
+            - name: http
+              containerPort: 8083
+              protocol: TCP
+            
+          volumeMounts: 
+            - name: books
+              mountPath: "/books"
+              subPath: "books"
+            - name: config
+              mountPath: "/config"
+              subPath: ""
+          livenessProbe: 
+            tcpSocket:
+              port: 8083
+            initialDelaySeconds: 0
+            timeoutSeconds: 1
+            periodSeconds: 10
+            failureThreshold: 3
+            successThreshold: 1
+          readinessProbe: 
+            tcpSocket:
+              port: 8083
+            initialDelaySeconds: 0
+            timeoutSeconds: 1
+            periodSeconds: 10
+            failureThreshold: 3
+            successThreshold: 1
+          startupProbe: 
+            tcpSocket:
+              port: 8083
+            initialDelaySeconds: 0
+            timeoutSeconds: 1
+            periodSeconds: 10
+            failureThreshold: 3
+            successThreshold: 1
+          resources: 
+            limits:
+              cpu: 1500m
+              memory: 1532Mi
+            requests:
+              cpu: 200m
+              memory: 100Mi
+      volumes:
+        - name: config
+          emptyDir: {}
+        - name: books
+          persistentVolumeClaim:
+            claimName: media-local

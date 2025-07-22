@@ -1,0 +1,30 @@
+---
+apiVersion: kustomize.config.k8s.io/v1alpha1
+kind: Component
+components:
+  - ../../../app/calibre-web/components/persistence
+patches:
+  - target:
+      kind: PersistentVolumeClaim
+    patch: |-
+      - op: add
+        path: /spec/storageClassName
+        value: rook-rbd-fast
+  - target:
+      kind: Ingress
+    patch: |-
+      - op: add
+        path: /spec/ingressClassName
+        value: traefik-external
+      - op: replace
+        path: /spec/rules/0/host
+        value: library.wojoinc.xyz
+      - op: add
+        path: /spec/tls/0/hosts/0
+        value: library.wojoinc.xyz
+  - target:
+      kind: Deployment
+    patch: |-
+      - op: replace
+        path: /spec/template/spec/volumes/1/persistentVolumeClaim/claimName
+        value: tank-media

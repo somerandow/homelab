@@ -1,0 +1,16 @@
+---
+apiVersion: secrets.hashicorp.com/v1beta1
+kind: VaultAuth
+metadata:
+  name: external-dns-adguard
+  namespace: external-dns
+spec:
+  kubernetes:
+    audiences:
+      - vault.wojoinc.xyz
+    role: homelab-default
+    serviceAccount: external-dns-adguard
+    tokenExpirationSeconds: 600
+  method: kubernetes
+  mount: homelab
+  vaultConnectionRef: vault-secrets-operator/default

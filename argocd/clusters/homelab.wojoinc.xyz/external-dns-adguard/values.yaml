@@ -1,0 +1,8 @@
+serviceMonitor:
+  additionalLabels:
+    monitoring.homelab.wojoinc.xyz/enabled: "true"
+txtOwnerId: "homelab-wojoinc-xyz"
+txtPrefix: "external-dns-"
+extraArgs:
+  - "--annotation-filter=dns.homelab.wojoinc.xyz/publish-internal"
+  - "--webhook-provider-url=http://localhost:8080"
