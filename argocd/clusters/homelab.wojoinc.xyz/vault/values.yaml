@@ -31,12 +31,11 @@ server:
       cert-manager.io/cluster-issuer: acme
     ingressClassName: traefik-external
     hosts:
-      - host: 'vault2.wojoinc.xyz'
+      - host: 'vault.wojoinc.xyz'
         paths:
           - /
     tls:
       - hosts:
-          - 'vault2.wojoinc.xyz'
           - 'vault.wojoinc.xyz'
         secretName: vault-cert
   extraEnvironmentVars:
