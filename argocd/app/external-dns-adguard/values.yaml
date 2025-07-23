@@ -50,4 +50,4 @@ provider:
       - name: HEALTHZ_PORT
         value: "8080"
     service:
-      port: 8088
+      port: 8888
