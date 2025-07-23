@@ -44,10 +44,10 @@ provider:
       - name: SERVER_HOST
         value: "127.0.0.1"
       - name: SERVER_PORT
-        value: "8080"
+        value: "8088"
       - name: HEALTHZ_HOST
         value: "0.0.0.0"
       - name: HEALTHZ_PORT
         value: "8080"
     service:
-      port: 8080
+      port: 8088
