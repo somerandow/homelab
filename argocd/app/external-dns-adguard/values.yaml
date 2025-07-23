@@ -45,7 +45,7 @@ provider:
         value: "127.0.0.1"
       - name: SERVER_PORT
         value: "8080"
-      - name: HEALTHZ_ADDRESS
+      - name: HEALTHZ_HOST
         value: "127.0.0.1"
       - name: HEALTHZ_PORT
         value: "8080"
