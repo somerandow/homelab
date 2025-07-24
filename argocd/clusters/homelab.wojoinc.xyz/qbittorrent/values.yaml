@@ -9,10 +9,10 @@ ingresses:
     className: traefik-external
     tls:
       - hosts:
-          - "dl2.wojoinc.xyz"
+          - "dl.wojoinc.xyz"
         secretName: "qbittorrent-cert"
     rules:
-      - host: "dl2.wojoinc.xyz"
+      - host: "dl.wojoinc.xyz"
         paths:
           - path: "/"
             pathType: Prefix

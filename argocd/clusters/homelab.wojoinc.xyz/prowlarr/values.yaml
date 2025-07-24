@@ -2,7 +2,7 @@ ingress:
   main:
     enabled: true
     className: "traefik-external"
-    host: "prowlarr2.wojoinc.xyz"
+    host: "prowlarr.wojoinc.xyz"
     tls: true
     annotations:
       cert-manager.io/cluster-issuer: acme

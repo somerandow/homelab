@@ -17,13 +17,13 @@ patches:
     patch: |-
       - op: replace
         path: /spec/config/server/root_url
-        value: https://grafana2.wojoinc.xyz/
+        value: https://grafana.wojoinc.xyz/
       - op: replace
         path: /spec/ingress/spec/rules/0/host
-        value: grafana2.wojoinc.xyz
+        value: grafana.wojoinc.xyz
       - op: add
         path: /spec/ingress/spec/tls/0/hosts/0
-        value: grafana2.wojoinc.xyz
+        value: grafana.wojoinc.xyz
       - op: replace
         path: /spec/persistentVolumeClaim/spec/storageClassName
         value: rook-cephfs

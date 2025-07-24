@@ -2,7 +2,7 @@ ingress:
   main:
     enabled: true
     className: "traefik-external"
-    host: "lidarr2.wojoinc.xyz"
+    host: "lidarr.wojoinc.xyz"
     tls: true
     annotations:
       cert-manager.io/cluster-issuer: acme
@@ -12,7 +12,7 @@ ingress:
   api:
     enabled: true
     className: "traefik-external"
-    host: "lidarr2.wojoinc.xyz"
+    host: "lidarr.wojoinc.xyz"
     path: "/api"
     tls: true
     annotations:

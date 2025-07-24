@@ -11,14 +11,14 @@ patches:
     patch: |-
       - op: replace
         path: /spec/externalUrl
-        value: https://prom2.wojoinc.xyz
+        value: https://prom.wojoinc.xyz
   - target:
       kind: Ingress
       name: prometheus
     patch: |-
       - op: replace
         path: /spec/rules/0/host
-        value: prom2.wojoinc.xyz
+        value: prom.wojoinc.xyz
       - op: add
         path: /spec/tls/0/hosts/0
-        value: prom2.wojoinc.xyz
+        value: prom.wojoinc.xyz
