@@ -14,7 +14,7 @@ patches:
       kind: Deployment
     patch: |-
       - op: remove
-        path: /spec/template/spec/volumes/0/emptyDir
+        path: /spec/template/spec/volumes/1/emptyDir
   - target:
       kind: Deployment
     patch: |-
