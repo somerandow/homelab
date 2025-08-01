@@ -1,0 +1,84 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: readarr
+  labels:
+    app.kubernetes.io/name: "readarr"
+    app.kubernetes.io/instance: "readarr"
+  annotations: {}
+spec:
+  revisionHistoryLimit: 1
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: "readarr"
+      app.kubernetes.io/instance: "readarr"
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: "readarr"
+        app.kubernetes.io/instance: "readarr"
+    spec:
+      serviceAccountName: readarr
+      automountServiceAccountToken: false
+      securityContext:
+        fsGroup: 568
+        runAsGroup: 568
+        runAsUser: 568
+        supplementalGroups:
+          - 997
+      dnsPolicy: ClusterFirst
+      enableServiceLinks: true
+      containers:
+        - name: main
+          image: "ghcr.io/home-operations/readarr:0.4.12.2753"
+          imagePullPolicy: IfNotPresent
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: false
+          env:
+            - name: TZ
+              value: America/Chicago
+          ports:
+            - name: http
+              containerPort: 8787
+              protocol: TCP
+          volumeMounts:
+            - name: config
+              mountPath: /config
+            - name: media
+              mountPath: /media
+          readinessProbe:
+            tcpSocket:
+              port: 8787
+            initialDelaySeconds: 0
+            timeoutSeconds: 1
+            periodSeconds: 10
+            failureThreshold: 3
+            successThreshold: 1
+          startupProbe:
+            tcpSocket:
+              port: 8787
+            initialDelaySeconds: 0
+            timeoutSeconds: 1
+            periodSeconds: 10
+            failureThreshold: 3
+            successThreshold: 1
+          resources:
+            limits:
+              cpu: "1"
+              memory: 1Gi
+            requests:
+              cpu: 200m
+              memory: 100Mi
+      volumes:
+        - name: config
+          emptyDir: {}
+        - name: media
+          emptyDir: {}

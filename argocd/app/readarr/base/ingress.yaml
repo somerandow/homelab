@@ -1,0 +1,29 @@
+---
+# Source: arr/templates/ingress.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: readarr
+  labels:
+    app.kubernetes.io/name: "readarr"
+    app.kubernetes.io/instance: "readarr"
+  annotations: 
+    cert-manager.io/cluster-issuer: acme
+    dns.homelab.wojoinc.xyz/publish-external: "true"
+    external-dns.alpha.kubernetes.io/target: wojoinc.xyz.
+#    traefik.ingress.kubernetes.io/router.middlewares: media-forward-auth-all@kubernetescrd,media-forward-auth@kubernetescrd
+spec:
+  rules:
+    - host: "TO_BE_FILLED"
+      http:
+        paths:
+          - path: "TO_BE_FILLED"
+            pathType: Prefix
+            backend:
+              service:
+                name: readarr
+                port:
+                  number: 8787
+  tls:
+    - hosts: []
+      secretName: readarr-cert
