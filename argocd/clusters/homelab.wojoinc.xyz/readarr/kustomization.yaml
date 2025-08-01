@@ -42,5 +42,5 @@ patches:
         path: /spec/tls/0/hosts/0
         value: readarr.wojoinc.xyz
       - op: replace
-        path: /spec/rules/0/path
+        path: /spec/rules/0/http/paths/0/path
         value: "/books"
