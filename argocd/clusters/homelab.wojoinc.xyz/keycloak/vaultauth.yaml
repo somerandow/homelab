@@ -8,7 +8,7 @@ spec:
     audiences:
       - vault.wojoinc.xyz
     role: homelab-default
-    serviceAccount: keycloak
+    serviceAccount: keycloak-db
     tokenExpirationSeconds: 600
   method: kubernetes
   mount: homelab
