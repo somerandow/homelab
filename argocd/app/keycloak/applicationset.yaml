@@ -30,12 +30,12 @@ spec:
           targetRevision: '{{.values.operatorVersion}}'
           path: kubernetes
         # Instance
-#        - repoURL: 'https://github.com/somerandow/homelab'
-#          targetRevision: main
-#          path: argocd/app/keycloak/base
-#          kustomize:
-#            components:
-#              - ../../../clusters/{{.name}}/keycloak
+        - repoURL: 'https://github.com/somerandow/homelab'
+          targetRevision: main
+          path: argocd/app/keycloak/base
+          kustomize:
+            components:
+              - ../../../clusters/{{.name}}/keycloak
       destination:
         server: '{{ .server }}'
         namespace: '{{ .values.namespace }}'
