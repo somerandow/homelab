@@ -54,4 +54,3 @@ patches:
         features:
           enabled:
             - preview
-# TODO: create KC resource, test DB import
