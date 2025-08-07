@@ -1,0 +1,51 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: keycloak
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions:
+    - 'missingkey=error'
+  generators:
+    - clusters:
+        selector:
+          matchLabels:
+            argocd.argoproj.io/secret-type: cluster
+        values:
+          operatorVersion: "26.3.2"
+          namespace: keycloak
+  template:
+    metadata:
+      name: 'keycloak-{{.name | slugify}}'
+      labels:
+        app.kubernetes.io/component: argocd-application
+        homelab.wojoinc.xyz/app-group: 'sec'
+    spec:
+      project: default
+      sources:
+        # CRDs & Operator
+        - repoURL: https://github.com/keycloak/keycloak-k8s-resources
+          targetRevision: '{{.values.operatorVersion}}'
+          path: kubernetes
+        # Instance
+#        - repoURL: 'https://github.com/somerandow/homelab'
+#          targetRevision: main
+#          path: argocd/app/keycloak/base
+#          kustomize:
+#            components:
+#              - ../../../clusters/{{.name}}/keycloak
+      destination:
+        server: '{{ .server }}'
+        namespace: '{{ .values.namespace }}'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: false
+        syncOptions:
+          - CreateNamespace=true
+          - ApplyOutOfSyncOnly=true
+          - ServerSideApply=true
+          - RespectIgnoreDifferences=true
+      ignoreDifferences: []
