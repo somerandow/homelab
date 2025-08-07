@@ -54,3 +54,15 @@ patches:
         features:
           enabled:
             - preview
+  - target:
+      kind: Ingress
+    patch: |-
+      - op: add
+        path: /spec/ingressClassName
+        value: traefik-external
+      - op: replace
+        path: /spec/rules/0/host
+        value: kc.wojoinc.xyz
+      - op: add
+        path: /spec/tls/0/hosts/0
+        value: kc.wojoinc.xyz  

@@ -4,5 +4,6 @@ kind: Kustomization
 resources:
   - certificate.yaml
   - cluster.yaml
-  - podmonitor.yaml
+  - ingress.yaml
   - keycloak.yaml
+  - podmonitor.yaml

@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: acme
+  labels:
+    app.kubernetes.io/instance: keycloak
+    app.kubernetes.io/name: keycloak
+  name: keycloak
+spec:
+  rules:
+  - host: "TO_BE_FILLED"
+    http:
+      paths:
+      - backend:
+          service:
+            name: keycloak-service
+            port:
+              number: 8443
+        path: /
+        pathType: Prefix
+  tls:
+  - hosts: []
+    secretName: keycloak-ingress-tls
