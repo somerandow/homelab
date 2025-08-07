@@ -65,4 +65,10 @@ patches:
         value: kc.wojoinc.xyz
       - op: add
         path: /spec/tls/0/hosts/0
-        value: kc.wojoinc.xyz  
+        value: kc.wojoinc.xyz
+  - target:
+      kind: Certificate
+    patch: |-
+      - op: add
+        path: /spec/dnsNames/1
+        value: keycloak-service.svc.homelab.wojoinc.local

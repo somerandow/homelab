@@ -6,3 +6,4 @@ metadata:
 spec:
   rootCAs:
     - secret: homelab-ca-bundle
+  serverName: 'keycloak-service.svc.homelab.wojoinc.local'
