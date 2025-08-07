@@ -1,0 +1,18 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: keycloak
+spec:
+  isCA: false
+  commonName: kc.wojoinc.xyz
+  dnsNames:
+    - kc.wojoinc.xyz
+  secretName: keycloak-upstream-cert
+  privateKey:
+    algorithm: ECDSA
+    size: 256
+  issuerRef:
+    name: homelab-ca
+    kind: ClusterIssuer
+    group: cert-manager.io

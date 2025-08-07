@@ -1,0 +1,23 @@
+apiVersion: k8s.keycloak.org/v2alpha1
+kind: Keycloak
+metadata:
+  name: keycloak
+spec:
+  instances: 3
+  db:
+    vendor: postgres
+    host: keycloak-db-rw
+    usernameSecret:
+      name: keycloak-db-app
+      key: username
+    passwordSecret:
+      name: keycloak-db-app
+      key: password
+  http:
+    annotations:
+      traefik.ingress.kubernetes.io/service.serversscheme: https
+      traefik.ingress.kubernetes.io/service.serverstransport: sec-keycloak-upstream-tls@kubernetescrd
+      traefik.ingress.kubernetes.io/service.passhostheader: "true"
+    tlsSecret: keycloak-upstream-cert
+  proxy:
+    headers: xforwarded
