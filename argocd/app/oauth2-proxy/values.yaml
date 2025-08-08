@@ -34,16 +34,6 @@ resources: {}
 # requests:
 #   cpu: 100m
 #   memory: 300Mi
-extraVolumes:
-  - name: tls
-    csi:
-      readOnly: true
-      driver: csi.cert-manager.io
-      volumeAttributes:
-        csi.cert-manager.io/issuer-name: homelab-ca
-        csi.cert-manager.io/issuer-kind: ClusterIssuer
-        csi.cert-manager.io/ip-sans: 127.0.0.1
-        csi.cert-manager.io/fs-group: "2000"
 extraVolumeMounts:
   - name: tls
     mountPath: /tls
