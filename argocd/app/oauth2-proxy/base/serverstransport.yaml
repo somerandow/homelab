@@ -5,5 +5,5 @@ metadata:
   name: upstream-tls
 spec:
   rootCAs:
-    - homelab-ca-bundle
+    - secret: homelab-ca-bundle
   serverName: "TO_BE_FILLED"
