@@ -6,4 +6,5 @@ resources:
   - middleware.yaml
   - redisreplication.yaml
   - redissentinel.yaml
+  - serviceaccounts.yaml
   - serverstransport.yaml
