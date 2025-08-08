@@ -1,0 +1,9 @@
+---
+apiVersion: traefik.io/v1alpha1
+kind: ServersTransport
+metadata:
+  name: upstream-tls
+spec:
+  rootCAs:
+    - homelab-ca-bundle
+  serverName: "TO_BE_FILLED"

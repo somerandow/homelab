@@ -1,0 +1,91 @@
+config:
+  existingSecret: oauth2-proxy-client-credentials
+  existingConfig: oauth2-proxy-config
+extraArgs: []
+extraEnv: []
+service:
+  type: ClusterIP
+  portNumber: 443
+  appProtocol: https
+  annotations:
+    traefik.ingress.kubernetes.io/service.serversscheme: https
+    traefik.ingress.kubernetes.io/service.serverstransport: oauth2-proxy-upstream-tls@kubernetescrd
+serviceAccount:
+  enabled: true
+  automountServiceAccountToken: true
+ingress:
+  enabled: true
+  className: traefik-external
+  path: /
+  pathType: Prefix
+  hosts:
+    - oauth.wojoinc.xyz
+  annotations:
+    cert-manager.io/cluster-issuer: acme
+    traefik.ingress.kubernetes.io/router.middlewares: oauth2-proxy-forward-auth-headers@kubernetescrd
+  tls:
+    - secretName: oauth2-cert
+      hosts:
+        - oauth.wojoinc.xyz
+resources: {}
+  # limits:
+  #   cpu: 100m
+  #   memory: 300Mi
+# requests:
+#   cpu: 100m
+#   memory: 300Mi
+extraVolumes:
+  - name: tls
+    csi:
+      readOnly: true
+      driver: csi.cert-manager.io
+      volumeAttributes:
+        csi.cert-manager.io/issuer-name: homelab-ca
+        csi.cert-manager.io/issuer-kind: ClusterIssuer
+        csi.cert-manager.io/ip-sans: 127.0.0.1
+        csi.cert-manager.io/fs-group: "2000"
+extraVolumeMounts:
+  - name: tls
+    mountPath: /tls
+replicaCount: 3
+revisionHistoryLimit: 1
+securityContext:
+  enabled: true
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: true
+  capabilities:
+    drop:
+      - ALL
+  runAsNonRoot: true
+  runAsUser: 2000
+  runAsGroup: 2000
+httpScheme: https
+initContainers:
+  waitForRedis:
+    enabled: true
+    securityContext:
+      enabled: true
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop:
+          - ALL
+      readOnlyRootFilesystem: true
+      runAsNonRoot: true
+      runAsUser: 65534
+      runAsGroup: 65534
+      seccompProfile:
+        type: RuntimeDefault
+    timeout: 180
+sessionStorage:
+  type: redis
+  redis:
+    clientType: sentinel
+redis:
+  enabled: false
+metrics:
+  enabled: true
+  port: 44180
+  service:
+    appProtocol: https
+  servicemonitor:
+    enabled: true

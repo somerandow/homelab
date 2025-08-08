@@ -1,0 +1,30 @@
+---
+apiVersion: secrets.hashicorp.com/v1beta1
+kind: VaultAuth
+metadata:
+  name: oauth2-proxy
+spec:
+  kubernetes:
+    audiences:
+      - vault.wojoinc.xyz
+    role: homelab-default
+    serviceAccount: oauth2-proxy
+    tokenExpirationSeconds: 600
+  method: kubernetes
+  mount: homelab
+  vaultConnectionRef: vault-secrets-operator/default
+---
+apiVersion: secrets.hashicorp.com/v1beta1
+kind: VaultAuth
+metadata:
+  name: redis
+spec:
+  kubernetes:
+    audiences:
+      - vault.wojoinc.xyz
+    role: homelab-default
+    serviceAccount: redis
+    tokenExpirationSeconds: 600
+  method: kubernetes
+  mount: homelab
+  vaultConnectionRef: vault-secrets-operator/default

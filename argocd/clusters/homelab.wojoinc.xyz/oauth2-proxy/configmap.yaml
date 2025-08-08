@@ -1,0 +1,33 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: oauth2-proxy-config
+data:
+  oauth2_proxy.cfg: |
+    code_challenge_method = "S256"
+    oidc_issuer_url = "https://kc.wojoinc.xyz/realms/homelab"
+    redirect_url = "https://oauth.wojoinc.xyz/oauth2/callback"
+    provider = "oidc"
+    provider_display_name = "Keycloak"
+    reverse_proxy = true
+    scope = "openid profile email groups offline_access"
+    tls_cert_file = "/tls/tls.crt"
+    tls_key_file = "/tls/tls.key"
+    skip_provider_button = true
+    silence_ping_logging = true
+    cookie_domains = ["wojoinc.xyz", ".wojoinc.xyz"]
+    cookie_refresh = "0"
+    cookie_expire = "59m"
+    cookie_csrf_expire = "59m"
+    cookie_secure = true
+    whitelist_domains = ["wojoinc.xyz", ".wojoinc.xyz"]
+    upstreams = ["static://202"]
+    set_xauthrequest = true
+    show_debug_on_error = true
+    email_domains = [ "*" ]
+    set_authorization_header = true
+    pass_basic_auth = false
+    redis_insecure_skip_tls_verify = true
+    cookie_name = "__Secure-oauth2_proxy"
+    cookie_csrf_per_request = true

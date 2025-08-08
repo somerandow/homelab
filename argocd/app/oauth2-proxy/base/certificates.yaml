@@ -1,0 +1,44 @@
+---
+# Redis certificate
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: session-cache
+spec:
+  isCA: false
+  commonName: session-cache.oauth2-proxy.svc.CLUSTER_DOMAIN
+  dnsNames:
+    - "session-cache-additional.oauth2-proxy.svc.CLUSTER_DOMAIN"
+    - "session-cache-headless.oauth2-proxy.svc.CLUSTER_DOMAIN"
+    - "session-cache-master.oauth2-proxy.svc.CLUSTER_DOMAIN"
+    - "session-cache-replica.oauth2-proxy.svc.CLUSTER_DOMAIN"
+    - "session-cache"
+  secretName: session-cache-tls
+  privateKey:
+    algorithm: ECDSA
+    size: 256
+  issuerRef:
+    name: homelab-ca
+    kind: ClusterIssuer
+    group: cert-manager.io
+---
+# Redis sentinel certificate
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: session-cache-sentinel
+spec:
+  isCA: false
+  commonName: session-cache-sentinel.oauth2-proxy.svc.CLUSTER_DOMAIN
+  dnsNames:
+    - "session-cache-sentinel-additional.oauth2-proxy.svc.CLUSTER_DOMAIN"
+    - "session-cache-sentinel-headless.oauth2-proxy.svc.CLUSTER_DOMAIN"
+    - "session-cache-sentinel"
+  secretName: session-cache-sentinel-tls
+  privateKey:
+    algorithm: ECDSA
+    size: 256
+  issuerRef:
+    name: homelab-ca
+    kind: ClusterIssuer
+    group: cert-manager.io

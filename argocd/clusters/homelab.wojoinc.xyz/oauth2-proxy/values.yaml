@@ -1,0 +1,21 @@
+extraVolumes:
+  - name:
+      volumeAttributes:
+        csi.cert-manager.io/dns-names: "oauth2-proxy.${POD_NAMESPACE}.svc.homelab.wojoinc.local"
+ingress:
+  annotations:
+    external-dns.alpha.kubernetes.io/target: "wojoinc.xyz."
+    dns.homelab.wojoinc.xyz/publish-external: "true"
+metrics:
+  servicemonitor:
+    labels:
+      monitoring.homelab.wojoinc.xyz/enabled: "true"
+sessionStorage:
+  redis:
+    existingSecret: redis-auth
+    passwordKey: password
+
+    sentinel:
+      existingSecret: redis-auth
+      passwordKey: sentinel-password
+      masterName: session-cache-sentinel
