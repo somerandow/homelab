@@ -10,7 +10,7 @@ configMapGenerator:
     options:
       annotations:
         # Skip rendering CM in build output
-        config.kubernetes.io/local-config: true
+        config.kubernetes.io/local-config: "true"
     literals:
       - clusterDomain=homelab.wojoinc.local
 patches:
