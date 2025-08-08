@@ -21,7 +21,7 @@ spec:
     enabled: false
     minAvailable: 1
   redisSentinelConfig:
-    redisReplicationName: redis-replication
+    redisReplicationName: session-cache
     redisReplicationPassword:
       secretKeyRef:
         name: redis-auth

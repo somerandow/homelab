@@ -1,5 +1,6 @@
 extraVolumes:
-  - name:
+  - name: tls
+    csi:
       volumeAttributes:
         csi.cert-manager.io/dns-names: "oauth2-proxy.${POD_NAMESPACE}.svc.homelab.wojoinc.local"
 ingress:
