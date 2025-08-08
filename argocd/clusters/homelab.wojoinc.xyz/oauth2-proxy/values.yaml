@@ -21,8 +21,6 @@ sessionStorage:
   redis:
     existingSecret: redis-auth
     passwordKey: password
-    connectionUrls:
-      - "redis://session-cache.oauth2-proxy.svc.homelab.wojoinc.local:6379"
     sentinel:
       existingSecret: redis-auth
       passwordKey: sentinel-password
