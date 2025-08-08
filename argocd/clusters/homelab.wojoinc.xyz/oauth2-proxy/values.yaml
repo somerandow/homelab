@@ -24,6 +24,6 @@ sessionStorage:
     sentinel:
       existingSecret: redis-auth
       passwordKey: sentinel-password
-      masterName: session-cache
+      masterName: sessioncache
       connectionUrls:
         - "redis://session-cache-sentinel:26379"
