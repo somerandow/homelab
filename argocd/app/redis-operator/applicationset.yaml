@@ -1,0 +1,53 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: redis-operator
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions:
+    - 'missingkey=error'
+  generators:
+    - clusters:
+        selector:
+          matchLabels:
+            argocd.argoproj.io/secret-type: cluster
+        values:
+          namespace: redis-operator
+          chartVersion: "0.21.2"
+  template:
+    metadata:
+      name: 'redis-operator-{{.name | slugify}}'
+      labels:
+        app.kubernetes.io/component: argocd-application
+        homelab.wojoinc.xyz/app-group: 'operators'
+    spec:
+      project: default
+      sources:
+        - repoURL: https://ot-container-kit.github.io/helm-charts
+          targetRevision: '{{.values.chartVersion}}'
+          chart: redis-operator
+          helm:
+            releaseName: redis-operator
+            valueFiles:
+              - $values/argocd/app/redis-operator/values.yaml
+              - $values/argocd/clusters/{{.name}}/redis-operator/values.yaml
+            skipCrds: false
+            ignoreMissingValueFiles: true
+        - repoURL: 'https://github.com/somerandow/homelab'
+          targetRevision: main
+          ref: values
+      destination:
+        server: '{{.server}}'
+        namespace: '{{.values.namespace}}'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+          - ApplyOutOfSyncOnly=true
+          - ServerSideApply=true
+          - RespectIgnoreDifferences=true
+      ignoreDifferences: []

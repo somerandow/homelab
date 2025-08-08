@@ -1,0 +1,12 @@
+---
+redisOperator:
+  webhook: true
+
+issuer:
+  create: false
+  kind: ClusterIssuer
+  name: homelab-ca
+
+certmanager:
+  enabled: true
+  apiVersion: "cert-manager.io/v1"
