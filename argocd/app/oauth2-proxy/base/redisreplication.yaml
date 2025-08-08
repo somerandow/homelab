@@ -4,12 +4,13 @@ metadata:
   name: session-cache
 spec:
   clusterSize: 3
-  TLS:
-    ca: ca.crt
-    cert: tls.crt
-    key: tls.key
-    secret:
-      secretName: session-cache-tls
+  # Disable until https://github.com/OT-CONTAINER-KIT/redis-operator/pull/1472 is released
+#  TLS:
+#    ca: ca.crt
+#    cert: tls.crt
+#    key: tls.key
+#    secret:
+#      secretName: session-cache-tls
   podSecurityContext:
     runAsUser: 1000
     runAsGroup: 1000
