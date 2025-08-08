@@ -10,3 +10,6 @@ issuer:
 certmanager:
   enabled: true
   apiVersion: "cert-manager.io/v1"
+
+featureGates:
+  GenerateConfigInInitContainer: true
