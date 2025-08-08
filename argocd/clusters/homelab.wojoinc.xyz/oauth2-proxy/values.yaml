@@ -26,6 +26,6 @@ sessionStorage:
     sentinel:
       existingSecret: redis-auth
       passwordKey: sentinel-password
-      masterName: session-cache-sentinel
+      masterName: session-cache
       connectionUrls:
         - "redis://session-cache-sentinel.oauth2-proxy.svc.homelab.wojoinc.local:26379"
