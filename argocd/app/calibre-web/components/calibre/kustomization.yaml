@@ -1,0 +1,23 @@
+---
+apiVersion: kustomize.config.k8s.io/v1alpha1
+kind: Component
+patches:
+  - target:
+      kind: Deployment
+    patch: |-
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: not-used
+      spec:
+        template:
+          spec:
+            containers:
+              - name: calibre-web
+                volumeMounts:
+                  - mountPath: /calibre 
+                    name: calibre
+            volumes:
+              - name: calibre
+                persistentVolumeClaim:
+                  claimName: calibre-config
