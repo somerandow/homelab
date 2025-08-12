@@ -27,10 +27,8 @@ spec:
       automountServiceAccountToken: true
       securityContext: 
         fsGroup: 568
-        runAsGroup: 0
+        runAsGroup: 568
         runAsUser: 0
-        supplementalGroups:
-          - 568
       dnsPolicy: ClusterFirst
       enableServiceLinks: true
       containers:
