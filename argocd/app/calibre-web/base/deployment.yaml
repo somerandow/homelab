@@ -29,6 +29,8 @@ spec:
         fsGroup: 568
         runAsGroup: 0
         runAsUser: 0
+        supplementalGroups:
+          - 568
       dnsPolicy: ClusterFirst
       enableServiceLinks: true
       containers:
