@@ -1,0 +1,99 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: calibre
+  labels:
+    app.kubernetes.io/name: "calibre"
+    app.kubernetes.io/instance: "calibre"
+  annotations: {}
+spec:
+  revisionHistoryLimit: 1
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: "calibre"
+      app.kubernetes.io/instance: "calibre"
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: "calibre"
+        app.kubernetes.io/instance: "calibre"
+    spec:
+      hostUsers: true
+      serviceAccountName: calibre
+      automountServiceAccountToken: false
+      securityContext:
+        fsGroup: 568
+        fsGroupChangePolicy: OnRootMismatch
+        runAsGroup: 568
+        runAsUser: 568
+        runAsNonRoot: true
+      dnsPolicy: ClusterFirst
+      enableServiceLinks: true
+      containers:
+        - name: calibre
+          image: "ghcr.io/somerandow/calibre:testing"
+          imagePullPolicy: IfNotPresent
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: false
+            seccompProfile:
+              type: RuntimeDefault
+          env:
+            - name: TZ
+              value: America/Chicago
+            - name: UMASK_SET
+              value: "022"
+          ports:
+            - name: content-server
+              containerPort: 8080
+              protocol: TCP
+          volumeMounts:
+            - name: config
+              mountPath: "/config"
+              subPath: ""
+            - name: media
+              mountPath: "/library"
+              subPath: "books"
+          livenessProbe:
+            tcpSocket:
+              port: 8080
+            initialDelaySeconds: 0
+            timeoutSeconds: 1
+            periodSeconds: 10
+            failureThreshold: 3
+            successThreshold: 1
+          readinessProbe:
+            tcpSocket:
+              port: 8080
+            initialDelaySeconds: 0
+            timeoutSeconds: 1
+            periodSeconds: 10
+            failureThreshold: 3
+            successThreshold: 1
+          startupProbe:
+            tcpSocket:
+              port: 8080
+            initialDelaySeconds: 0
+            timeoutSeconds: 1
+            periodSeconds: 10
+            failureThreshold: 3
+            successThreshold: 1
+          resources:
+            limits:
+              cpu: 1500m
+              memory: 1532Mi
+            requests:
+              cpu: 200m
+              memory: 100Mi
+      volumes:
+        - name: config
+          emptyDir: { }
+        - name: media
+          emptyDir: { }

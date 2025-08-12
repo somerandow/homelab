@@ -1,0 +1,18 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: calibre
+  labels:
+    app.kubernetes.io/name: "calibre"
+    app.kubernetes.io/instance: "calibre"
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8080
+      targetPort: content-server
+      protocol: TCP
+      name: content-server
+  selector:
+    app.kubernetes.io/name: "calibre"
+    app.kubernetes.io/instance: "calibre"
