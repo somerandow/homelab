@@ -23,7 +23,7 @@ spec:
         app.kubernetes.io/instance: "calibre-web"
     spec:
       serviceAccountName: calibre-web
-      hostUsers: false
+      hostUsers: true
       automountServiceAccountToken: true
       securityContext: 
         fsGroup: 568
