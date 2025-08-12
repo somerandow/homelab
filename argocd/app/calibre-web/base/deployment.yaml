@@ -37,9 +37,6 @@ spec:
           imagePullPolicy: IfNotPresent
           securityContext: 
             allowPrivilegeEscalation: true
-            capabilities:
-              drop:
-                - ALL
             readOnlyRootFilesystem: false
           env: 
             - name: DOCKER_MODS
