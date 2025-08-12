@@ -28,5 +28,5 @@ patches:
       kind: Deployment
     patch: |-
       - op: replace
-        path: /spec/template/spec/volumes/1/persistentVolumeClaim/claimName
+        path: /spec/template/spec/volumes/2/persistentVolumeClaim/claimName
         value: tank-media
