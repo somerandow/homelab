@@ -12,3 +12,9 @@ data:
           - paths:
               - path: /dev/tpmrm*
         count: 2
+      - name: igpu
+        groups:
+          - paths:
+              - path: /dev/dri/renderD128
+              - path: /dev/dri/card0
+        count: 1
