@@ -34,7 +34,7 @@ spec:
       enableServiceLinks: true
       containers:
         - name: main
-          image: "ghcr.io/home-operations/readarr:0.4.12.2753"
+          image: "ghcr.io/home-operations/readarr:0.4.18.2805"
           imagePullPolicy: IfNotPresent
           securityContext:
             allowPrivilegeEscalation: false
