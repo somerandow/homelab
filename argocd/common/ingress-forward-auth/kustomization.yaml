@@ -38,7 +38,7 @@ replacements:
           index: -1
   - source:
       kind: Ingress
-      fieldPath: metadata.namespace
+      fieldPath: metadata.annotations.[oauth.wojoinc.xyz/namespace]
     targets:
       - select:
           kind: Middleware
