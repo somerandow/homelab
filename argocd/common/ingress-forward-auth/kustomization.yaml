@@ -42,7 +42,6 @@ replacements:
     targets:
       - select:
           kind: Middleware
-          name: forward-auth
         fieldPaths:
           - metadata.name
         options:
