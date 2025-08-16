@@ -8,7 +8,7 @@ metadata:
     app.kubernetes.io/instance: "readarr"
   annotations:
     oauth.homelab.wojoinc.xyz/namespace: media
-    oauth.homelab.wojoinc.xyz/allowed-groups: Readarr-Admins
+    oauth.homelab.wojoinc.xyz/allowed-groups: Readarr%2DAdmins
 spec:
   rules:
     - host: "TO_BE_FILLED"
