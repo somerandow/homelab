@@ -36,6 +36,25 @@ replacements:
         options:
           delimiter: '-'
           index: -1
+  - source:
+      kind: Ingress
+      fieldPath: metadata.namespace
+    targets:
+      - select:
+          kind: Middleware
+          name: forward-auth
+        fieldPaths:
+          - metadata.name
+        options:
+          delimiter: '-'
+          index: -1
+      - select:
+          kind: Ingress
+        fieldPaths:
+          - metadata.annotations.[traefik.ingress.kubernetes.io/router.middlewares]
+        options:
+          delimiter: '-'
+          index: -1
 patches:
   # Add necessary annotations when publishing externally
   - target:
