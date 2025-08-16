@@ -10,7 +10,7 @@ replacements:
     targets:
       - select:
           kind: Middleware
-          name: -forward-auth
+          name: forward-auth
         fieldPaths:
           - spec.forwardAuth.address
         options:
