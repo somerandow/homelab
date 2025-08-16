@@ -1,0 +1,49 @@
+---
+apiVersion: kustomize.config.k8s.io/v1alpha1
+kind: Component
+resources:
+  - middleware.yaml
+replacements:
+  - source:
+      kind: Ingress
+      fieldPath: metadata.annotations.[oauth.homelab.wojoinc.xyz/allowed-groups]
+    targets:
+      - select:
+          kind: Middleware
+          name: -forward-auth
+        fieldPaths:
+          - spec.forwardAuth.address
+        options:
+          delimiter: '='
+          index: 1
+  # Make any other replacements above this one as it changes resource name
+  - source:
+      kind: Ingress
+      fieldPath: metadata.name
+    targets:
+      - select:
+          kind: Middleware
+          name: -forward-auth
+        fieldPaths:
+          - metadata.name
+        options:
+          delimiter: '-'
+          index: 2
+      - select:
+          kind: Ingress
+        fieldPaths:
+          - metadata.annotations.[traefik.ingress.kubernetes.io/router.middlewares]
+        options:
+          delimiter: '-'
+          index: -1
+patches:
+  # Add necessary annotations when publishing externally
+  - target:
+      kind: Ingress
+    patch: |-
+      apiVersion: networking.k8s.io/v1
+      kind: Ingress
+      metadata:
+        name: not-used
+        annotations:
+          traefik.ingress.kubernetes.io/router.middlewares: forward-auth@kubernetescrd

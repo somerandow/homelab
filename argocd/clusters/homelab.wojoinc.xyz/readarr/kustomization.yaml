@@ -3,6 +3,9 @@ apiVersion: kustomize.config.k8s.io/v1alpha1
 kind: Component
 components:
   - ../../../app/readarr/components/persistence
+  - ../../../common/ingress-forward-auth
+  - ../../../common/ingress-publish-external
+  - ../../../env/prod/ingress-tls
 patches:
   - target:
       kind: PersistentVolumeClaim
