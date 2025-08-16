@@ -41,13 +41,6 @@ replacements:
       fieldPath: metadata.annotations.[oauth.homelab.wojoinc.xyz/namespace]
     targets:
       - select:
-          kind: Middleware
-        fieldPaths:
-          - metadata.name
-        options:
-          delimiter: '-'
-          index: -1
-      - select:
           kind: Ingress
         fieldPaths:
           - metadata.annotations.[traefik.ingress.kubernetes.io/router.middlewares]
