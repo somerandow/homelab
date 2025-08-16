@@ -28,7 +28,7 @@ replacements:
           - metadata.name
         options:
           delimiter: '-'
-          index: 0
+          index: -1
       - select:
           kind: Ingress
         fieldPaths:
