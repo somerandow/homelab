@@ -23,12 +23,12 @@ replacements:
     targets:
       - select:
           kind: Middleware
-          name: -forward-auth
+          name: forward-auth
         fieldPaths:
           - metadata.name
         options:
           delimiter: '-'
-          index: -1
+          index: 0
       - select:
           kind: Ingress
         fieldPaths:
