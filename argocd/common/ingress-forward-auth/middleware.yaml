@@ -6,7 +6,22 @@ metadata:
 spec:
   forwardAuth:
     # TODO: Make the domain here easier to use with replacements
-    address: https://oauth2-proxy.oauth2-proxy.svc.homelab.wojoinc.local?allowed_groups=REPLACE_ME
+    address: https://oauth2-proxy.oauth2-proxy.svc.homelab.wojoinc.local/oauth2/auth?allowed_groups=REPLACE_ME
+    trustForwardHeader: true
+    tls:
+      insecureSkipVerify: true
+    authResponseHeaders:
+      - X-Auth-Request-Access-Token
+      - X-Auth-Request-Redirect
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: forward-auth-all
+spec:
+  forwardAuth:
+    # TODO: Make the domain here easier to use with replacements
+    address: https://oauth2-proxy.oauth2-proxy.svc.homelab.wojoinc.local/
     trustForwardHeader: true
     tls:
       insecureSkipVerify: true

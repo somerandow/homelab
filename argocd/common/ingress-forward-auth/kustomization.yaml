@@ -30,16 +30,13 @@ replacements:
           delimiter: '-'
           index: -1
       - select:
-          kind: Ingress
+          kind: Middleware
+          name: forward-auth-all
         fieldPaths:
-          - metadata.annotations.[traefik.ingress.kubernetes.io/router.middlewares]
+          - metadata.name
         options:
           delimiter: '-'
           index: -1
-  - source:
-      kind: Ingress
-      fieldPath: metadata.annotations.[oauth.homelab.wojoinc.xyz/namespace]
-    targets:
       - select:
           kind: Ingress
         fieldPaths:
@@ -47,14 +44,3 @@ replacements:
         options:
           delimiter: '-'
           index: -1
-patches:
-  # Add necessary annotations when publishing externally
-  - target:
-      kind: Ingress
-    patch: |-
-      apiVersion: networking.k8s.io/v1
-      kind: Ingress
-      metadata:
-        name: not-used
-        annotations:
-          traefik.ingress.kubernetes.io/router.middlewares: forward-auth@kubernetescrd

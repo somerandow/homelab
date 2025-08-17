@@ -47,3 +47,14 @@ patches:
       - op: replace
         path: /spec/rules/0/http/paths/0/path
         value: "/books"
+  # Doing this here sucks, but replacements makes it impossible to template this in a component
+  # because variable substitution doesn't exist
+  - target:
+      kind: Ingress
+    patch: |-
+      apiVersion: networking.k8s.io/v1
+      kind: Ingress
+      metadata:
+        name: not-used
+        annotations:
+          traefik.ingress.kubernetes.io/router.middlewares: media-readarr-forward-auth@kubernetescrd,media-readarr-forward-auth-all@kubernetescrd
