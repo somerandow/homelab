@@ -1,11 +1,3 @@
 ---
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-helmCharts:
-  - name: arr
-    repo: ghcr.io/somerandow/charts
-    version: 0.6.5
-    releaseName: bazarr
-    valuesFile: ../values.yaml
-    additionalValuesFiles:
-      - values.yaml
