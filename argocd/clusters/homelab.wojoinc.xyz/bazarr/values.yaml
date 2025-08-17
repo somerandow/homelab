@@ -5,10 +5,8 @@ ingress:
     host: "bazarr.wojoinc.xyz"
     tls: true
     annotations:
-      cert-manager.io/cluster-issuer: acme
-      dns.homelab.wojoinc.xyz/publish-external: "true"
-      external-dns.alpha.kubernetes.io/target: wojoinc.xyz.
-#      traefik.ingress.kubernetes.io/router.middlewares: media-forward-auth-all@kubernetescrd,media-forward-auth@kubernetescrd
+      oauth.homelab.wojoinc.xyz/namespace: media
+      oauth.homelab.wojoinc.xyz/allowed-groups: Bazarr%2DAdmins
 persistence:
   config:
     enabled: true

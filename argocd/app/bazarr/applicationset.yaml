@@ -38,6 +38,12 @@ spec:
         - repoURL: 'https://github.com/somerandow/homelab'
           targetRevision: main
           ref: values
+        - repoURL: 'https://github.com/somerandow/homelab'
+          targetRevision: main
+          path: argocd/app/bazarr/base
+          kustomize:
+            components:
+              - ../../../clusters/{{.name}}/readarr
       destination:
         server: '{{ .server }}'
         namespace: '{{ .values.namespace }}'
