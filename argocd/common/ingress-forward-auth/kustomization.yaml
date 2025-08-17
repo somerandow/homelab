@@ -37,10 +37,3 @@ replacements:
         options:
           delimiter: '-'
           index: -1
-      - select:
-          kind: Ingress
-        fieldPaths:
-          - metadata.annotations.[traefik.ingress.kubernetes.io/router.middlewares]
-        options:
-          delimiter: '-'
-          index: -1
