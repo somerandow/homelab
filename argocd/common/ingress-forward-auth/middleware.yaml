@@ -6,7 +6,7 @@ metadata:
 spec:
   forwardAuth:
     # TODO: Make the domain here easier to use with replacements
-    address: https://oauth2-proxy.oauth2-proxy.svc.homelab.wojoinc.local/oauth2/auth?allowed_groups=REPLACE_ME
+    address: https://oauth2-proxy.oauth2-proxy.svc.homelab.wojoinc.local/oauth2/start?allowed_groups=REPLACE_ME
     trustForwardHeader: true
     tls:
       insecureSkipVerify: true
