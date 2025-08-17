@@ -43,7 +43,7 @@ spec:
           path: argocd/app/bazarr/base
           kustomize:
             components:
-              - ../../../clusters/{{.name}}/readarr
+              - ../../../clusters/{{.name}}/bazarr
       destination:
         server: '{{ .server }}'
         namespace: '{{ .values.namespace }}'

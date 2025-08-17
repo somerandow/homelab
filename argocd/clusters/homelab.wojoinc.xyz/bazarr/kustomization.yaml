@@ -16,4 +16,4 @@ patches:
       metadata:
         name: not-used
         annotations:
-          traefik.ingress.kubernetes.io/router.middlewares: media-readarr-forward-auth-all@kubernetescrd,media-readarr-forward-auth@kubernetescrd
+          traefik.ingress.kubernetes.io/router.middlewares: media-bazarr-forward-auth-all@kubernetescrd,media-bazarr-forward-auth@kubernetescrd
