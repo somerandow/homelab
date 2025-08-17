@@ -6,7 +6,7 @@ helmCharts:
     repo: oci://ghcr.io/somerandow/charts
     version: 0.6.5
     releaseName: bazarr
-    valuesFile: argocd/app/bazarr/values.yaml
+    valuesFile: ../../../app/bazarr/values.yaml
     additionalValuesFiles:
       - values.yaml
 components:
