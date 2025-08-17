@@ -6,4 +6,4 @@ helmCharts:
     repo: oci://ghcr.io/somerandow/charts
     version: 0.6.5
     releaseName: bazarr
-    valuesFile: values.yaml
+    valuesFile: ../values.yaml
