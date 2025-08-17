@@ -1,6 +1,14 @@
 ---
 apiVersion: kustomize.config.k8s.io/v1alpha1
 kind: Component
+helmCharts:
+  - name: arr
+    repo:
+    version: 0.6.5
+    releaseName: bazarr
+    valuesFile: argocd/app/bazarr/values.yaml
+    additionalValuesFiles:
+      - values.yaml
 components:
   - ../../../common/ingress-forward-auth
   - ../../../common/ingress-publish-external

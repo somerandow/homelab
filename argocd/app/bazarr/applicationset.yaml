@@ -25,23 +25,20 @@ spec:
     spec:
       project: default
       sources:
-        - repoURL: ghcr.io/somerandow/charts
-          targetRevision: '{{.values.chartVersion}}'
-          chart: arr
-          helm:
-            releaseName: bazarr
-            valueFiles:
-              - $values/argocd/app/bazarr/values.yaml
-              - $values/argocd/clusters/{{.name}}/bazarr/values.yaml
-            skipCrds: false
-            ignoreMissingValueFiles: true
-          ref: helm
+#        - repoURL: ghcr.io/somerandow/charts
+#          targetRevision: '{{.values.chartVersion}}'
+#          chart: arr
+#          helm:
+#            releaseName: bazarr
+#            valueFiles:
+#              - $values/argocd/app/bazarr/values.yaml
+#              - $values/argocd/clusters/{{.name}}/bazarr/values.yaml
+#            skipCrds: false
+#            ignoreMissingValueFiles: true
+#          ref: helm
         - repoURL: 'https://github.com/somerandow/homelab'
           targetRevision: main
-          ref: values
-        - repoURL: 'https://github.com/somerandow/homelab'
-          targetRevision: main
-          path: $helm
+          path: argocd/app/bazarr/base
           kustomize:
             components:
               - ../../../clusters/{{.name}}/bazarr
