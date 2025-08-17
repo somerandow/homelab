@@ -35,12 +35,13 @@ spec:
               - $values/argocd/clusters/{{.name}}/bazarr/values.yaml
             skipCrds: false
             ignoreMissingValueFiles: true
+          ref: helm
         - repoURL: 'https://github.com/somerandow/homelab'
           targetRevision: main
           ref: values
         - repoURL: 'https://github.com/somerandow/homelab'
           targetRevision: main
-          path: argocd/app/bazarr/base
+          path: $helm
           kustomize:
             components:
               - ../../../clusters/{{.name}}/bazarr
