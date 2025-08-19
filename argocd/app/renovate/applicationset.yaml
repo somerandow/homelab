@@ -1,0 +1,59 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: renovate
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions:
+    - 'missingkey=error'
+  generators:
+    - clusters:
+        selector:
+          matchLabels:
+            argocd.argoproj.io/secret-type: cluster
+        values:
+          chartVersion: "43.20.2"
+          namespace: renovate
+  template:
+    metadata:
+      name: 'renovate-{{.name | slugify}}'
+      labels:
+        app.kubernetes.io/component: argocd-application
+        homelab.wojoinc.xyz/app-group: 'sec'
+    spec:
+      project: default
+      sources:
+        - repoURL: https://renovate.github.io/manifests
+          targetRevision: '{{.values.chartVersion}}'
+          chart: renovate
+          helm:
+            releaseName: renovate
+            valueFiles:
+              - $values/argocd/app/renovate/values.yaml
+              - $values/argocd/clusters/{{.name}}/renovate/values.yaml
+            skipCrds: false
+            ignoreMissingValueFiles: true
+        - repoURL: 'https://github.com/somerandow/homelab'
+          targetRevision: main
+          ref: values
+        - repoURL: 'https://github.com/somerandow/homelab'
+          targetRevision: main
+          path: argocd/app/renovate/base
+          kustomize:
+            components:
+              - ../../../clusters/{{.name}}/renovate
+      destination:
+        server: '{{ .server }}'
+        namespace: '{{ .values.namespace }}'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+          - ApplyOutOfSyncOnly=true
+          - ServerSideApply=true
+          - RespectIgnoreDifferences=true
+      ignoreDifferences: []

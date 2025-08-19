@@ -1,0 +1,17 @@
+---
+serviceAccount:
+  create: true
+  name: renovate
+renovate:
+  config: |
+    {
+      "platform": "github",
+      "autodiscover": "true",
+      "autodiscoverFilter": ["somerandow/*"],
+      "dryRun": true,
+    }
+envFrom:
+  - secretRef:
+      name: renovate-github-auth
+  - secretRef:
+      name: renovate-redis-auth

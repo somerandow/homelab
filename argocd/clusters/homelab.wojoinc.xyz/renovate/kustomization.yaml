@@ -1,0 +1,36 @@
+---
+apiVersion: kustomize.config.k8s.io/v1alpha1
+kind: Component
+resources:
+  - vaultauths.yaml
+  - vaultstaticsecrets.yaml
+configMapGenerator:
+  - name: replacement-config
+    options:
+      annotations:
+        # Skip rendering CM in build output
+        config.kubernetes.io/local-config: "true"
+    literals:
+      - clusterDomain=homelab.wojoinc.local
+patches:
+  - target:
+      kind: Redis
+    patch: |-
+      - op: add
+        path: /spec/storage/volumeClaimTemplate/spec/storageClassName
+        value: rook-rbd-fast
+replacements:
+  - source:
+      name: replacement-config
+      kind: ConfigMap
+      fieldPath: data.clusterDomain
+    targets:
+      - select:
+          kind: Certificate
+        fieldPaths:
+          - spec.commonName
+          - spec.dnsNames.0
+          - spec.dnsNames.1
+        options:
+          delimiter: '.'
+          index: 3
