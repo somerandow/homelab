@@ -19,3 +19,7 @@ ingress:
     forwardAuth:
       allowedGroups:
         - Radarr-Admins
+  api:
+    forwardAuth:
+      allowedGroups:
+        - Radarr-Admins
