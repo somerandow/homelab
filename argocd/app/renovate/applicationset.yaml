@@ -25,7 +25,7 @@ spec:
     spec:
       project: default
       sources:
-        - repoURL: https://renovate.github.io/manifests
+        - repoURL: ghcr.io/renovatebot/charts
           targetRevision: '{{.values.chartVersion}}'
           chart: renovate
           helm:
