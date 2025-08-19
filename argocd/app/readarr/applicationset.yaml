@@ -32,7 +32,7 @@ spec:
             releaseName: readarr
             valueFiles:
               - $values/argocd/app/readarr/values.yaml
-              - '$values/argocd/env/{{.cluster-environment}}/readarr/values.yaml'
+              - "$values/argocd/env/{{.cluster-environment}}/readarr/values.yaml"
               - $values/argocd/clusters/{{.name}}/readarr/values.yaml
         - repoURL: 'https://github.com/somerandow/homelab'
           targetRevision: main
