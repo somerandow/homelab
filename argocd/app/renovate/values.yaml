@@ -6,9 +6,9 @@ renovate:
   config: |
     {
       "platform": "github",
-      "autodiscover": "true",
+      "autodiscover": true,
       "autodiscoverFilter": ["/somerandow\/(charts|homelab)/"],
-      "dryRun": true,
+      "dryRun": null,
     }
 envFrom:
   - secretRef:
