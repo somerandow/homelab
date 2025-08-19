@@ -4,6 +4,6 @@ kind: Kustomization
 helmCharts:
   - name: arr
     repo: oci://ghcr.io/somerandow/charts
-    version: 0.6.5
+    version: 0.7.7
     releaseName: bazarr
     valuesFile: ../values.yaml
