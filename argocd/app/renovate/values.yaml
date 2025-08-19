@@ -7,7 +7,7 @@ renovate:
     {
       "platform": "github",
       "autodiscover": "true",
-      "autodiscoverFilter": ["somerandow/*"],
+      "autodiscoverFilter": ["/somerandow\/(charts|homelab)/"],
       "dryRun": true,
     }
 envFrom:
