@@ -36,7 +36,7 @@ spec:
               - $values/argocd/clusters/{{.name}}/readarr/values.yaml
         - repoURL: 'https://github.com/somerandow/homelab'
           targetRevision: main
-          ref: $values
+          ref: values
       destination:
         server: '{{ .server }}'
         namespace: '{{ .values.namespace }}'
