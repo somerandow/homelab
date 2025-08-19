@@ -1,0 +1,13 @@
+---
+serviceAccount:
+  create: true
+service:
+  port: 8787
+image:
+  repository: ghcr.io/home-operations/readarr
+  tag: 0.4.18.2805
+ingress:
+  main:
+    forwardAuth:
+      allowedGroups:
+        - Readarr-Admins

@@ -14,7 +14,7 @@ spec:
           matchLabels:
             argocd.argoproj.io/secret-type: cluster
         values:
-          targetRevision: "main"
+          targetRevision: "0.7.5"
           namespace: media
   template:
     metadata:
@@ -25,19 +25,25 @@ spec:
     spec:
       project: default
       sources:
-        - repoURL: 'https://github.com/somerandow/homelab'
+        - repoURL: ghcr.io/somerandow/charts
           targetRevision: '{{.values.targetRevision}}'
-          path: argocd/app/readarr/base
-          kustomize:
-            components:
-              - ../../../clusters/{{.name}}/readarr
+          chart: arr
+          helm:
+            releaseName: readarr
+            valueFiles:
+              - $values/argocd/app/readarr/values.yaml
+              - $values/argocd/env/{{.cluster-environment}}/readarr/values.yaml
+              - $values/argocd/clusters/{{.name}}/readarr/values.yaml
+        - repoURL: 'https://github.com/somerandow/homelab'
+          targetRevision: main
+          ref: $values
       destination:
         server: '{{ .server }}'
         namespace: '{{ .values.namespace }}'
       syncPolicy:
         automated:
-          prune: true
-          selfHeal: true
+          prune: false
+          selfHeal: false
         syncOptions:
           - CreateNamespace=true
           - ApplyOutOfSyncOnly=true
