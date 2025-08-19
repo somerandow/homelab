@@ -1,10 +1,11 @@
+---
 serviceAccount:
   create: true
 service:
   port: 7878
 image:
   repository: ghcr.io/home-operations/radarr
-  tag: 5.27.0
+  tag: 5.27.4
 probes:
   livenessCmd:
     - /usr/bin/env
@@ -13,3 +14,8 @@ probes:
     # yamllint disable rule:line-length
     - curl --fail localhost:7878/api/v3/system/status?apiKey=`IFS=\> && while read -d
       \< E C; do if [[ $E = "ApiKey" ]]; then echo $C; fi; done < /config/config.xml`
+ingress:
+  main:
+    forwardAuth:
+      allowedGroups:
+        - Radarr-Admins

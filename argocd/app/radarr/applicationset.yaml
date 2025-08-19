@@ -14,7 +14,7 @@ spec:
           matchLabels:
             argocd.argoproj.io/secret-type: cluster
         values:
-          chartVersion: "0.6.5"
+          chartVersion: "0.7.5"
           namespace: media
   template:
     metadata:
@@ -32,6 +32,7 @@ spec:
             releaseName: radarr
             valueFiles:
               - $values/argocd/app/radarr/values.yaml
+              - $values/argocd/env/{{index .metadata.labels "cluster-environment"}}/readarr/values.yaml
               - $values/argocd/clusters/{{.name}}/radarr/values.yaml
             skipCrds: false
             ignoreMissingValueFiles: true
