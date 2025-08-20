@@ -5,7 +5,7 @@ serviceAccount:
 cronjob:
   timeZone: America/Chicago
   preCommand: |
-    export RENOVATE_TOKEN=$(cat /var/run/secrets/app-install-token)
+    export RENOVATE_TOKEN=$(cat /var/run/install-token/token)
     export RENOVATE_GITHUB_COM_TOKEN=$RENOVATE_TOKEN
   initContainers:
     - name: app-installation-token
@@ -14,17 +14,17 @@ cronjob:
         - secretRef:
             name: renovate-github-app
       command:
-        - "node"
-        - "index.js"
-        - "$(client_id)"
-        - "$(install_id)"
-        - "/var/run/secrets/private-key"
-        - ">"
-        - "/var/run/secrets/app-install-token"
+        - sh
+        - '-c'
+        - 'node index.js $(client_id) $(install_id) /var/run/secrets/private-key'
+        - '>'
+        - /var/run/install-token/token
       volumeMounts:
         - name: private-key
           mountPath: /var/run/secrets/private-key
           subPath: private-key
+        - name: install-token
+          mountPath: /var/run/install-token
 renovate:
   config: |
     {
@@ -44,3 +44,9 @@ extraVolumes:
       items:
         - key: private_key
           path: private-key
+  - name: install-token
+    emptyDir:
+      medium: Memory
+extraVolumeMounts:
+  - name: install-token
+    mountPath: /var/run/install-token
