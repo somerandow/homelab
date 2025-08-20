@@ -14,7 +14,7 @@ spec:
           matchLabels:
             argocd.argoproj.io/secret-type: cluster
         values:
-          # renovate: datasource=helm depName=oci://ghcr.io/somerandow/charts/arr
+          # renovate: datasource=docker depName=ghcr.io/somerandow/charts/arr
           targetRevision: "0.6.5"
           namespace: media
   template:
