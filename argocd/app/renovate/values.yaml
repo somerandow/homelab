@@ -17,6 +17,7 @@ cronjob:
         - "$(client_id)"
         - "$(install_id)"
         - "/var/run/secrets/private-key"
+        - "--"
         - ">"
         - "/var/run/secrets/app-install-token"
       volumeMounts:
