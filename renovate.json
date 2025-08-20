@@ -17,5 +17,15 @@
       "matchCurrentVersion": "!/^0/",
       "automerge": true
     }
+  ],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "managerFilePatterns": ["/^.+applicationset.yaml$/"],
+      "matchStrings": [
+        "# renovate: datasource=(?<datasource>.*?) depName=(?<depName>.*?)\\s+targetRevision: \\S?(?<currentValue>[^\"]+)\\S"
+      ],
+      "versioningTemplate": "helm"
+    }
   ]
 }
