@@ -2,17 +2,38 @@
 serviceAccount:
   create: true
   name: renovate
+cronjob:
+  timeZone: America/Chicago
+  initContainers:
+    - name: app-installation-token
+      image: ghcr.io/mshekow/github-app-installation-token:latest
+      envFrom:
+        secretRef:
+          name: renovate-github-app
+      args:
+        - "$client_id"
+        - "$install_id"
+        - "/var/run/secrets/private_key"
+      volumeMounts:
+        - name: private_key
+          mountPath: /var/run/secrets/private_key
+          subPath: private_key
 renovate:
   config: |
     {
       "platform": "github",
       "autodiscover": true,
-      "autodiscoverFilter": ["/somerandow\/(charts|homelab)/"],
-      "dryRun": null,
-      "gitAuthor": "RenovateBot <renovate@wojoinc.xyz>"
+      "dryRun": null
     }
 envFrom:
   - secretRef:
-      name: renovate-github-auth
+      name: renovate-github-app
   - secretRef:
       name: renovate-redis-auth
+extraVolumes:
+  - name: private_key
+    secret:
+      secretName: renovate-github-app
+      items:
+        - key: private_key
+          path: private_key
