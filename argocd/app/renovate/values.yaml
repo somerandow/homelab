@@ -13,11 +13,12 @@ cronjob:
       envFrom:
         - secretRef:
             name: renovate-github-app
-      args:
+      command:
+        - "node"
+        - "index.js"
         - "$(client_id)"
         - "$(install_id)"
         - "/var/run/secrets/private-key"
-        - "--"
         - ">"
         - "/var/run/secrets/app-install-token"
       volumeMounts:
