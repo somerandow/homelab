@@ -15,9 +15,9 @@ cronjob:
         - "$install_id"
         - "/var/run/secrets/private_key"
       volumeMounts:
-        - name: private_key
-          mountPath: /var/run/secrets/private_key
-          subPath: private_key
+        - name: private-key
+          mountPath: /var/run/secrets/private-key
+          subPath: private-key
 renovate:
   config: |
     {
@@ -36,4 +36,4 @@ extraVolumes:
       secretName: renovate-github-app
       items:
         - key: private_key
-          path: private_key
+          path: private-key
