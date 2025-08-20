@@ -11,8 +11,8 @@ cronjob:
         - secretRef:
             name: renovate-github-app
       args:
-        - "$client_id"
-        - "$install_id"
+        - "$(client_id)"
+        - "$(install_id)"
         - "/var/run/secrets/private-key"
       volumeMounts:
         - name: private-key
