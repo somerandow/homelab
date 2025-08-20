@@ -16,6 +16,14 @@
       ],
       "matchCurrentVersion": "!/^0/",
       "automerge": true
+    },
+    {
+      "description": "Add app name to PR title for ApplicationSet changes",
+      "matchFileNames": [
+        "**/applicationset.yaml"
+      ],
+      "commitMessageSuffix": "({{parentDir}})",
+      "additionalBranchPrefix": "{{parentDir}}-"
     }
   ],
   "customManagers": [
