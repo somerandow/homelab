@@ -16,9 +16,7 @@ cronjob:
       command:
         - sh
         - '-c'
-        - 'node index.js $(client_id) $(install_id) /var/run/secrets/private-key'
-        - '>'
-        - /var/run/install-token/token
+        - 'node index.js $(client_id) $(install_id) /var/run/secrets/private-key > /var/run/install-token/token'
       volumeMounts:
         - name: private-key
           mountPath: /var/run/secrets/private-key
