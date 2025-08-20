@@ -14,7 +14,8 @@ spec:
           matchLabels:
             argocd.argoproj.io/secret-type: cluster
         values:
-          chartVersion: "0.6.5"
+          # renovate: datasource=helm depName=ghcr.io/somerandow/charts/arr
+          targetRevision: "0.6.5"
           namespace: media
   template:
     metadata:
@@ -26,7 +27,7 @@ spec:
       project: default
       sources:
         - repoURL: ghcr.io/somerandow/charts
-          targetRevision: '{{.values.chartVersion}}'
+          targetRevision: '{{.values.targetRevision}}'
           chart: arr
           helm:
             releaseName: lidarr
