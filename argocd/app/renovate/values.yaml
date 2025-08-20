@@ -4,6 +4,9 @@ serviceAccount:
   name: renovate
 cronjob:
   timeZone: America/Chicago
+  preCommand: |
+    export RENOVATE_TOKEN=$(cat /var/run/secrets/app-install-token)
+    export RENOVATE_GITHUB_COM_TOKEN=$RENOVATE_TOKEN
   initContainers:
     - name: app-installation-token
       image: ghcr.io/mshekow/github-app-installation-token:latest
@@ -14,6 +17,8 @@ cronjob:
         - "$(client_id)"
         - "$(install_id)"
         - "/var/run/secrets/private-key"
+        - ">"
+        - "/var/run/secrets/app-install-token"
       volumeMounts:
         - name: private-key
           mountPath: /var/run/secrets/private-key
