@@ -9,6 +9,7 @@ renovate:
       "autodiscover": true,
       "autodiscoverFilter": ["/somerandow\/(charts|homelab)/"],
       "dryRun": null,
+      "gitAuthor": "RenovateBot <renovate@wojoinc.xyz>"
     }
 envFrom:
   - secretRef:
