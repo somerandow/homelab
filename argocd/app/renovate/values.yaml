@@ -31,7 +31,7 @@ envFrom:
   - secretRef:
       name: renovate-redis-auth
 extraVolumes:
-  - name: private_key
+  - name: private-key
     secret:
       secretName: renovate-github-app
       items:
