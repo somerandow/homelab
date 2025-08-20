@@ -8,8 +8,8 @@ cronjob:
     - name: app-installation-token
       image: ghcr.io/mshekow/github-app-installation-token:latest
       envFrom:
-        secretRef:
-          name: renovate-github-app
+        - secretRef:
+            name: renovate-github-app
       args:
         - "$client_id"
         - "$install_id"
