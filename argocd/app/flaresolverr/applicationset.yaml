@@ -15,7 +15,7 @@ spec:
             argocd.argoproj.io/secret-type: cluster
         values:
           # renovate: datasource=docker depName=ghcr.io/somerandow/charts/flaresolverr
-          chartVersion: "2.0.0"
+          targetRevision: "2.0.0"
           namespace: media
   template:
     metadata:
@@ -27,7 +27,7 @@ spec:
       project: default
       sources:
         - repoURL: ghcr.io/somerandow/charts
-          targetRevision: '{{.values.chartVersion}}'
+          targetRevision: '{{.values.targetRevision}}'
           chart: flaresolverr
           helm:
             releaseName: flaresolverr
