@@ -32,7 +32,10 @@ spec:
           helm:
             releaseName: flaresolverr
             valueFiles:
-              - argocd/app/flaresolverr/values.yaml
+              - $values/argocd/app/flaresolverr/values.yaml
+        - repoURL: 'https://github.com/somerandow/homelab'
+          targetRevision: main
+          ref: values
       destination:
         server: '{{ .server }}'
         namespace: '{{ .values.namespace }}'
