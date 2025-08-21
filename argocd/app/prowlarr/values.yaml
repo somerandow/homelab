@@ -5,3 +5,8 @@ service:
 image:
   repository: ghcr.io/home-operations/prowlarr
   tag: 2.0.3
+ingress:
+  main:
+    forwardAuth:
+      allowedGroups:
+        - Prowlarr-Admins
