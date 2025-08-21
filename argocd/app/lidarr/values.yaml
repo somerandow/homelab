@@ -12,3 +12,12 @@ probes:
     - -c
     - curl --fail localhost:8686/api/v1/system/status?apiKey=`IFS=\> && while read -d
       \< E C; do if [[ $E = "ApiKey" ]]; then echo $C; fi; done < /config/config.xml`
+ingress:
+  main:
+    forwardAuth:
+      allowedGroups:
+        - Lidarr-Admins
+  api:
+    forwardAuth:
+      allowedGroups:
+        - Lidarr-Admins

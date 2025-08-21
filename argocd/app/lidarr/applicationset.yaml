@@ -33,6 +33,7 @@ spec:
             releaseName: lidarr
             valueFiles:
               - $values/argocd/app/lidarr/values.yaml
+              - $values/argocd/env/{{index .metadata.labels "cluster-environment"}}/lidarr/values.yaml
               - $values/argocd/clusters/{{.name}}/lidarr/values.yaml
             skipCrds: false
             ignoreMissingValueFiles: true
