@@ -14,7 +14,8 @@ spec:
           matchLabels:
             argocd.argoproj.io/secret-type: cluster
         values:
-          chartVersion: "0.6.5"
+          # renovate: datasource=docker depName=ghcr.io/somerandow/charts/arr
+          targetRevision: "0.7.7"
           namespace: media
   template:
     metadata:
@@ -26,12 +27,13 @@ spec:
       project: default
       sources:
         - repoURL: ghcr.io/somerandow/charts
-          targetRevision: '{{.values.chartVersion}}'
+          targetRevision: '{{.values.targetRevision}}'
           chart: arr
           helm:
             releaseName: sonarr
             valueFiles:
               - $values/argocd/app/sonarr/values.yaml
+              - $values/argocd/env/{{index .metadata.labels "cluster-environment"}}/sonarr/values.yaml
               - $values/argocd/clusters/{{.name}}/sonarr/values.yaml
             skipCrds: false
             ignoreMissingValueFiles: true
