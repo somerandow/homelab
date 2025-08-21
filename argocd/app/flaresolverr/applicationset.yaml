@@ -31,6 +31,8 @@ spec:
           chart: flaresolverr
           helm:
             releaseName: flaresolverr
+            valueFiles:
+              - argocd/app/flaresolverr/values.yaml
       destination:
         server: '{{ .server }}'
         namespace: '{{ .values.namespace }}'

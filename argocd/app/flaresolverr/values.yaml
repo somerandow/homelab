@@ -1,0 +1,9 @@
+---
+deployments:
+  main:
+    containers:
+      main:
+        resources:
+          limits:
+            cpu: "1"
+            memory: 1Gi
