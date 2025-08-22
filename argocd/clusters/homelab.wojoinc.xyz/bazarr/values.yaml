@@ -1,12 +1,10 @@
 ingress:
   main:
-    enabled: true
     className: "traefik-external"
     host: "bazarr.wojoinc.xyz"
-    tls: true
-    annotations:
-      oauth.homelab.wojoinc.xyz/namespace: media
-      oauth.homelab.wojoinc.xyz/allowed-groups: Bazarr%2DAdmins
+    forwardAuth:
+      enabled: true
+      endpoint: oauth2-proxy.oauth2-proxy.svc.homelab.wojoinc.local
 persistence:
   config:
     enabled: true

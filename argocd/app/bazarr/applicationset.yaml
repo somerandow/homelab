@@ -14,7 +14,8 @@ spec:
           matchLabels:
             argocd.argoproj.io/secret-type: cluster
         values:
-          chartVersion: "0.6.5"
+          # renovate: datasource=docker depName=ghcr.io/somerandow/charts/arr
+          targetRevision: "0.7.7"
           namespace: media
   template:
     metadata:
@@ -25,30 +26,27 @@ spec:
     spec:
       project: default
       sources:
-#        - repoURL: ghcr.io/somerandow/charts
-#          targetRevision: '{{.values.chartVersion}}'
-#          chart: arr
-#          helm:
-#            releaseName: bazarr
-#            valueFiles:
-#              - $values/argocd/app/bazarr/values.yaml
-#              - $values/argocd/clusters/{{.name}}/bazarr/values.yaml
-#            skipCrds: false
-#            ignoreMissingValueFiles: true
-#          ref: helm
+        - repoURL: ghcr.io/somerandow/charts
+          targetRevision: '{{.values.targetRevision}}'
+          chart: arr
+          helm:
+            releaseName: bazarr
+            valueFiles:
+              - $values/argocd/app/bazarr/values.yaml
+              - $values/argocd/env/{{index .metadata.labels "cluster-environment"}}/bazarr/values.yaml
+              - $values/argocd/clusters/{{.name}}/bazarr/values.yaml
+            skipCrds: false
+            ignoreMissingValueFiles: true
         - repoURL: 'https://github.com/somerandow/homelab'
           targetRevision: main
-          path: argocd/app/bazarr/base
-          kustomize:
-            components:
-              - ../../../clusters/{{.name}}/bazarr
+          ref: values
       destination:
         server: '{{ .server }}'
         namespace: '{{ .values.namespace }}'
       syncPolicy:
         automated:
           prune: true
-          selfHeal: false
+          selfHeal: true
         syncOptions:
           - CreateNamespace=true
           - ApplyOutOfSyncOnly=true

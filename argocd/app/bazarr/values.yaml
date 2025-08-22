@@ -1,3 +1,4 @@
+---
 serviceAccount:
   create: true
 service:
@@ -5,3 +6,8 @@ service:
 image:
   repository: ghcr.io/home-operations/bazarr
   tag: 1.5.2
+ingress:
+  main:
+    forwardAuth:
+      allowedGroups:
+        - Bazarr-Admins
