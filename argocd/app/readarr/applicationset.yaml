@@ -14,7 +14,7 @@ spec:
           matchLabels:
             argocd.argoproj.io/secret-type: cluster
         values:
-          targetRevision: "0.7.5"
+          targetRevision: "0.7.7"
           namespace: media
   template:
     metadata:
