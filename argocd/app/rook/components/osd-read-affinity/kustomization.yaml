@@ -13,3 +13,5 @@ patches:
         csi:
           readAffinity:
             enabled: true
+            crushLocationLabels:
+              - 'topology.kubernetes.io/region'
