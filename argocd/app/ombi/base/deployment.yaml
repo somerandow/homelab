@@ -30,7 +30,7 @@ spec:
           value: "568"
         - name: TZ
           value: America/Chicago
-        image: ghcr.io/linuxserver/ombi:4.47.1
+        image: ghcr.io/linuxserver/ombi:4.49.3-development
         imagePullPolicy: IfNotPresent
         livenessProbe:
           failureThreshold: 3
