@@ -7,6 +7,7 @@ components:
   - ../../../app/rook/components/osd-read-affinity
   - ../../../app/rook/components/blockpool
   - ../../../app/rook/components/filesystem
+  - ../../../app/rook/components/objectstore
   - ../../../env/prod/ingress-tls
 resources:
   - serverstransport.yaml
@@ -47,3 +48,12 @@ patches:
       - op: add
         path: /spec/tls/0/hosts/0
         value: ceph.wojoinc.xyz
+  - target:
+      kind: Certificate
+    patch: |-
+      - op: replace
+        path: /spec/commonName
+        value: rgw-fast.rook-ceph.homelab.wojoinc.local
+      - op: add
+        path: /spec/dnsNames/0
+        value: rgw-fast.rook-ceph.homelab.wojoinc.local
