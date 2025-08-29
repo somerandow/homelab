@@ -53,7 +53,7 @@ patches:
     patch: |-
       - op: replace
         path: /spec/commonName
-        value: rgw-fast.rook-ceph.homelab.wojoinc.local
+        value: rook-ceph-rgw-rgw-fast.rook-ceph.homelab.wojoinc.local
       - op: add
         path: /spec/dnsNames/0
-        value: rgw-fast.rook-ceph.homelab.wojoinc.local
+        value: rook-ceph-rgw-rgw-fast.rook-ceph.homelab.wojoinc.local
