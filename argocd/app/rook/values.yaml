@@ -6,3 +6,4 @@ csi:
     labels:
       monitoring.homelab.wojoinc.xyz/enabled: "true"
 logLevel: INFO
+obcAllowAdditionalConfigFields: "maxObjects,maxSize,bucketOwner"
