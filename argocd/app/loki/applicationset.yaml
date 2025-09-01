@@ -1,0 +1,58 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: loki
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions:
+    - 'missingkey=error'
+  generators:
+    - clusters:
+        selector:
+          matchLabels:
+            argocd.argoproj.io/secret-type: cluster
+        values:
+          # renovate: datasource=docker depName=ghcr.io/grafana/helm-charts/loki
+          targetRevision: "6.37.0"
+          namespace: loki
+  template:
+    metadata:
+      name: 'loki-{{.name | slugify}}'
+      labels:
+        app.kubernetes.io/component: argocd-application
+        homelab.wojoinc.xyz/app-group: 'monitoring'
+    spec:
+      project: default
+      sources:
+        - repoURL: ghcr.io/grafana/helm-charts
+          targetRevision: '{{.values.targetRevision}}'
+          chart: loki
+          helm:
+            releaseName: loki
+            valueFiles:
+              - $values/argocd/app/loki/values.yaml
+              - $values/argocd/env/{{index .metadata.labels "cluster-environment"}}/loki/values.yaml
+              - $values/argocd/clusters/{{.name}}/loki/values.yaml
+            skipCrds: false
+            ignoreMissingValueFiles: true
+        - repoURL: 'https://github.com/somerandow/homelab'
+          targetRevision: main
+          ref: values
+        - repoURL: 'https://github.com/somerandow/homelab'
+          targetRevision: main
+          path: argocd/app/loki/base
+      destination:
+        server: '{{ .server }}'
+        namespace: '{{ .values.namespace }}'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+          - ApplyOutOfSyncOnly=true
+          - ServerSideApply=true
+          - RespectIgnoreDifferences=true
+      ignoreDifferences: []
