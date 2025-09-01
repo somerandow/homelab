@@ -1,0 +1,58 @@
+---
+role: Stateless-Aggregator
+rbac:
+  create: true
+service:
+  type: LoadBalancer
+env:
+  - name: VECTOR_HOSTNAME
+    valueFrom:
+      fieldRef:
+        fieldPath: spec.nodeName
+podMonitor:
+  enabled: true
+  additionalLabels:
+    monitoring.homelab.wojoinc.xyz/enabled: "true"
+customConfig:
+  sources:
+    kubernetes:
+      type: vector
+      address: 0.0.0.0:6000
+    vector_metrics:
+      type: internal_metrics
+  transforms:
+    kubernetes_container_logs:
+      type: remap
+      inputs:
+        - kubernetes
+      source: |-
+        del(.kubernetes.node_labels)
+        
+        if exists(.kubernetes.pod_labels."app.kubernetes.io/name") {
+          .service_name = .kubernetes.pod_labels."app.kubernetes.io/name"
+        } else {
+          .service_name = "missing_app_name_label"
+        }
+  sinks:
+    kubernetes_loki:
+      type: loki
+      inputs:
+        - kubernetes_container_logs
+      encoding:
+        codec: json
+      labels:
+        container: |-
+          {{ print "{{ kubernetes.container_name }}" }}
+        namespace: |-
+          {{ print "{{ kubernetes.pod_namespace }}" }}
+        pod: |-
+          {{ print "{{ kubernetes.pod_name }}" }}
+        service_name: |-
+          {{ print "{{ service_name }}" }}
+        stream: |-
+          {{ print "{{ stream }}" }}
+    prom-exporter:
+      type: prometheus_exporter
+      inputs:
+        - vector_metrics
+      address: 0.0.0.0:9090

@@ -1,0 +1,54 @@
+---
+customConfig:
+  sources:
+    talos_kernel:
+      address: 0.0.0.0:6050
+      type: socket
+      mode: udp
+      max_length: 102400
+      decoding:
+        codec: json
+      host_key: __host
+
+    talos_services:
+      address: 0.0.0.0:6051
+      type: socket
+      mode: udp
+      max_length: 102400
+      decoding:
+        codec: json
+      host_key: __host
+  sinks:
+    talos_kernel_loki:
+      type: loki
+      inputs:
+        - talos_kernel
+      encoding:
+        codec: json
+        except_fields:
+          - __host
+      batch:
+        max_bytes: 1048576
+      out_of_order_action: rewrite_timestamp
+      labels:
+        hostname: >-
+          {{`{{ __host }}`}}
+        facility: >-
+          {{`{{ facility }}`}}
+
+    talos_service_loki:
+      type: loki
+      inputs:
+        - talos_services
+      encoding:
+        codec: json
+        except_fields:
+          - __host
+      batch:
+        max_bytes: 400000
+      out_of_order_action: rewrite_timestamp
+      labels:
+        hostname: >-
+          {{`{{ __host }}`}}
+        service: >-
+          {{`{{ "talos-service" }}`}}

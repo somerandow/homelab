@@ -1,0 +1,60 @@
+---
+role: Agent
+extraVolumes:
+  - name: pod-logs
+    hostPath:
+      path: /var/log/pods
+extraVolumeMounts:
+  - mountPath: /var/log/pods
+    name: pod-logs
+    readOnly: true
+rbac:
+  create: true
+env:
+  - name: VECTOR_HOSTNAME
+    valueFrom:
+      fieldRef:
+        fieldPath: spec.nodeName
+podMonitor:
+  enabled: true
+  additionalLabels:
+    monitoring.homelab.wojoinc.xyz/enabled: "true"
+customConfig:
+  sources:
+    kubernetes:
+      type: kubernetes_logs
+    vector_metrics:
+      type: internal_metrics
+  sinks:
+    vector:
+      type: vector
+      inputs:
+        - kubernetes
+    prom-exporter:
+      type: prometheus_exporter
+      inputs:
+        - vector_metrics
+      address: 0.0.0.0:9090
+defaultVolumes:
+  - name: var-log
+    hostPath:
+      path: "/var/log/"
+  - name: procfs
+    hostPath:
+      path: "/proc"
+  - name: sysfs
+    hostPath:
+      path: "/sys"
+defaultVolumeMounts:
+  - name: var-log
+    mountPath: "/var/log/"
+    readOnly: true
+  - name: procfs
+    mountPath: "/host/proc"
+    readOnly: true
+  - name: sysfs
+    mountPath: "/host/sys"
+    readOnly: true
+persistence:
+  hostPath:
+    enabled: false

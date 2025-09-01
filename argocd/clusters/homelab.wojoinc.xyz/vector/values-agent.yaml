@@ -1,0 +1,4 @@
+customConfig:
+  sinks:
+    vector:
+      address: http://vector-aggregator.vector.svc.homelab.wojoinc.local:6000

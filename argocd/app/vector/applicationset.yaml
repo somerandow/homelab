@@ -1,0 +1,67 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: vector
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions:
+    - 'missingkey=error'
+  generators:
+    - clusters:
+        selector:
+          matchLabels:
+            argocd.argoproj.io/secret-type: cluster
+        values:
+          # renovate: datasource=docker depName=ghcr.io/vectordotdev/helm-charts/vector
+          targetRevision: "0.45.0"
+          namespace: vector
+  template:
+    metadata:
+      name: 'vector-{{.name | slugify}}'
+      labels:
+        app.kubernetes.io/component: argocd-application
+        homelab.wojoinc.xyz/app-group: 'monitoring'
+    spec:
+      project: default
+      sources:
+        - repoURL: ghcr.io/vectordotdev/helm-charts
+          targetRevision: '{{.values.targetRevision}}'
+          chart: vector
+          helm:
+            releaseName: vector-agent
+            valueFiles:
+              - $values/argocd/app/vector/values-agent.yaml
+              - $values/argocd/env/{{index .metadata.labels "cluster-environment"}}/vector/values-agent.yaml
+              - $values/argocd/clusters/{{.name}}/vector/values-agent.yaml
+            skipCrds: false
+            ignoreMissingValueFiles: true
+        - repoURL: ghcr.io/vectordotdev/helm-charts
+          targetRevision: '{{.values.targetRevision}}'
+          chart: vector
+          helm:
+            releaseName: vector-aggregator
+            valueFiles:
+              - $values/argocd/app/vector/values-aggregator.yaml
+              - $values/argocd/env/{{index .metadata.labels "cluster-flavor"}}/vector/values-aggregator.yaml
+              - $values/argocd/env/{{index .metadata.labels "cluster-environment"}}/vector/values-aggregator.yaml
+              - $values/argocd/clusters/{{.name}}/vector/values-aggregator.yaml
+            skipCrds: false
+            ignoreMissingValueFiles: true
+        - repoURL: 'https://github.com/somerandow/homelab'
+          targetRevision: main
+          ref: values
+      destination:
+        server: '{{ .server }}'
+        namespace: '{{ .values.namespace }}'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+          - ApplyOutOfSyncOnly=true
+          - ServerSideApply=true
+          - RespectIgnoreDifferences=true
+      ignoreDifferences: []

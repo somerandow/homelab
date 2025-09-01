@@ -1,0 +1,8 @@
+customConfig:
+  sinks:
+    kubernetes_loki:
+      endpoint: http://loki-distributor.loki.svc.homelab.wojoinc.local:3100
+    talos_kernel_loki:
+      endpoint: http://loki-distributor.loki.svc.homelab.wojoinc.local:3100
+    talos_service_loki:
+      endpoint: http://loki-distributor.loki.svc.homelab.wojoinc.local:3100
