@@ -44,7 +44,7 @@ spec:
             releaseName: vector-aggregator
             valueFiles:
               - $values/argocd/app/vector/values-aggregator.yaml
-              - $values/argocd/env/{{index .metadata.labels "cluster-flavor"}}/vector/values-aggregator.yaml
+              - $values/argocd/flavor/{{index .metadata.labels "cluster-flavor"}}/vector/values-aggregator.yaml
               - $values/argocd/env/{{index .metadata.labels "cluster-environment"}}/vector/values-aggregator.yaml
               - $values/argocd/clusters/{{.name}}/vector/values-aggregator.yaml
             skipCrds: false
