@@ -1,0 +1,15 @@
+---
+apiVersion: ceph.rook.io/v1
+kind: CephObjectStoreUser
+metadata:
+  name: loki
+spec:
+  store: rgw-fast
+  displayName: Loki
+  quotas:
+    maxBuckets: 100
+    maxSize: 100G
+    maxObjects: 10000
+  capabilities:
+    user: "*"
+    bucket: "*"
