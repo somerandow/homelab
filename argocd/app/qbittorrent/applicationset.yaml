@@ -16,7 +16,7 @@ spec:
             # TODO: Remove this once ready to deploy qbt
 #            qbitorrent/enabled: ""
         values:
-          chartVersion: "2.0.4"
+          chartVersion: "2.1.0"
           namespace: media
   template:
     metadata:
