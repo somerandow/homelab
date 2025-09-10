@@ -18,5 +18,6 @@ patches:
           useAllDevices: true
           config:
             # Disable built-in encryption as it can't be used with OSDs on partitions
-            # Instead, we'll use LUKS encryption so any space on the OS disk can be used as an OSD on a partition 
-            encryptedDevice: "false"
+            # Instead, we'll use LUKS encryption so any space on the OS disk can be used as an OSD on a partition
+            # TODO: change this after strategy for move to PVC-based cluster
+            encryptedDevice: "true"
