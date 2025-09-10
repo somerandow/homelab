@@ -17,4 +17,6 @@ patches:
         storage:
           useAllDevices: true
           config:
-            encryptedDevice: "true"
+            # Disable built-in encryption as it can't be used with OSDs on partitions
+            # Instead, we'll use LUKS encryption so any space on the OS disk can be used as an OSD on a partition 
+            encryptedDevice: "false"
