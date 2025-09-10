@@ -1,0 +1,130 @@
+nextcloud:
+  existingSecret:
+    enabled: true
+    secretName: nextcloud-auth
+    usernameKey: username
+    passwordKey: password
+    tokenKey: token
+    smtpUsernameKey: smtp-username
+    smtpPasswordKey: smtp-password
+    smtpHostKey: smtp-host
+  update: 0
+  # If web server is not binding default port, you can define it
+  containerPort: 8080
+  phpConfigs:
+    local-cache.ini: |-
+      apc.enable_cli=1
+    opcache.ini: |-
+      opcache.enable=1
+      opcache.interned_strings_buffer=64
+      opcache.max_accelerated_files=50000
+      opcache.memory_consumption=512
+      opcache.save_comments=1
+      opcache.revalidate_freq=5
+      opcache.jit=1205
+      opcache.jit_buffer_size=128M
+  defaultConfigs:
+    .htaccess: true
+    apache-pretty-urls.config.php: true
+    apcu.config.php: true
+    apps.config.php: true
+    autoconfig.php: true
+    redis.config.php: true
+    reverse-proxy.config.php: false
+    s3.config.php: true
+    smtp.config.php: true
+    swift.config.php: false
+    upgrade-disable-web.config.php: true
+    imaginary.config.php: false
+  strategy:
+    type: Recreate
+  extraVolumes:
+    # Allow the use of `phpConfigs` in combination with readOnlyRootFilesystem
+    - name: php-tmp
+      emptyDir: {}
+    # Additional config options for Apache, mainly to set alternate port
+    - name: apache-config
+      configMap:
+        name: apache-config
+  extraVolumeMounts:
+    - name: apache-config
+      mountPath: /etc/apache2/ports.conf
+      subPath: ports.conf
+    - name: php-tmp
+      mountPath: /usr/local/etc/php/conf.d
+  securityContext:
+    runAsUser: 33
+    runAsGroup: 33
+    runAsNonRoot: true
+    readOnlyRootFilesystem: false
+  podSecurityContext:
+    runAsUser: 33
+    runAsGroup: 33
+    runAsNonRoot: true
+    fsGroup: 33
+    fsGroupChangePolicy: OnRootMismatch
+    readOnlyRootFilesystem: false
+internalDatabase:
+  enabled: false
+externalDatabase:
+  enabled: true
+  type: postgres
+  existingSecret:
+    enabled: true
+    secretName: nextcloud-db-auth
+    usernameKey: username
+    passwordKey: password
+    hostKey: host
+    databaseKey: name
+externalRedis:
+  enabled: true
+  existingSecret:
+    enabled: true
+    secretName: nextcloud-redis-auth
+    passwordKey: redis-password
+cronjob:
+  enabled: true
+  resources:
+    limits:
+      cpu: '2'
+      memory: 4Gi
+    requests:
+      cpu: 100m
+      memory: 100Mi
+  securityContext:
+    runAsUser: 33
+    runAsGroup: 33
+    runAsNonRoot: true
+    readOnlyRootFilesystem: true
+service:
+  type: ClusterIP
+  port: 8080
+persistence:
+  enabled: true
+  accessMode: ReadWriteMany
+  size: 15Gi
+  nextcloudData:
+    enabled: false
+resources:
+  limits:
+    cpu: "6"
+    memory: 8Gi
+  requests:
+    cpu: 400m
+    memory: 500Mi
+hpa:
+  enabled: true
+  cputhreshold: 60
+  minPods: 2
+  maxPods: 5
+metrics:
+  enabled: false
+rbac:
+  enabled: true
+  serviceaccount:
+    create: false
+    name: nextcloud
+mariadb:
+  enabled: false
+redis:
+  enabled: false

@@ -1,0 +1,55 @@
+---
+ingress:
+  enabled: true
+  annotations:
+    cert-manager.io/cluster-issuer: acme
+    external-dns.alpha.kubernetes.io/target: "wojoinc.xyz."
+    dns.homelab.wojoinc.xyz/publish-external: "true"
+    traefik.ingress.kubernetes.io/router.middlewares: cloud-security-headers@kubernetescrd,cloud-dav-redirect@kubernetescrd
+  className: traefik-external
+  tls:
+    - hosts:
+        - "cloud.wojoinc.xyz"
+      secretName: "nextcloud-cert"
+  path: "/"
+  pathType: Prefix
+nextcloud:
+  host: cloud.wojoinc.xyz
+  phpConfigs:
+    upload-limits.ini: |-
+      upload_max_filesize=16G
+      post_max_size=16G
+      memory_limit=1024M
+  configs:
+    custom.config.php: |-
+      <?php
+      $CONFIG = array (
+        'overwriteprotocol' => 'https',
+        'overwrite.cli.url' => 'https://cloud.wojoinc.xyz',
+        'filelocking.enabled' => true,
+        'loglevel' => '2',
+        'enable_previews' => true,
+        'session_lifetime' => 30 * 60,
+        'auto_logout' => true,
+        'maintenance_window_start' => 1,
+        'trusted_proxies' => array(
+           '10.1.0.0/16'
+        ),
+        'allow_local_remote_servers' => true
+      );
+    redis.additional.config.php: |-
+      <?php
+      $CONFIG = array (
+        redis.cluster => array (
+          failover_mode=\RedisCluster::FAILOVER_ERROR
+        ),
+      );
+  extraVolumes:
+    - name: games
+      persistentVolumeClaim:
+        claimName: nextcloud-games
+  extraVolumeMounts:
+    - name: games
+      mountPath: /mnt/games
+  externalRedis:
+    host: "" # TODO

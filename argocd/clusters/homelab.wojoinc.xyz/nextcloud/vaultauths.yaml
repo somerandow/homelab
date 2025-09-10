@@ -1,0 +1,45 @@
+---
+apiVersion: secrets.hashicorp.com/v1beta1
+kind: VaultAuth
+metadata:
+  name: nextcloud-db
+spec:
+  kubernetes:
+    audiences:
+      - vault.wojoinc.xyz
+    role: homelab-default
+    serviceAccount: nextcloud-db
+    tokenExpirationSeconds: 600
+  method: kubernetes
+  mount: homelab
+  vaultConnectionRef: vault-secrets-operator/default
+---
+apiVersion: secrets.hashicorp.com/v1beta1
+kind: VaultAuth
+metadata:
+  name: nextcloud
+spec:
+  kubernetes:
+    audiences:
+      - vault.wojoinc.xyz
+    role: homelab-default
+    serviceAccount: nextcloud
+    tokenExpirationSeconds: 600
+  method: kubernetes
+  mount: homelab
+  vaultConnectionRef: vault-secrets-operator/default
+---
+apiVersion: secrets.hashicorp.com/v1beta1
+kind: VaultAuth
+metadata:
+  name: redis
+spec:
+  kubernetes:
+    audiences:
+      - vault.wojoinc.xyz
+    role: homelab-default
+    serviceAccount: redis
+    tokenExpirationSeconds: 600
+  method: kubernetes
+  mount: homelab
+  vaultConnectionRef: vault-secrets-operator/default
