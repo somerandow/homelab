@@ -1,0 +1,8 @@
+machine:
+  network:
+    nameservers:
+      - 10.0.0.1
+  features:
+    hostDNS:
+      # Disable forwarding kubeDNS to host resolver as it doesn't yet work with Cilium eBPF
+      forwardKubeDNSToHost: false

@@ -1,0 +1,35 @@
+machine:
+  certSANs:
+    - 127.0.0.1
+    - 10.0.0.11
+  install:
+    wipe: true
+    diskSelector:
+      model: TEAM TM8PS7256G
+  # Because the TPM on this node is garbage... thanks Intel...
+  systemDiskEncryption:
+    ephemeral:
+      provider: luks2
+      keySize: 256
+      # Key material loaded in from secret
+    state:
+      provider: luks2
+      cipher: aes-xts-plain64
+      keySize: 256
+      keys:
+        - nodeID: { }
+          slot: 0
+  network:
+    hostname: control-plane-1
+    nameservers:
+      - 10.0.0.1
+    searchDomains:
+      - wojoinc.xyz
+    interfaces:
+      - interface: enp0s25
+        addresses:
+          - 10.0.0.11/24
+        routes:
+          - network: 0.0.0.0/0
+            gateway: 10.0.0.1
+            metric: 1024

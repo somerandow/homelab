@@ -1,0 +1,11 @@
+cluster:
+  network:
+    dnsDomain: homelab.wojoinc.local
+    podSubnets:
+      - 10.1.0.0/16
+    serviceSubnets:
+      - 10.2.0.0/16
+    cni:
+      name: none
+  proxy:
+    disabled: true

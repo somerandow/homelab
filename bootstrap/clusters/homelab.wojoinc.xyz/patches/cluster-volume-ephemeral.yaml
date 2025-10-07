@@ -1,0 +1,10 @@
+---
+apiVersion: v1alpha1
+kind: VolumeConfig
+name: EPHEMERAL
+provisioning:
+  diskSelector:
+    match: disk.transport == 'sata'
+  minSize: 10GB
+  maxSize: 50GB
+  grow: true

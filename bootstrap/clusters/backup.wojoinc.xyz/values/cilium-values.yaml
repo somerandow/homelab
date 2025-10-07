@@ -1,0 +1,74 @@
+cni:
+  exclusive: true
+bgpControlPlane:
+  enabled: false
+hubble:
+  enabled: false
+ipam:
+  operator:
+    clusterPoolIPv4PodCIDRList:
+      - 10.1.0.0/16
+    clusterPoolIPv4MaskSize: 24
+bpf:
+  datapathMode: netkit
+  masquerade: true
+  preallocateMaps: true
+  autoMount:
+    enabled: true
+nodePort:
+  enabled: true
+kubeProxyReplacement: true
+k8sServiceHost: localhost
+k8sServicePort: 7445
+externalIPs:
+  enabled: true
+hostPort:
+  enabled: true
+rollOutCiliumPods: true
+debug:
+  enabled: false
+localRedirectPolicy: false
+policyEnforcementMode: "never"
+policyAuditMode: true
+nodeinit:
+  enabled: false
+ipMasqAgent:
+  enabled: false
+endpointRoutes:
+  # -- Enable use of per endpoint routes instead of routing via
+  # the cilium_host interface.
+  enabled: true
+operator:
+  replicas: 1
+prometheus:
+  enabled: false
+  serviceMonitor:
+    enabled: true
+    labels:
+      monitoring.homelab.wojoinc.xyz/enabled: "true"
+securityContext:
+  privileged: false
+  capabilities:
+    ciliumAgent:
+      - CHOWN
+      - KILL
+      - NET_ADMIN
+      - NET_RAW
+      - IPC_LOCK
+      - SYS_ADMIN
+      - SYS_RESOURCE
+      - DAC_OVERRIDE
+      - FOWNER
+      - SETGID
+      - SETUID
+    cleanCiliumState:
+      - NET_ADMIN
+      - SYS_ADMIN
+      - SYS_RESOURCE
+cgroup:
+  autoMount:
+    enabled: false
+  hostRoot: /sys/fs/cgroup
+ipv4NativeRoutingCIDR: 10.1.0.0/16
+routingMode: native
+autoDirectNodeRoutes: true

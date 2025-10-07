@@ -1,0 +1,35 @@
+machine:
+  certSANs:
+    - 127.0.0.1
+    - 10.0.0.10
+  install:
+    wipe: true
+    diskSelector:
+      model: Samsung SSD 850
+  # Because the TPM on this node is garbage... thanks Intel...
+  systemDiskEncryption:
+    ephemeral:
+      provider: luks2
+      keySize: 256
+      # Key material loaded in from secret
+    state:
+      provider: luks2
+      cipher: aes-xts-plain64
+      keySize: 256
+      keys:
+        - nodeID: { }
+          slot: 0
+  network:
+    hostname: control-plane-0
+    nameservers:
+      - 10.0.0.1
+    searchDomains:
+      - wojoinc.xyz
+    interfaces:
+      - interface: eno1
+        addresses:
+          - 10.0.0.10/24
+        routes:
+          - network: 0.0.0.0/0
+            gateway: 10.0.0.1
+            metric: 1024
