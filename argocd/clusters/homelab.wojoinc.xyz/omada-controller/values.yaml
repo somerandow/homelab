@@ -1,0 +1,41 @@
+ingresses:
+  web-ui:
+    enabled: true
+    host: "omada.wojoinc.xyz"
+    className: "traefik-external"
+    additionalLabels: {}
+    additionalAnnotations:
+      cert-manager.io/cluster-issuer: acme
+  portal:
+    enabled: true
+    host: "captive.wojoinc.xyz"
+    className: "traefik-external"
+    additionalLabels: {}
+    additionalAnnotations:
+      cert-manager.io/cluster-issuer: acme
+persistence:
+  data:
+    enabled: true
+    storageClassName: "rook-rbd-fast"
+    size: 1Gi
+  logs:
+    enabled: true
+    storageClassName: "rook-rbd-fast"
+    size: 1Gi
+services:
+  portal:
+    type: ClusterIP
+    loadBalancerRanges: []
+    additionalAnnotations: {}
+    additionalLabels: {}
+  webUI:
+    type: ClusterIP
+    loadBalancerRanges: []
+    additionalAnnotations: {}
+    additionalLabels: {}
+  controller:
+    type: LoadBalancer
+    loadBalancerRanges:
+      - 10.3.0.10
+    additionalAnnotations: {}
+    additionalLabels: {}
