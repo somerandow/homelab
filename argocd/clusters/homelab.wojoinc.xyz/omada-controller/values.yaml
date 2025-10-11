@@ -26,6 +26,6 @@ services:
   controller:
     type: LoadBalancer
     loadBalancerRanges:
-      - 10.3.0.10/32
+      - 10.3.0.11/32
     additionalAnnotations: {}
     additionalLabels: {}
