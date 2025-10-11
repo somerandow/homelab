@@ -23,16 +23,6 @@ persistence:
     storageClassName: "rook-rbd-fast"
     size: 1Gi
 services:
-  portal:
-    type: ClusterIP
-    loadBalancerRanges: []
-    additionalAnnotations: {}
-    additionalLabels: {}
-  webUI:
-    type: ClusterIP
-    loadBalancerRanges: []
-    additionalAnnotations: {}
-    additionalLabels: {}
   controller:
     type: LoadBalancer
     loadBalancerRanges:

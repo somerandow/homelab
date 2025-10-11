@@ -1,2 +1,12 @@
 controller:
   timezone: America/Chicago
+
+services:
+  webUI:
+    additionalAnnotations:
+      traefik.ingress.kubernetes.io/service.serversscheme: https
+      traefik.ingress.kubernetes.io/service.serverstransport: omada-upstream-tls@kubernetescrd
+  portal:
+    additionalAnnotations:
+      traefik.ingress.kubernetes.io/service.serversscheme: https
+      traefik.ingress.kubernetes.io/service.serverstransport: omada-upstream-tls@kubernetescrd
