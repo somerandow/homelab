@@ -1,0 +1,7 @@
+---
+# Service logs only. Kernel logs require kernel param and need to be specified during UKI build
+machine:
+  logging:
+    destinations:
+      - endpoint: "udp://10.3.8.6:6051/"
+        format: "json_lines"

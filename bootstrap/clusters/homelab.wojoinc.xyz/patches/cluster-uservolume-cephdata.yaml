@@ -1,0 +1,10 @@
+---
+apiVersion: v1alpha1
+kind: UserVolumeConfig
+name: ceph-data
+provisioning:
+  diskSelector:
+    match: disk.transport == "sata"
+  minSize: 100GB
+  maxSize: 200GB
+  grow: true

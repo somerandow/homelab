@@ -1,0 +1,27 @@
+machine:
+  certSANs:
+    - 127.0.0.1
+  install:
+    wipe: true
+    diskSelector:
+      model: TS128GMSA230S
+  # No TPM on this system
+  systemDiskEncryption:
+    ephemeral:
+      provider: luks2
+      keySize: 256
+      # Key material loaded in from secret
+    state:
+      provider: luks2
+      cipher: aes-xts-plain64
+      keySize: 256
+      keys:
+        - nodeID: { }
+          slot: 0
+  network:
+    hostname: control-plane
+    searchDomains:
+      - wojoinc.xyz
+    interfaces:
+      - interface: eno1
+        dhcp: true

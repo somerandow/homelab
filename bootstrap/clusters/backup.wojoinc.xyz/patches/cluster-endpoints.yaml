@@ -1,0 +1,4 @@
+cluster:
+  controlPlane:
+    endpoint: https://api.backup.wojoinc.xyz:6443
+  clusterName: backup.wojoinc.xyz

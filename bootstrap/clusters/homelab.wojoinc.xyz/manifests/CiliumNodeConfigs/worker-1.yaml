@@ -1,0 +1,12 @@
+---
+apiVersion: cilium.io/v2
+kind: CiliumNodeConfig
+metadata:
+  name: worker-1
+  namespace: kube-system
+spec:
+  nodeSelector:
+    matchLabels:
+      kubernetes.io/hostname: worker-1
+  defaults:
+    devices: "enp87s0,enp2s0f0np0"

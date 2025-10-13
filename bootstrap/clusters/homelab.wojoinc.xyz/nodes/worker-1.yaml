@@ -1,0 +1,63 @@
+machine:
+  certSANs:
+    - 127.0.0.1
+    - 10.0.0.7
+    - 10.4.0.7
+  install:
+    wipe: true
+    diskSelector:
+      model: KINGSTON OM3PGP41024P-A0
+  systemDiskEncryption:
+    ephemeral:
+      provider: luks2
+      cipher: aes-xts-plain64
+      keySize: 256
+      keys:
+        - tpm: { }
+          slot: 1
+    state:
+      provider: luks2
+      cipher: aes-xts-plain64
+      keySize: 256
+      keys:
+        - tpm: { }
+          slot: 0
+  network:
+    hostname: worker-1
+    searchDomains:
+      - wojoinc.xyz
+    interfaces:
+      - interface: enp87s0
+        addresses:
+          - 10.0.0.7/24
+        routes:
+          - network: 0.0.0.0/0
+            gateway: 10.0.0.1
+            metric: 1024
+      - interface: enp2s0f0np0
+        addresses:
+          - 10.4.0.7/16
+---
+apiVersion: v1alpha1
+kind: UserVolumeConfig
+name: ceph-data
+$patch: delete
+---
+apiVersion: v1alpha1
+kind: RawVolumeConfig
+name: extra-os-disk
+provisioning:
+  diskSelector:
+    match: disk.model == "KINGSTON OM3PGP41024P-A0"
+  minSize: 100GB
+  grow: true
+---
+apiVersion: v1alpha1
+kind: VolumeConfig
+name: EPHEMERAL
+provisioning:
+  diskSelector:
+    match: disk.model == "KINGSTON OM3PGP41024P-A0"
+  minSize: 100GB
+  maxSize: 200GB
+  grow: true

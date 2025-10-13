@@ -1,0 +1,55 @@
+machine:
+  certSANs:
+    - 127.0.0.1
+    - 10.0.0.12
+  install:
+    wipe: true
+    diskSelector:
+      model: Samsung SSD 960 EVO 250GB
+  # Because the TPM on this node is garbage... thanks Intel...
+  systemDiskEncryption:
+    ephemeral:
+      provider: luks2
+      keySize: 256
+      # Key material loaded in from secret
+    state:
+      provider: luks2
+      cipher: aes-xts-plain64
+      keySize: 256
+      keys:
+        - nodeID: { }
+          slot: 0
+  network:
+    hostname: control-plane-2
+    nameservers:
+      - 10.0.0.1
+    searchDomains:
+      - wojoinc.xyz
+    interfaces:
+      - interface: enp0s25
+        addresses:
+          - 10.0.0.12/24
+        routes:
+          - network: 0.0.0.0/0
+            gateway: 10.0.0.1
+            metric: 1024
+---
+apiVersion: v1alpha1
+kind: UserVolumeConfig
+name: ceph-data
+provisioning:
+  diskSelector:
+    match: disk.transport == "nvme"
+  minSize: 100GB
+  maxSize: 200GB
+  grow: true
+---
+apiVersion: v1alpha1
+kind: VolumeConfig
+name: EPHEMERAL
+provisioning:
+  diskSelector:
+    match: disk.transport == 'nvme'
+  minSize: 10GB
+  maxSize: 50GB
+  grow: true

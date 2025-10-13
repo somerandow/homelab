@@ -1,0 +1,12 @@
+---
+apiVersion: cilium.io/v2
+kind: CiliumNodeConfig
+metadata:
+  name: control-plane-2
+  namespace: kube-system
+spec:
+  nodeSelector:
+    matchLabels:
+      kubernetes.io/hostname: control-plane-2
+  defaults:
+    devices: "enp0s25"
