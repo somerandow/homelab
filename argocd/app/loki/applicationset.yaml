@@ -15,7 +15,7 @@ spec:
             argocd.argoproj.io/secret-type: cluster
         values:
           # renovate: datasource=docker depName=ghcr.io/grafana/helm-charts/loki
-          targetRevision: "6.42.0"
+          targetRevision: "6.43.0"
           namespace: loki
   template:
     metadata:
