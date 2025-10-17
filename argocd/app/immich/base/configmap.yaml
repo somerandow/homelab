@@ -1,0 +1,7 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: immich-config
+data:
+  TZ: "America/Chicago"

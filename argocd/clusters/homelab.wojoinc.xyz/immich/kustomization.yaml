@@ -1,0 +1,79 @@
+---
+apiVersion: kustomize.config.k8s.io/v1alpha1
+kind: Component
+resources:
+  - configmap.yaml
+  - vaultauths.yaml
+  - vaultstaticsecrets.yaml
+configMapGenerator:
+  - name: replacement-config
+    options:
+      annotations:
+        # Skip rendering CM in build output
+        config.kubernetes.io/local-config: "true"
+    literals:
+      - clusterDomain=homelab.wojoinc.local
+patches:
+  - target:
+      kind: PodMonitor
+    patch: |-
+      - op: add
+        path: /metadata/labels/monitoring.homelab.wojoinc.xyz~1enabled
+        value: "true"
+  - target:
+      kind: ServersTransport
+    patch: |-
+      - op: replace
+        path: /spec/serverName
+        value: oauth2-proxy.oauth2-proxy.svc.homelab.wojoinc.local
+  - target:
+      kind: RedisReplication
+    patch: |-
+      - op: add
+        path: /spec/storage/volumeClaimTemplate/spec/storageClassName
+        value: rook-rbd-fast
+  - target:
+      kind: VaultAuth
+    patch: |-
+      - op: add
+        path: /spec/kubernetes/audiences/0
+        value: vault.wojoinc.xyz
+      - op: replace
+        path: /spec/kubernetes/role
+        value: homelab-default
+  - target:
+      kind: VaultStaticSecret
+    patch: |-
+      - op: replace
+        path: /spec/mount
+        value: kv-homelab
+  - target:
+      kind: Cluster
+    patch: |-
+      - op: add
+        path: /spec/storage/storageClass
+        value: rook-rbd-fast
+replacements:
+  - source:
+      name: replacement-config
+      kind: ConfigMap
+      fieldPath: data.clusterDomain
+    targets:
+      - select:
+          kind: Certificate
+        fieldPaths:
+          - spec.commonName
+          - spec.dnsNames.0
+          - spec.dnsNames.1
+        options:
+          delimiter: '.'
+          index: 3
+      - select:
+          kind: Certificate
+          name: session-cache
+        fieldPaths:
+          - spec.dnsNames.2
+          - spec.dnsNames.3
+        options:
+          delimiter: '.'
+          index: 3
