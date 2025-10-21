@@ -3,7 +3,7 @@ apiVersion: kustomize.config.k8s.io/v1alpha1
 kind: Component
 images:
   - name: ghcr.io/immich-app/immich-machine-learning
-    newTag: v2.1.0-release-openvino
+    newTag: v2.1.0-openvino
 patches:
   - target:
       kind: Deployment
@@ -20,4 +20,6 @@ patches:
               - name: machine-learning
                 resources:
                   requests:
+                    devices.wojoinc.xyz/igpu: "1"
+                  limits:
                     devices.wojoinc.xyz/igpu: "1"

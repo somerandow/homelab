@@ -2,6 +2,8 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: immich-config
+  name: immich-env
 data:
   TZ: "America/Chicago"
+  DATABASE_NAME: "immich-db"
+  IMMICH_TELEMETRY_INCLUDE: "all"

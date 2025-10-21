@@ -12,6 +12,9 @@ spec:
   instances: 3
   storage:
     size: 1Gi
+  serviceAccountTemplate:
+    metadata:
+      name: postgres
   postgresql:
     parameters:
       pgaudit.log: "all, -misc"

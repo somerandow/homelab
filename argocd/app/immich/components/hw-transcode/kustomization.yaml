@@ -18,3 +18,5 @@ patches:
                 resources:
                   requests:
                     devices.wojoinc.xyz/igpu: "1"
+                  limits:
+                    devices.wojoinc.xyz/igpu: "1"

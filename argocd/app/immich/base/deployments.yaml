@@ -31,13 +31,23 @@ spec:
       serviceAccountName: immich
       containers:
         - name: server
-          image: ghcr.io/immich-app/immich-server:v2.1.0-release
+          image: ghcr.io/immich-app/immich-server:v2.1.0
           securityContext:
             capabilities:
               drop:
                 - ALL
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
+          envFrom:
+            - configMapRef:
+                name: immich-env
+            - secretRef:
+                name: immich-config
+                optional: true
+            - secretRef:
+                name: immich-redis-config
+            - secretRef:
+                name: immich-db-config
           ports:
             - containerPort: 2283
               name: http
@@ -135,6 +145,10 @@ spec:
           volumeMounts:
             - mountPath: /cache
               name: model-cache
+            - mountPath: /tmp
+              name: tmp
       volumes:
         - name: model-cache
+          emptyDir: {}
+        - name: tmp
           emptyDir: {}
