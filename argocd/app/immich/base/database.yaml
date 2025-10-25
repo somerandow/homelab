@@ -11,5 +11,8 @@ spec:
   # Enable extra extensions required by Immich
   extensions:
     - name: cube
+      ensure: present
     - name: earthdistance
+      ensure: present
     - name: vector
+      ensure: present
