@@ -8,6 +8,7 @@ spec:
   owner: immich
   cluster:
     name: immich-db
+  # Enable extra extensions required by Immich
   extensions:
     - name: cube
     - name: earthdistance

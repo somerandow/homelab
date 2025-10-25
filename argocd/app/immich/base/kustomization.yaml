@@ -4,19 +4,13 @@ kind: Kustomization
 images:
   - name: ghcr.io/immich-app/immich-server
     newTag: v2.1.0
-components:
-  - ../../../env/prod/ingress-tls
-  - ../components/hw-transcode
-  - ../components/persistence
-  - ../components/hw-ml
-  - ../../../clusters/homelab.wojoinc.xyz/immich
 labels:
   - pairs:
       app.kubernetes.io/part-of: immich
 resources:
   - certificates.yaml
   - cluster.yaml
-  - configmap.yaml
+  - configmaps.yaml
   - database.yaml
   - deployments.yaml
   - ingress.yaml

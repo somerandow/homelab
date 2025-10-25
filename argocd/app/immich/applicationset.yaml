@@ -29,7 +29,9 @@ spec:
           path: argocd/app/immich/base
           kustomize:
             components:
-              - ../../../clusters/{{.name}}/immich
+              - ../../../env/{{ index .metadata.labels "cluster-environment" }}/ingress-tls
+              - ../../../clusters/{{ .name }}/immich
+            ignoreMissingComponents: true
       destination:
         server: '{{ .server }}'
         namespace: '{{ .values.namespace }}'

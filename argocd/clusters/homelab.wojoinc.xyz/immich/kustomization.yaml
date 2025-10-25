@@ -9,6 +9,11 @@ configMapGenerator:
         config.kubernetes.io/local-config: "true"
     literals:
       - clusterDomain=homelab.wojoinc.local
+components:
+  - ../../../app/immich/components/hw-transcode
+  - ../../../app/immich/components/hw-ml
+  - ../../../app/immich/components/persistence
+  - ../../../app/immich/components/file-config
 patches:
   - target:
       kind: PodMonitor
@@ -64,6 +69,13 @@ patches:
       - op: add
         path: /spec/ingressClassName
         value: traefik-external
+  - target:
+      kind: PersistentVolumeClaim
+      name: immich-data
+    patch: |-
+      - op: replace
+        path: /spec/resources/requests/storage
+        value: 100Gi
 replacements:
   - source:
       name: replacement-config

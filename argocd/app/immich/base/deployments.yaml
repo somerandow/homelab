@@ -42,9 +42,6 @@ spec:
             - configMapRef:
                 name: immich-env
             - secretRef:
-                name: immich-config
-                optional: true
-            - secretRef:
                 name: immich-redis-config
             - secretRef:
                 name: immich-db-config
@@ -121,6 +118,9 @@ spec:
                 - ALL
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
+          envFrom:
+            - configMapRef:
+                name: immich-ml-env
           ports:
             - name: http
               containerPort: 3003
