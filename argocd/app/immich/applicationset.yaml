@@ -32,7 +32,6 @@ spec:
             components:
               - ../../../env/{{ index .metadata.labels "cluster-environment" }}/ingress-tls
               - ../../../clusters/{{ .name }}/immich
-            ignoreMissingComponents: true
       destination:
         server: '{{ .server }}'
         namespace: '{{ .values.namespace }}'
