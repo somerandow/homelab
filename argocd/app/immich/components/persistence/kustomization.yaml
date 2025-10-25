@@ -1,0 +1,41 @@
+---
+apiVersion: kustomize.config.k8s.io/v1alpha1
+kind: Component
+resources:
+  - pvcs.yaml
+patches:
+  - target:
+      kind: Deployment
+    patch: |-
+      - op: remove
+        path: /spec/template/spec/volumes/0/emptyDir
+  - target:
+      kind: Deployment
+      name: immich-server
+    patch: |-
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: not-used
+      spec:
+        template:
+          spec:
+            volumes:
+              - name: data
+                persistentVolumeClaim:
+                  claimName: immich-data
+  - target:
+      kind: Deployment
+      name: immich-ml
+    patch: |-
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: not-used
+      spec:
+        template:
+          spec:
+            volumes:
+              - name: model-cache
+                persistentVolumeClaim:
+                  claimName: immich-model-cache

@@ -1,0 +1,25 @@
+---
+apiVersion: kustomize.config.k8s.io/v1alpha1
+kind: Component
+images:
+  - name: ghcr.io/immich-app/immich-machine-learning
+    newTag: v2.1.0-openvino
+patches:
+  - target:
+      kind: Deployment
+      name: immich-ml
+    patch: |-
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: not-used
+      spec:
+        template:
+          spec:
+            containers:
+              - name: machine-learning
+                resources:
+                  requests:
+                    devices.wojoinc.xyz/igpu: "1"
+                  limits:
+                    devices.wojoinc.xyz/igpu: "1"
