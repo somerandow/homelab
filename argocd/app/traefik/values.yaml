@@ -51,9 +51,12 @@ additionalArguments:
   - "--entrypoints.web.http.redirections.entryPoint.to=:443"
   - "--entrypoints.web.http.redirections.entryPoint.permanent=true"
   - "--serverstransport.rootcas=/tls/ca.crt"
-  - "--transport.respondingTimeouts.readTimeout=600s"
-  - "--transport.respondingTimeouts.writeTimeout=600s"
-  - "--transport.respondingTimeouts.idleTimeout=600s"
+  - "--entrypoints.web.transport.respondingTimeouts.readTimeout=600s"
+  - "--entrypoints.web.respondingTimeouts.writeTimeout=600s"
+  - "--entrypoints.web.respondingTimeouts.idleTimeout=600s"
+  - "--entrypoints.websecure.transport.respondingTimeouts.readTimeout=600s"
+  - "--entrypoints.websecure.respondingTimeouts.writeTimeout=600s"
+  - "--entrypoints.websecure.respondingTimeouts.idleTimeout=600s"
 ports:
   web:
     port: 8000
