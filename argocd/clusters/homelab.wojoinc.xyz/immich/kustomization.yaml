@@ -75,7 +75,7 @@ patches:
     patch: |-
       - op: replace
         path: /spec/resources/requests/storage
-        value: 120Gi
+        value: 140Gi
 replacements:
   - source:
       name: replacement-config
