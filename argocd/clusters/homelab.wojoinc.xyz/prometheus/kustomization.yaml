@@ -2,6 +2,7 @@
 apiVersion: kustomize.config.k8s.io/v1alpha1
 kind: Component
 components:
+  - ../../../app/prometheus/components/persistence
   - ../../../env/prod/ingress-tls
   - ../../../common/ingress-publish-external
 patches:
@@ -12,6 +13,9 @@ patches:
       - op: replace
         path: /spec/externalUrl
         value: https://prom.wojoinc.xyz
+      - op: replace
+        path: /spec/storageSpec/volumeClaimTemplate/spec/resources/requests/storage
+        value: 20Gi
   - target:
       kind: Ingress
       name: prometheus
