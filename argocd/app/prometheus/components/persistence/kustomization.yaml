@@ -1,0 +1,25 @@
+---
+apiVersion: kustomize.config.k8s.io/v1alpha1
+kind: Component
+patches:
+  - target:
+      kind: Prometheus
+    patch: |-
+      - op: remove
+        path: /spec/storageSpec/emptyDir
+  - target:
+      kind: Prometheus
+    patch: |-
+      apiVersion: monitoring.coreos.com/v1
+      kind: Prometheus
+      metadata:
+        name: not-used
+      spec:
+        storageSpec:
+          volumeClaimTemplate:
+            spec:
+              accessModes:
+                - ReadWriteOnce
+              resources:
+                requests:
+                  storage: 5Gi

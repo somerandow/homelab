@@ -81,3 +81,5 @@ spec:
             - {key: app.kubernetes.io/instance, operator: In, values: [prometheus]}
   portName: http-web
   hostNetwork: false
+  storageSpec:
+    emptyDir: {}
