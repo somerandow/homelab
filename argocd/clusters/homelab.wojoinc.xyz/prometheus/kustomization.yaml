@@ -18,6 +18,9 @@ patches:
       - op: add
         path: /spec/storage/volumeClaimTemplate/spec/storageClassName
         value: rook-rbd-fast
+      - op: replace
+        path: /spec/retentionSize
+        value: "20GB"
   - target:
       kind: Ingress
       name: prometheus
