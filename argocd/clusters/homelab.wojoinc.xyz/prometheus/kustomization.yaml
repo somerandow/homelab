@@ -8,7 +8,6 @@ components:
 patches:
   - target:
       kind: Prometheus
-      name: Prometheus
     patch: |-
       - op: replace
         path: /spec/externalUrl
@@ -16,6 +15,9 @@ patches:
       - op: replace
         path: /spec/storage/volumeClaimTemplate/spec/resources/requests/storage
         value: 20Gi
+      - op: add
+        path: /spec/storage/volumeClaimTemplate/spec/storageClassName
+        value: rook-rbd-fast
   - target:
       kind: Ingress
       name: prometheus
