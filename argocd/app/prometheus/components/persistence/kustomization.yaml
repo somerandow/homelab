@@ -6,7 +6,7 @@ patches:
       kind: Prometheus
     patch: |-
       - op: remove
-        path: /spec/storageSpec/emptyDir
+        path: /spec/storage/emptyDir
   - target:
       kind: Prometheus
     patch: |-
@@ -15,7 +15,7 @@ patches:
       metadata:
         name: not-used
       spec:
-        storageSpec:
+        storage:
           volumeClaimTemplate:
             spec:
               accessModes:

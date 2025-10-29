@@ -14,7 +14,7 @@ patches:
         path: /spec/externalUrl
         value: https://prom.wojoinc.xyz
       - op: replace
-        path: /spec/storageSpec/volumeClaimTemplate/spec/resources/requests/storage
+        path: /spec/storage/volumeClaimTemplate/spec/resources/requests/storage
         value: 20Gi
   - target:
       kind: Ingress
