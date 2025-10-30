@@ -63,6 +63,9 @@ patches:
       - op: add
         path: /spec/tls/0/hosts/0
         value: "plex.wojoinc.xyz"
+      - op: replace
+        path: /spec/rules/0/host
+        value: "plex.wojoinc.xyz"
 replacements:
   - source:
       kind: ConfigMap
