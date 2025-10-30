@@ -1,0 +1,78 @@
+---
+apiVersion: kustomize.config.k8s.io/v1alpha1
+kind: Component
+components:
+  - ../../../app/plex/components/persistence
+  - ../../../app/plex/components/server-tls
+configMapGenerator:
+  - name: replacement-config
+    options:
+      annotations:
+        # Skip rendering CM in build output
+        config.kubernetes.io/local-config: "true"
+    literals:
+      - clusterDomain=homelab.wojoinc.local
+patches:
+  - target:
+      kind: Deployment
+    patch: |-
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: not-used
+      spec:
+        template:
+          spec:
+            containers:
+              - name: plex
+                resources:
+                  requests:
+                    devices.wojoinc.xyz/igpu: "1"
+                  limits:
+                    devices.wojoinc.xyz/igpu: "1"
+            volumes:
+              - name: media
+                emptyDir:
+                  $patch: delete
+                persistentVolumeClaim:
+                  claimName: tank-media
+  - target:
+      kind: PersistentVolumeClaim
+    patch: |-
+      - op: add
+        path: /spec/storageClassName
+        value: rook-rbd-fast
+      - op: replace
+        path: /spec/resources/requests/storage
+        value: "200Gi"
+  - target:
+      kind: Ingress
+    patch: |-
+      apiVersion: networking.k8s.io/v1
+      kind: Ingress
+      metadata:
+        name: not-used
+        annotations:
+          dns.homelab.wojoinc.xyz/publish-external: "true"
+          external-dns.alpha.kubernetes.io/target: wojoinc.xyz.
+      spec:
+        ingressClassName: "traefik-external"
+  - target:
+      kind: Ingress
+    patch: |-
+      - op: add
+        path: /spec/tls/0/hosts/0
+        value: "plex.wojoinc.xyz"
+replacements:
+  - source:
+      kind: ConfigMap
+      name: replacement-config
+      fieldPath: data.clusterDomain
+    targets:
+      - select:
+          kind: Deployment
+        fieldPaths:
+          - spec.template.spec.volumes.[name=tls].csi.volumeAttributes.csi\.cert-manager\.io/dns-names
+        options:
+          delimiter: '.'
+          index: 3

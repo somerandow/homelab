@@ -1,0 +1,23 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: plex
+  labels:
+    app.kubernetes.io/name: "plex"
+    app.kubernetes.io/instance: "plex"
+spec:
+  tls:
+    - hosts: []
+      secretName: plex-ingress-tls
+  rules:
+    - host: ""
+      http:
+        paths:
+          - path: "/"
+            pathType: Prefix
+            backend:
+              service:
+                name: plex
+                port:
+                  number: 32400

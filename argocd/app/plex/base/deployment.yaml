@@ -1,0 +1,119 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: plex
+  labels:
+    app.kubernetes.io/name: "plex"
+    app.kubernetes.io/instance: "plex"
+  annotations: {}
+spec:
+  revisionHistoryLimit: 1
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: "plex"
+      app.kubernetes.io/instance: "plex"
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: "plex"
+        app.kubernetes.io/instance: "plex"
+    spec:
+      serviceAccountName: plex
+      automountServiceAccountToken: true
+      securityContext:
+        fsGroup: 568
+        runAsGroup: 568
+        runAsUser: 568
+        supplementalGroups:
+          - 44
+          - 121
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
+      dnsPolicy: ClusterFirst
+      enableServiceLinks: true
+      containers:
+        - name: plex
+          image: "ghcr.io/home-operations/plex:1.42.2.10156"
+          imagePullPolicy: IfNotPresent
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: false
+          env: []
+          envFrom: []
+          ports:
+            - name: avahi
+              containerPort: 5353
+              protocol: UDP
+            - name: companion
+              containerPort: 8324
+              protocol: TCP
+            - name: gdm1
+              containerPort: 32410
+              protocol: UDP
+            - name: gdm2
+              containerPort: 32412
+              protocol: UDP
+            - name: gdm3
+              containerPort: 32413
+              protocol: UDP
+            - name: gdm4
+              containerPort: 32414
+              protocol: UDP
+            - name: http
+              containerPort: 32400
+              protocol: TCP
+          volumeMounts:
+            - name: config
+              mountPath: "/config"
+              subPath: ""
+            - name: media
+              mountPath: "/data"
+              subPath: ""
+            - name: transcode
+              mountPath: "/transcode"
+              subPath: ""
+          livenessProbe:
+            tcpSocket:
+              port: 32400
+            initialDelaySeconds: 0
+            timeoutSeconds: 1
+            periodSeconds: 10
+            failureThreshold: 3
+            successThreshold: 1
+          readinessProbe:
+            tcpSocket:
+              port: 32400
+            initialDelaySeconds: 0
+            timeoutSeconds: 1
+            periodSeconds: 10
+            failureThreshold: 3
+            successThreshold: 1
+          startupProbe:
+            tcpSocket:
+              port: 32400
+            initialDelaySeconds: 0
+            timeoutSeconds: 1
+            periodSeconds: 10
+            failureThreshold: 3
+            successThreshold: 1
+          resources:
+            limits:
+              memory: 10Gi
+            requests:
+              cpu: "1"
+              memory: 1Gi
+      volumes:
+        - name: config
+          emptyDir: {}
+        - name: media
+          emptyDir: {}
+        - name: transcode
+          emptyDir: {}

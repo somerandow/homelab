@@ -1,0 +1,30 @@
+---
+apiVersion: kustomize.config.k8s.io/v1alpha1
+kind: Component
+patches:
+  - target:
+      kind: Deployment
+    patch: |-
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: not-used
+      spec:
+        template:
+          spec:
+            containers:
+              - name: plex
+                volumeMounts:
+                  - mountPath: /tls 
+                    name: tls 
+            volumes:
+              - name: tls
+                csi:
+                  readOnly: true
+                  driver: csi.cert-manager.io
+                  volumeAttributes:
+                    csi.cert-manager.io/issuer-name: homelab-ca
+                    csi.cert-manager.io/issuer-kind: ClusterIssuer
+                    csi.cert-manager.io/ip-sans: 127.0.0.1
+                    csi.cert-manager.io/fs-group: "568"
+                    csi.cert-manager.io/dns-names: "plex.${POD_NAMESPACE}.svc.CLUSTER_DOMAIN"
