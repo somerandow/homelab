@@ -5,6 +5,7 @@ metadata:
   name: rgw-fast
   namespace: rook-ceph
 spec:
+  allowUsersInNamespaces: []
   metadataPool:
     failureDomain: host
     replicated:

@@ -60,3 +60,9 @@ patches:
       - op: add
         path: /spec/dnsNames/1
         value: rook-ceph-rgw-rgw-fast.rook-ceph.svc
+  - target:
+      kind: CephObjectStore
+    patch: |-
+      - op: add
+        path: /spec/allowUsersInNamespaces/0
+        value: "cloud-storage"
