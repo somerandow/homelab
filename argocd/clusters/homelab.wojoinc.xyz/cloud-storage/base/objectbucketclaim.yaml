@@ -1,0 +1,10 @@
+---
+apiVersion: objectbucket.io/v1alpha1
+kind: ObjectBucketClaim
+metadata:
+  name: somerandow-cloud-storage
+spec:
+  generateBucketName: somerandow
+  storageClassName: rgw-fast-bucket
+  additionalConfig:
+    bucketOwner: somerandow

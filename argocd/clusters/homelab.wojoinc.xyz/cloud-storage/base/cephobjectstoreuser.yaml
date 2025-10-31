@@ -1,0 +1,15 @@
+---
+apiVersion: ceph.rook.io/v1
+kind: CephObjectStoreUser
+metadata:
+  name: somerandow
+spec:
+  store: rgw-fast
+  clusterNamespace: rook-ceph
+  keys:
+    - accessKeyRef:
+        name: somerandow-s3-creds
+        key: AWS_ACCESS_KEY_ID
+      secretKeyRef:
+        name: somerandow-s3-creds
+        key: AWS_SECRET_ACCESS_KEY
