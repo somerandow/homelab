@@ -1,0 +1,57 @@
+---
+apiVersion: kro.run/v1alpha1
+kind: ResourceGraphDefinition
+metadata:
+  name: cloud-storage
+spec:
+  schema:
+    apiVersion: v1alpha1
+    kind: CloudStorage
+    spec:
+      namespace: string
+      user: string
+      storageClassName: string
+      vaultIntegration:
+        enabled: boolean | default=false
+        auth:
+          mount: string
+          role: string
+          serviceAccount: string
+        path: string
+  resources:
+    - id: storageClassConfig
+      externalRef:
+        apiVersion: storage.k8s.io/v1
+        kind: StorageClass
+        metadata:
+          name: rgw-fast-bucket
+          namespace: ""
+    - id: cephobjectstoreuser
+      includeWhen:
+        - ${!schema.spec.vaultIntegration.enabled}
+      template:
+        apiVersion: ceph.rook.io/v1
+        kind: CephObjectStoreUser
+        metadata:
+          name: ${schema.spec.user}
+        spec:
+          store: ${storageClassConfig.parameters.?objectStoreName}
+          clusterNamespace: ${storageClassConfig.parameters.?objectStoreNamespace}
+    - id: cephObjectStoreUserVault
+      includeWhen:
+        - ${schema.spec.vaultIntegration.enabled}
+      template:
+        apiVersion: ceph.rook.io/v1
+        kind: CephObjectStoreUser
+        metadata:
+          name: ${schema.spec.user}
+        spec:
+          store: ${storageClassConfig.parameters.?objectStoreName}
+          clusterNamespace: ${storageClassConfig.parameters.?objectStoreNamespace}
+          keys:
+            - accessKeyRef:
+                name: ${schema.spec.user}-s3-creds
+                key: AWS_ACCESS_KEY_ID
+              secretKeyRef:
+                name: ${schema.spec.user}-creds
+                key: AWS_SECRET_ACCESS_KEY
