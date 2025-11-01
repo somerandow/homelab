@@ -8,16 +8,11 @@ spec:
     apiVersion: v1alpha1
     kind: CloudStorage
     spec:
-      namespace: string
       user: string
       storageClassName: string
       vaultIntegration:
         enabled: boolean | default=false
-        auth:
-          mount: string
-          role: string
-          serviceAccount: string
-        path: string
+        authRef: string
   resources:
     - id: storageClassConfig
       externalRef:
@@ -34,6 +29,7 @@ spec:
         kind: CephObjectStoreUser
         metadata:
           name: ${schema.spec.user}
+          namespace: ${schema.metadata.namespace}
         spec:
           store: ${storageClassConfig.parameters.?objectStoreName}
           clusterNamespace: ${storageClassConfig.parameters.?objectStoreNamespace}
@@ -45,6 +41,7 @@ spec:
         kind: CephObjectStoreUser
         metadata:
           name: ${schema.spec.user}
+          namespace: ${schema.metadata.namespace}
         spec:
           store: ${storageClassConfig.parameters.?objectStoreName}
           clusterNamespace: ${storageClassConfig.parameters.?objectStoreNamespace}
@@ -53,5 +50,36 @@ spec:
                 name: ${schema.spec.user}-s3-creds
                 key: AWS_ACCESS_KEY_ID
               secretKeyRef:
-                name: ${schema.spec.user}-creds
+                name: ${schema.spec.user}-s3-creds
                 key: AWS_SECRET_ACCESS_KEY
+    - id: vaultStaticSecret
+      includeWhen:
+        - ${schema.spec.vaultIntegration.enabled}
+      template:
+        apiVersion: secrets.hashicorp.com/v1beta1
+        kind: VaultStaticSecret
+        metadata:
+          name: ${schema.spec.user}
+          namespace: ${schema.metadata.namespace}
+        spec:
+          destination:
+            create: true
+            name: ${schema.spec.user}-s3-creds
+          hmacSecretData: true
+          mount: "kv-homelab"
+          path: cloud-storage/cloud-storage/${schema.spec.user}
+          refreshAfter: 5s
+          type: kv-v2
+          vaultAuthRef: cloud-storage
+    - id: objectBucketClaim
+      template:
+        apiVersion: objectbucket.io/v1alpha1
+        kind: ObjectBucketClaim
+        metadata:
+          name: ${schema.spec.user}-cloud-storage
+          namespace: ${schema.metadata.namespace}
+        spec:
+          generateBucketName: ${schema.spec.user}
+          storageClassName: ${schema.spec.storageClassName}
+          additionalConfig:
+            bucketOwner: ${schema.spec.user}
