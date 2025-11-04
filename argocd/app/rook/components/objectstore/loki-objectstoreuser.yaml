@@ -7,9 +7,9 @@ spec:
   store: rgw-fast
   displayName: Loki
   quotas:
-    maxBuckets: 100
-    maxSize: 100G
-    maxObjects: 10000
+    maxBuckets: 3
+    maxSize: 50G
+    maxObjects: 100000
   capabilities:
     user: "*"
     bucket: "*"
