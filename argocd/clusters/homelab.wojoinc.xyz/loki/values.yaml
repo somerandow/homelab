@@ -6,7 +6,7 @@ loki:
     working_directory: /tmp/retention
     compaction_interval: 10m
     retention_enabled: true
-    retention_delete_delay: 10m
+    retention_delete_delay: 1h
     retention_delete_worker_count: 150
     delete_request_store: s3
   limits_config:
