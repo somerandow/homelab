@@ -4,7 +4,7 @@ service:
   port: 8989
 image:
   repository: ghcr.io/home-operations/sonarr
-  tag: 4.0.15
+  tag: 4.0.16
 probes:
   livenessCmd:
     - /usr/bin/env
