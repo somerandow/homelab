@@ -8,3 +8,13 @@ spec:
   storageClassName: rgw-fast-bucket
   additionalConfig:
     bucketOwner: somerandow
+---
+apiVersion: objectbucket.io/v1alpha1
+kind: ObjectBucketClaim
+metadata:
+  name: games-cloud-storage
+spec:
+  generateBucketName: games
+  storageClassName: rgw-fast-bucket
+  additionalConfig:
+    bucketOwner: somerandow

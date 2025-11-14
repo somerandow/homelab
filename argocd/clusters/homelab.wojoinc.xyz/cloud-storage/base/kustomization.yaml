@@ -4,7 +4,7 @@ kind: Kustomization
 resources:
   # TODO: Combine into a KRO CRD
   - cephobjectstoreuser.yaml
-  - objectbucketclaim.yaml
+  - objectbucketclaims.yaml
   - serviceaccount.yaml
   - vaultauth.yaml
   - vaultstaticsecret.yaml
