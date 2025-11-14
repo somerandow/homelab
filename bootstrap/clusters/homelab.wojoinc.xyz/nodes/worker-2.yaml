@@ -6,13 +6,12 @@ machine:
   install:
     wipe: true
     diskSelector:
-      model: KINGSTON OM8PGP41024N-A0 # TODO: Change this to point to NVMe namespace
+      uuid: 36363530-5720-1488-0025-384e00000006
   systemDiskEncryption:
     ephemeral:
       provider: luks2
       cipher: aes-xts-plain64
       keySize: 256
-      lockToState: true
       keys:
         - tpm: { }
           slot: 0
@@ -39,28 +38,12 @@ machine:
         addresses:
           - 10.4.0.8/16
 ---
-# TODO: Remove, should no longer be necessary
-apiVersion: v1alpha1
-kind: UserVolumeConfig
-name: ceph-data
-$patch: delete
----
-# TODO: Remove, this will be handled by NVMe namespacing
-apiVersion: v1alpha1
-kind: RawVolumeConfig
-name: extra-os-disk
-provisioning:
-  diskSelector:
-    match: disk.model == "KINGSTON OM8PGP41024N-A0"
-  minSize: 100GB
-  grow: true
----
 apiVersion: v1alpha1
 kind: VolumeConfig
 name: EPHEMERAL
 provisioning:
   diskSelector:
-    match: disk.model == "KINGSTON OM8PGP41024N-A0" # TODO: Update to proper NVMe namespace ID
-  minSize: 100GB
+    match: disk.uuid == "36363530-5720-1488-0025-384e00000006"
+  minSize: 50GB
   maxSize: 200GB
   grow: true
