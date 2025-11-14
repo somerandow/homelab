@@ -15,7 +15,7 @@ spec:
             argocd.argoproj.io/secret-type: cluster
         values:
           # renovate: datasource=docker depName=ghcr.io/vectordotdev/helm-charts/vector
-          targetRevision: "0.47.0"
+          targetRevision: "0.48.0"
           namespace: vector
   template:
     metadata:
