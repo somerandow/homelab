@@ -35,21 +35,10 @@ machine:
             metric: 1024
 ---
 apiVersion: v1alpha1
-kind: UserVolumeConfig
-name: ceph-data
-provisioning:
-  diskSelector:
-    match: disk.transport == "nvme"
-  minSize: 100GB
-  maxSize: 200GB
-  grow: true
----
-apiVersion: v1alpha1
 kind: VolumeConfig
 name: EPHEMERAL
 provisioning:
   diskSelector:
     match: disk.transport == 'nvme'
   minSize: 10GB
-  maxSize: 50GB
   grow: true
