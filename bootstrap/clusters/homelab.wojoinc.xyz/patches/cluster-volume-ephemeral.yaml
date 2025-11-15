@@ -6,5 +6,4 @@ provisioning:
   diskSelector:
     match: disk.transport == 'sata'
   minSize: 10GB
-  maxSize: 50GB
   grow: true

@@ -6,7 +6,7 @@ machine:
   install:
     wipe: true
     diskSelector:
-      model: KINGSTON OM3PGP41024P-A0
+      uuid: 36363530-5720-1717-0025-384e00000002
   systemDiskEncryption:
     ephemeral:
       provider: luks2
@@ -39,25 +39,11 @@ machine:
           - 10.4.0.6/16
 ---
 apiVersion: v1alpha1
-kind: UserVolumeConfig
-name: ceph-data
-$patch: delete
----
-apiVersion: v1alpha1
-kind: RawVolumeConfig
-name: extra-os-disk
-provisioning:
-  diskSelector:
-    match: disk.model == "KINGSTON OM3PGP41024P-A0"
-  minSize: 100GB
-  grow: true
----
-apiVersion: v1alpha1
 kind: VolumeConfig
 name: EPHEMERAL
 provisioning:
   diskSelector:
-    match: disk.model == "KINGSTON OM3PGP41024P-A0"
-  minSize: 100GB
+    match: disk.uuid == "36363530-5720-1717-0025-384e00000002"
+  minSize: 50GB
   maxSize: 200GB
   grow: true
