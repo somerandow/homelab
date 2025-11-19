@@ -26,6 +26,7 @@ spec:
       automountServiceAccountToken: true
       securityContext:
         fsGroup: 568
+        fsGroupChangePolicy: OnRootMismatch
         runAsGroup: 568
         runAsUser: 568
         supplementalGroups:
