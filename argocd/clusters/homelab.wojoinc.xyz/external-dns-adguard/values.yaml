@@ -1,3 +1,5 @@
+image:
+  tag: v0.20.0
 serviceMonitor:
   additionalLabels:
     monitoring.homelab.wojoinc.xyz/enabled: "true"
@@ -5,4 +7,6 @@ txtOwnerId: "homelab-wojoinc-xyz"
 txtPrefix: "external-dns-"
 extraArgs:
   - "--annotation-filter=dns.homelab.wojoinc.xyz/publish-internal"
+  # TODO: swap for `annotationPrefix` value once new Helm chart version is released
+  - "--annotation-prefix=internal.dns.homelab.wojoinc.xyz/"
   - "--webhook-provider-url=http://localhost:8080"
