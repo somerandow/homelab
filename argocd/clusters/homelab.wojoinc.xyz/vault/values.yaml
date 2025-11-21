@@ -29,6 +29,8 @@ server:
     enabled: true
     annotations:
       cert-manager.io/cluster-issuer: acme
+      dns.homelab.wojoinc.xyz/publish-external: ""
+      dns.homelab.wojoinc.xyz/publish-internal: ""
     ingressClassName: traefik-external
     hosts:
       - host: 'vault.wojoinc.xyz'

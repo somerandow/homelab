@@ -5,6 +5,7 @@ ingresses:
       cert-manager.io/cluster-issuer: acme
       external-dns.alpha.kubernetes.io/target: "wojoinc.xyz."
       dns.homelab.wojoinc.xyz/publish-external: "true"
+      dns.homelab.wojoinc.xyz/publish-internal: ""
 #      traefik.ingress.kubernetes.io/router.middlewares: media-forward-auth-all@kubernetescrd,media-forward-auth@kubernetescrd
     className: traefik-external
     tls:

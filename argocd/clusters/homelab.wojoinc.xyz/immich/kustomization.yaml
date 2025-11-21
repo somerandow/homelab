@@ -14,6 +14,8 @@ components:
   - ../../../app/immich/components/hw-ml
   - ../../../app/immich/components/persistence
   - ../../../app/immich/components/file-config
+  - ../../../common/ingress-publish-external
+  - ../../../common/ingress-publish-internal
 patches:
   - target:
       kind: PodMonitor

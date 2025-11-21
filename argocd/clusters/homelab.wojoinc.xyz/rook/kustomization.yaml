@@ -9,6 +9,7 @@ components:
   - ../../../app/rook/components/filesystem
   - ../../../app/rook/components/objectstore
   - ../../../env/prod/ingress-tls
+  - ../../../common/ingress-publish-internal
 resources:
   - serverstransport.yaml
 patches:

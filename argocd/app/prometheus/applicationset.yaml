@@ -30,6 +30,7 @@ spec:
           path: argocd/app/prometheus/base
           kustomize:
             components:
+              - ../../../env/{{ index .metadata.labels "cluster-environment" }}/ingress-tls
               - ../../../clusters/{{.name}}/prometheus
             ignoreMissingComponents: false
       destination:
