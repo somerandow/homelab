@@ -5,6 +5,7 @@ ingresses:
       cert-manager.io/cluster-issuer: acme
       external-dns.alpha.kubernetes.io/target: "wojoinc.xyz."
       dns.homelab.wojoinc.xyz/publish-external: "true"
+      dns.homelab.wojoinc.xyz/publish-internal: ""
     className: traefik-external
     tls:
       - hosts:
