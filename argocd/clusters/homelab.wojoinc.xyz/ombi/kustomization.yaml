@@ -4,6 +4,7 @@ kind: Component
 components:
   - ../../../app/ombi/components/postgres
   - ../../../app/ombi/components/persistence
+  - ../../../common/ingress-publish-internal
 resources:
   - vaultauth.yaml
   - vaultstaticsecret.yaml

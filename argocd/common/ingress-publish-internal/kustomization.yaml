@@ -1,0 +1,14 @@
+---
+apiVersion: kustomize.config.k8s.io/v1alpha1
+kind: Component
+patches:
+  # Add necessary annotations when publishing internally
+  - target:
+      kind: Ingress
+    patch: |-
+      apiVersion: networking.k8s.io/v1
+      kind: Ingress
+      metadata:
+        name: not-used
+        annotations:
+          dns.homelab.wojoinc.xyz/publish-internal: "true"
