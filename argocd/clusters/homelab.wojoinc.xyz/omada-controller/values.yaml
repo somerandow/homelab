@@ -6,6 +6,7 @@ ingresses:
     additionalLabels: {}
     additionalAnnotations:
       cert-manager.io/cluster-issuer: acme
+      dns.homelab.wojoinc.xyz/publish-internal: ""
   portal:
     enabled: true
     host: "captive.wojoinc.xyz"
@@ -13,6 +14,7 @@ ingresses:
     additionalLabels: {}
     additionalAnnotations:
       cert-manager.io/cluster-issuer: acme
+      dns.homelab.wojoinc.xyz/publish-internal: ""
 persistence:
   data:
     enabled: true
