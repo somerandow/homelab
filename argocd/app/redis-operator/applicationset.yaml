@@ -15,7 +15,7 @@ spec:
             argocd.argoproj.io/secret-type: cluster
         values:
           namespace: redis-operator
-          chartVersion: "0.21.2"
+          chartVersion: "~0.22.0"
   template:
     metadata:
       name: 'redis-operator-{{.name | slugify}}'
