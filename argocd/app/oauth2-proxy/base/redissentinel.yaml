@@ -28,7 +28,7 @@ spec:
         name: redis-auth
         key: password
   kubernetesConfig:
-    image: quay.io/opstree/redis-sentinel:v7.0.12
+    image: quay.io/opstree/redis-sentinel:v8.2.2
     imagePullPolicy: IfNotPresent
     resources:
       requests:
