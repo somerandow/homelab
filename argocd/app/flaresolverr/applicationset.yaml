@@ -15,7 +15,7 @@ spec:
             argocd.argoproj.io/secret-type: cluster
         values:
           # renovate: datasource=docker depName=ghcr.io/somerandow/charts/flaresolverr
-          targetRevision: "2.2.3"
+          targetRevision: "2.2.4"
           namespace: media
   template:
     metadata:
