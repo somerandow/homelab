@@ -8,10 +8,12 @@ spec:
   allowUsersInNamespaces: []
   metadataPool:
     failureDomain: host
+    enableCrushUpdates: true
     replicated:
       size: 3
   dataPool:
     failureDomain: host
+    enableCrushUpdates: true
     erasureCoded:
       dataChunks: 2
       codingChunks: 1

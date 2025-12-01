@@ -8,3 +8,4 @@ spec:
   replicated:
     size: 3
   deviceClass: ssd
+  enableCrushUpdates: true
