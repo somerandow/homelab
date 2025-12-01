@@ -9,11 +9,13 @@ spec:
   metadataPool:
     failureDomain: host
     enableCrushUpdates: true
+    deviceClass: ssd
     replicated:
       size: 3
   dataPool:
     failureDomain: host
     enableCrushUpdates: true
+    deviceClass: ssd
     erasureCoded:
       dataChunks: 2
       codingChunks: 1
