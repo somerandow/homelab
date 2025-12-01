@@ -4,10 +4,14 @@ metadata:
   name: cephfs
 spec:
   metadataPool:
+    deviceClass: ssd
+    enableCrushUpdates: true
     replicated:
       size: 3
   dataPools:
     - name: replicated
+      enableCrushUpdates: true
+      deviceClass: ssd
       replicated:
         size: 3
   preserveFilesystemOnDelete: true
