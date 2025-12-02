@@ -1,0 +1,55 @@
+machine:
+  certSANs:
+    - 127.0.0.1
+    - 10.0.0.5
+    - 10.4.0.5
+  install:
+    wipe: true
+    diskSelector:
+      uuid: 36363530-5720-1488-0025-384e00000006 # TODO: Update to correct UUID
+  systemDiskEncryption:
+    ephemeral:
+      provider: luks2
+      cipher: aes-xts-plain64
+      keySize: 256
+      keys:
+        - tpm: { }
+          slot: 0
+    state:
+      provider: luks2
+      cipher: aes-xts-plain64
+      keySize: 256
+      keys:
+        - tpm: { }
+          slot: 0
+  network:
+    hostname: worker-3
+    searchDomains:
+      - wojoinc.xyz
+    interfaces:
+      - interface: enp5s0
+        addresses:
+          - 10.0.0.5/24
+        routes:
+          - network: 0.0.0.0/0
+            gateway: 10.0.0.1
+            metric: 1024
+      - interface: bond0
+        addresses:
+          - 10.4.0.5/16
+        bond:
+          mode: 802.3ad
+          lacpRate: fast
+          interfaces:
+            - enp3s0f0np0
+            - enp3s0f0np1
+---
+apiVersion: v1alpha1
+kind: VolumeConfig
+name: EPHEMERAL
+provisioning:
+  diskSelector:
+    match: disk.uuid == "36363530-5720-1488-0025-384e00000006" # TODO: Update to correct UUID
+  minSize: 50GB
+  maxSize: 200GB
+  grow: true
