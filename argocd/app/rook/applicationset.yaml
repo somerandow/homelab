@@ -14,7 +14,7 @@ spec:
           matchLabels:
             argocd.argoproj.io/secret-type: cluster
         values:
-          chartVersion: "~= 1.18"
+          chartVersion: "~ 1.18.0"
           namespace: rook-ceph
   template:
     metadata:
