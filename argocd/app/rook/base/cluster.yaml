@@ -68,8 +68,10 @@ spec:
              operator: DoesNotExist
   resources:
     osd-hdd:
-      requests: 2048Mi
-      limits: 3072Mi
+      requests:
+        memory: 2048Mi
+      limits:
+        memory: 3072Mi
   removeOSDsIfOutAndSafeToRemove: false
   priorityClassNames:
     mon: system-node-critical
