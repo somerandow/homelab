@@ -13,4 +13,4 @@ persistence:
     className: "rook-rbd-fast"
   media:
     enabled: true
-    existingClaim: tank-media
+    existingClaim: media
