@@ -34,7 +34,7 @@ deployments:
         type: pvc
       media:
         type: pvc
-        name: tank-media
+        name: media
     containers:
       main:
         volumeMounts:
