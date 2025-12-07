@@ -10,4 +10,4 @@ patches:
     patch: |-
       - op: replace
         path: /spec/template/spec/volumes/0/persistentVolumeClaim/claimName
-        value: tank-media
+        value: media
