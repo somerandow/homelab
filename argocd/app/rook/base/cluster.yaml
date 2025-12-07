@@ -67,6 +67,11 @@ spec:
            - key: node-role.kubernetes.io/control-plane
              operator: DoesNotExist
   resources:
+    osd-hdd:
+      requests:
+        memory: 2048Mi
+      limits:
+        memory: 3072Mi
   removeOSDsIfOutAndSafeToRemove: false
   priorityClassNames:
     mon: system-node-critical
