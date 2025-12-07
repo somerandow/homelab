@@ -1,0 +1,3 @@
+<component name="DependencyValidationManager">
+  <scope name="unpackerr" pattern="file:*/unpackerr//*" />
+</component>
