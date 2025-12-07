@@ -1,0 +1,27 @@
+---
+apiVersion: ceph.rook.io/v1
+kind: CephFilesystem
+metadata:
+  name: cephfs-bulk-storage
+spec:
+  metadataPool:
+    failureDomain: host
+    replicated:
+      size: 3
+    deviceClass: ssd
+  dataPools:
+    - name: default
+      failureDomain: host
+      replicated:
+        size: 3
+      deviceClass: ssd
+    - name: erasurecoded
+      failureDomain: osd
+      erasureCoded:
+        dataChunks: 4
+        codingChunks: 2
+      deviceClass: hdd
+  preserveFilesystemOnDelete: true
+  metadataServer:
+    activeCount: 1
+    activeStandby: true

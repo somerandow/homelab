@@ -6,7 +6,7 @@ machine:
   install:
     wipe: true
     diskSelector:
-      uuid: 36363530-5720-1488-0025-384e00000006 # TODO: Update to correct UUID
+      uuid: 36363530-54b1-0074-0025-384e00000008
   systemDiskEncryption:
     ephemeral:
       provider: luks2
@@ -27,7 +27,7 @@ machine:
     searchDomains:
       - wojoinc.xyz
     interfaces:
-      - interface: enp5s0
+      - interface: enp6s0
         addresses:
           - 10.0.0.5/24
         routes:
@@ -41,15 +41,15 @@ machine:
           mode: 802.3ad
           lacpRate: fast
           interfaces:
-            - enp3s0f0np0
-            - enp3s0f0np1
+            - enp4s0f1np0
+            - enp4s0f1np1
 ---
 apiVersion: v1alpha1
 kind: VolumeConfig
 name: EPHEMERAL
 provisioning:
   diskSelector:
-    match: disk.uuid == "36363530-5720-1488-0025-384e00000006" # TODO: Update to correct UUID
+    match: disk.uuid == "36363530-54b1-0074-0025-384e00000008"
   minSize: 50GB
   maxSize: 200GB
   grow: true

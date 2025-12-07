@@ -11,7 +11,9 @@ components:
   - ../../../env/prod/ingress-tls
   - ../../../common/ingress-publish-internal
 resources:
+  - cephfilesystem.yaml
   - serverstransport.yaml
+  - storageclass.yaml
 patches:
   - target:
       kind: CephCluster
