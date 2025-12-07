@@ -7,6 +7,6 @@ metadata:
 spec:
   nodeSelector:
     matchLabels:
-      kubernetes.io/hostname: worker-2
+      kubernetes.io/hostname: worker-3
   defaults:
-    devices: "enp5s0,bond0"
+    devices: "enp6s0,bond0"
