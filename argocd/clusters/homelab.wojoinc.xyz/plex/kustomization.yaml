@@ -37,7 +37,7 @@ patches:
                 emptyDir:
                   $patch: delete
                 persistentVolumeClaim:
-                  claimName: tank-media
+                  claimName: media
   - target:
       kind: PersistentVolumeClaim
     patch: |-
