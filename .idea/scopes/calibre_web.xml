@@ -1,0 +1,3 @@
+<component name="DependencyValidationManager">
+  <scope name="calibre-web" pattern="file:*/calibre-web//*" />
+</component>
