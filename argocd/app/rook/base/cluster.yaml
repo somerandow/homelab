@@ -69,9 +69,9 @@ spec:
   resources:
     osd-hdd:
       requests:
-        memory: 2048Mi
-      limits:
         memory: 3072Mi
+      limits:
+        memory: 4096Mi
   removeOSDsIfOutAndSafeToRemove: false
   priorityClassNames:
     mon: system-node-critical
