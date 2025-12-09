@@ -19,5 +19,5 @@ persistence:
     size: "2Gi"
     className: "rook-rbd-fast"
   media:
-    existingClaim: "tank-media"
+    existingClaim: "media"
     enabled: true
