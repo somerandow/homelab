@@ -6,7 +6,7 @@ ingresses:
       external-dns.alpha.kubernetes.io/target: "wojoinc.xyz."
       dns.homelab.wojoinc.xyz/publish-external: "true"
       dns.homelab.wojoinc.xyz/publish-internal: ""
-#      traefik.ingress.kubernetes.io/router.middlewares: media-forward-auth-all@kubernetescrd,media-forward-auth@kubernetescrd
+      traefik.ingress.kubernetes.io/router.middlewares: media-qbittorrent-forward-auth-rd@kubernetescrd,media-qbittorrent-forward-auth@kubernetescrd
     className: traefik-external
     tls:
       - hosts:
