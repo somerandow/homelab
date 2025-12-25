@@ -4,7 +4,7 @@ service:
   port: 9696
 image:
   repository: ghcr.io/home-operations/prowlarr
-  tag: 2.3.1.5328
+  tag: 2.3.1.5238
 ingress:
   main:
     forwardAuth:
