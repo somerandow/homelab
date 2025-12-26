@@ -1,3 +1,4 @@
+# TODO: Check to see if validation can be put on access key
 ---
 apiVersion: kro.run/v1alpha1
 kind: ResourceGraphDefinition
