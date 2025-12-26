@@ -1,0 +1,24 @@
+---
+apiVersion: kro.run/v1alpha1
+kind: CloudStorage
+metadata:
+  name: laurag
+  namespace: cloud-storage
+spec:
+  user: laurag
+  storageClassName: rgw-fast-bucket
+  vaultIntegration:
+    enabled: true
+    authRef: cloud-storage
+---
+apiVersion: kro.run/v1alpha1
+kind: CloudStorage
+metadata:
+  name: arandow
+  namespace: cloud-storage
+spec:
+  user: arandow
+  storageClassName: rgw-fast-bucket
+  vaultIntegration:
+    enabled: true
+    authRef: cloud-storage
