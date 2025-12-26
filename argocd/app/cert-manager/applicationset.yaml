@@ -14,8 +14,9 @@ spec:
           matchLabels:
             argocd.argoproj.io/secret-type: cluster
         values:
-          namespace: cert-manager
+          # renovate: datasource=github depName=github.com/cert-manager/cert-manager
           chartVersion: "1.17.2"
+          namespace: cert-manager
   template:
     metadata:
       name: 'cert-manager-{{.name | slugify}}'
