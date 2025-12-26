@@ -58,7 +58,7 @@ patches:
         value: rook-rbd-fast
       - op: replace
         path: /spec/storage/size
-        values: 3Gi
+        value: 3Gi
   - target:
       kind: PersistentVolumeClaim
     patch: |-
