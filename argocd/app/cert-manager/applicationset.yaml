@@ -15,7 +15,7 @@ spec:
             argocd.argoproj.io/secret-type: cluster
         values:
           # renovate: datasource=github depName=github.com/cert-manager/cert-manager
-          chartVersion: "1.17.2"
+          targetRevision: "1.17.2"
           namespace: cert-manager
   template:
     metadata:
@@ -27,7 +27,7 @@ spec:
       project: default
       sources:
         - repoURL: https://charts.jetstack.io
-          targetRevision: '{{ .values.chartVersion }}'
+          targetRevision: '{{ .values.targetRevision }}'
           chart: cert-manager
           helm:
             releaseName: cert-manager
