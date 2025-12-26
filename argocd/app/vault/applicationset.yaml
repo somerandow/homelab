@@ -14,7 +14,8 @@ spec:
           matchLabels:
             argocd.argoproj.io/secret-type: cluster
         values:
-          chartVersion: ">=0.30.0"
+          # renovate: datasource=github-releases depName=hashicorp/vault-helm
+          targetRevision: ">=0.30.0"
           namespace: vault
   template:
     metadata:
@@ -26,7 +27,7 @@ spec:
       project: default
       sources:
         - repoURL: https://helm.releases.hashicorp.com
-          targetRevision: '{{.values.chartVersion}}'
+          targetRevision: '{{.values.targetRevision}}'
           chart: vault
           helm:
             releaseName: vault

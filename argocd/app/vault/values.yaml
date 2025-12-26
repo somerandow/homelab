@@ -4,6 +4,7 @@ global:
   tlsDisable: false
 server:
   image:
+    repository: docker.io/hashicorp/vault
     tag: "1.19.5"
   extraEnvironmentVars:
     VAULT_CAPATH: "/tls/ca.crt"
