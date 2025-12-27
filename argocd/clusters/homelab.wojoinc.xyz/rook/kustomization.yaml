@@ -20,10 +20,10 @@ patches:
     patch: |-
       - op: add
         path: /spec/dashboard/prometheusEndpoint
-        value: http://prometheus.monitoring.svc.homelab.wojoinc.local:9090
+        value: https://prom.wojoinc.xyz
       - op: add
         path: /spec/dashboard/prometheusEndpointSSLVerify
-        value: false
+        value: true
       - op: add
         path: /spec/network/addressRanges/public/0
         value: "10.4.0.0/16"
