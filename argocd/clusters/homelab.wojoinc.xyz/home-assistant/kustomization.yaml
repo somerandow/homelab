@@ -13,6 +13,23 @@ patches:
         path: /spec/storageClassName
         value: rook-rbd-fast
   - target:
+      kind: Deployment
+    patch: |-
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: not-used
+      spec:
+        template:
+          spec:
+            containers:
+              - name: home-assistant
+                resources:
+                  requests:
+                    devices.wojoinc.xyz/zbmatter: "1"
+                  limits:
+                    devices.wojoinc.xyz/zbmatter: "1"
+  - target:
       kind: Ingress
     patch: |-
       - op: add
