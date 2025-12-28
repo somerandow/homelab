@@ -1,0 +1,47 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: home-assistant
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions:
+    - 'missingkey=error'
+  generators:
+    - clusters:
+        selector:
+          matchLabels:
+            argocd.argoproj.io/secret-type: cluster
+        values:
+          targetRevision: "main"
+          namespace: home-assistant
+  template:
+    metadata:
+      name: 'home-assistant-{{.name | slugify}}'
+      labels:
+        app.kubernetes.io/component: argocd-application
+        homelab.wojoinc.xyz/app-group: 'automation'
+    spec:
+      project: default
+      sources:
+        - repoURL: 'https://github.com/somerandow/homelab'
+          targetRevision: '{{.Values.targetRevision}}'
+          path: argocd/app/home-assistant/base
+          kustomize:
+            components:
+              - ../../../env/{{ index .metadata.labels "cluster-environment" }}/ingress-tls
+              - ../../../clusters/{{.name}}/home-assistant
+      destination:
+        server: '{{ .server }}'
+        namespace: '{{ .values.namespace }}'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+          - ApplyOutOfSyncOnly=true
+          - ServerSideApply=true
+          - RespectIgnoreDifferences=true
+      ignoreDifferences: []

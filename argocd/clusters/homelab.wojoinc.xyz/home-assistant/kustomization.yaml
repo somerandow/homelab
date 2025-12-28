@@ -1,0 +1,26 @@
+---
+apiVersion: kustomize.config.k8s.io/v1alpha1
+kind: Component
+components:
+  - ../../../app/home-assistant/components/persistence
+  - ../../../env/prod/ingress-tls
+  - ../../../common/ingress-publish-internal
+patches:
+  - target:
+      kind: PersistentVolumeClaim
+    patch: |-
+      - op: add
+        path: /spec/storageClassName
+        value: rook-rbd-fast
+  - target:
+      kind: Ingress
+    patch: |-
+      - op: add
+        path: /spec/ingressClassName
+        value: traefik-external
+      - op: replace
+        path: /spec/rules/0/host
+        value: home.wojoinc.xyz
+      - op: add
+        path: /spec/tls/0/hosts/0
+        value: home.wojoinc.xyz
