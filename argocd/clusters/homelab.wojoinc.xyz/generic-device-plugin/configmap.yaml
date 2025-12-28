@@ -18,3 +18,8 @@ data:
               - path: /dev/dri/renderD128
               - path: /dev/dri/card0
         count: 1
+      - name: zbmatter
+        groups:
+          - paths:
+              - path: /dev/ttyACM*
+        count: 1
