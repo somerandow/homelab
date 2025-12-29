@@ -14,7 +14,8 @@ spec:
           matchLabels:
             argocd.argoproj.io/secret-type: cluster
         values:
-          operatorVersion: "26.3.2"
+          # renovate: datasource=github-tags depName=keycloak/keycloak-k8s-resources
+          targetRevision: "26.3.2"
           namespace: keycloak
   template:
     metadata:
@@ -27,7 +28,7 @@ spec:
       sources:
         # CRDs & Operator
         - repoURL: https://github.com/keycloak/keycloak-k8s-resources
-          targetRevision: '{{.values.operatorVersion}}'
+          targetRevision: '{{.values.targetRevision}}'
           path: kubernetes
         # Instance
         - repoURL: 'https://github.com/somerandow/homelab'
