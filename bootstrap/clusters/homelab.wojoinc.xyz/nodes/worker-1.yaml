@@ -37,6 +37,9 @@ machine:
       - interface: enp2s0f0np0
         addresses:
           - 10.4.0.7/16
+  udev:
+    rules:
+      - SUBSYSTEM=="tty", KERNEL=="ttyACM*", GROUP="20", MODE="0660"
 ---
 apiVersion: v1alpha1
 kind: VolumeConfig
