@@ -1,0 +1,76 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flaresolverr
+  labels: {}
+  annotations: {}
+spec:
+  revisionHistoryLimit: 1
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels: {}
+  template:
+    metadata:
+      labels: {}
+    spec:
+      serviceAccountName: flaresolverr
+      securityContext:
+        runAsNonRoot: true
+        runAsGroup: 1000
+        runAsUser: 1000
+      containers:
+        - name: flaresolverr
+          image: "ghcr.io/flaresolverr/flaresolverr:v3.4.6"
+          imagePullPolicy: IfNotPresent
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
+          env:
+            - name: TEST_URL
+              value: https://duckduckgo.com
+            - name: TZ
+              value: America/Chicago
+          ports:
+            - name: http
+              containerPort: 8191
+              protocol: TCP
+          volumeMounts:
+            - name: tmp
+              mountPath: "/tmp"
+          livenessProbe:
+            tcpSocket:
+              port: 8191
+            initialDelaySeconds: 0
+            timeoutSeconds: 1
+            periodSeconds: 10
+            failureThreshold: 3
+            successThreshold: 1
+          readinessProbe:
+            tcpSocket:
+              port: 8191
+            initialDelaySeconds: 0
+            timeoutSeconds: 1
+            periodSeconds: 10
+            failureThreshold: 3
+            successThreshold: 1
+          startupProbe:
+            tcpSocket:
+              port: 8191
+            initialDelaySeconds: 0
+            timeoutSeconds: 1
+            periodSeconds: 10
+            failureThreshold: 3
+            successThreshold: 1
+          resources:
+            limits:
+              cpu: "1"
+              memory: 1Gi
+      volumes:
+        - name: tmp
+          emptyDir: {}

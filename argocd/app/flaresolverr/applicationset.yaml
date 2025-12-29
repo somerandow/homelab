@@ -14,8 +14,6 @@ spec:
           matchLabels:
             argocd.argoproj.io/secret-type: cluster
         values:
-          # renovate: datasource=docker depName=ghcr.io/somerandow/charts/flaresolverr
-          targetRevision: "2.2.4"
           namespace: media
   template:
     metadata:
@@ -26,16 +24,9 @@ spec:
     spec:
       project: default
       sources:
-        - repoURL: ghcr.io/somerandow/charts
-          targetRevision: '{{.values.targetRevision}}'
-          chart: flaresolverr
-          helm:
-            releaseName: flaresolverr
-            valueFiles:
-              - $values/argocd/app/flaresolverr/values.yaml
         - repoURL: 'https://github.com/somerandow/homelab'
           targetRevision: main
-          ref: values
+          path: argocd/app/flaresolverr/base
       destination:
         server: '{{ .server }}'
         namespace: '{{ .values.namespace }}'
