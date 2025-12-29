@@ -30,7 +30,7 @@ spec:
             capabilities:
               drop:
                 - ALL
-            readOnlyRootFilesystem: true
+            readOnlyRootFilesystem: false
           env:
             - name: TEST_URL
               value: https://duckduckgo.com
@@ -43,10 +43,6 @@ spec:
           volumeMounts:
             - name: tmp
               mountPath: "/tmp"
-            - name: app-tmp
-              mountPath: "/app/.local"
-            - name: chrome-tmp
-              mountPath: "/app/chromedriver"
           livenessProbe:
             tcpSocket:
               port: 8191
@@ -77,8 +73,4 @@ spec:
               memory: 1Gi
       volumes:
         - name: tmp
-          emptyDir: {}
-        - name: app-tmp
-          emptyDir: {}
-        - name: chrome-tmp
           emptyDir: {}
