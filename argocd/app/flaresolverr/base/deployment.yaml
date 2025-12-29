@@ -44,11 +44,7 @@ spec:
             - name: tmp
               mountPath: "/tmp"
             - name: app-tmp
-              mountPath: "/app/.local"
-              subPath: .local
-            - name: app-tmp
-              mountPath: "/app/chromedriver"
-              subPath: chromedriver
+              mountPath: "/app"
           livenessProbe:
             tcpSocket:
               port: 8191
