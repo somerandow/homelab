@@ -1,0 +1,46 @@
+---
+apiVersion: kustomize.config.k8s.io/v1alpha1
+kind: Component
+resources:
+  - pvc.yaml
+replacements:
+  - source:
+      kind: ConfigMap
+      name: replacement-config
+      fieldPath: data.flavor
+    targets:
+      - select:
+          kind: PersistentVolumeClaim
+          name: arr-config
+        fieldPaths:
+          - .metadata.name
+        options:
+          delimiter: '-'
+          index: 0
+      - select:
+          kind: Deployment
+        fieldPaths:
+          - .spec.template.spec.volumes.[name=config].persistentVolumeClaim.claimName
+        options:
+          delimiter: '-'
+          index: 0
+patches:
+  - target:
+      kind: Deployment
+    patch: |-
+      - op: remove
+        path: /spec/template/spec/volumes/0/emptyDir
+  - target:
+      kind: Deployment
+    patch: |-
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: not-used
+      spec:
+        template:
+          spec:
+            volumes:
+              - name: config
+                persistentVolumeClaim:
+                  claimName: arr-config
