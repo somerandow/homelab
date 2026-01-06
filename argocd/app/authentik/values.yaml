@@ -46,7 +46,7 @@ server:
       memory: 512Mi
     limits:
       cpu: "1"
-      memory: 512Mi
+      memory: 1024Mi
   containerSecurityContext:
     runAsNonRoot: true
     # TODO: Need to configure S3 storage before this can be enabled
