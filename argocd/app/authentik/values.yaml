@@ -1,0 +1,126 @@
+---
+global:
+  revisionHistoryLimit: 2
+  securityContext:
+    runAsUser: 1000
+    runAsGroup: 1000
+    fsGroup: 1000
+  volumeMounts:
+    - name: db
+      mountPath: /var/run/secrets/db
+      readOnly: true
+    - name: config
+      mountPath: /var/run/secrets/config
+      readOnly: true
+  volumes:
+    - name: db
+      secret:
+        secretName: authentik-db-app
+    - name: config
+      secret:
+        secretName: authentik-config## Authentik configuration
+authentik:
+  enabled: true
+  log_level: info
+  secret_key: file:///var/run/secrets/config/secret_key
+  postgresql:
+    host: file:///var/run/secrets/db/host
+    name: file:///var/run/secrets/db/dbname
+    user: file:///var/run/secrets/db/user
+    password: file:///var/run/secrets/db/password
+    sslmode: "allow"## authentik server
+server:
+  enabled: true
+  name: server
+  replicas: 1
+  autoscaling:
+    enabled: true
+    minReplicas: 1
+    maxReplicas: 5
+  pdb:
+    enabled: true
+    minAvailable: "1"
+  resources:
+    requests:
+      cpu: 200m
+      memory: 512Mi
+    limits:
+      cpu: "1"
+      memory: 512Mi
+  containerSecurityContext:
+    runAsNonRoot: true
+    # TODO: Need to configure S3 storage before this can be enabled
+    readOnlyRootFilesystem: false
+    allowPrivilegeEscalation: false
+    seccompProfile:
+      type: RuntimeDefault
+    capabilities:
+      drop:
+        - ALL
+  metrics:
+    enabled: true
+    service:
+      type: ClusterIP
+      clusterIP: ""
+      annotations: {}
+      labels: {}
+      servicePort: 9300
+      portName: metrics
+    serviceMonitor:
+      enabled: false
+      interval: 30s
+      scrapeTimeout: 3s
+      relabelings: []
+      metricRelabelings: []
+      selector: {}
+      scheme: ""
+      tlsConfig: {}
+      namespace: ""
+      labels: {}
+      annotations: {}
+worker:
+  enabled: true
+  replicas: 1
+  autoscaling:
+    enabled: true
+    minReplicas: 1
+    maxReplicas: 5
+  pdb:
+    enabled: true
+    minAvailable: "1"
+  resources:
+    requests:
+      cpu: 200m
+      memory: 512Mi
+    limits:
+      cpu: "1"
+      memory: 512Mi
+  containerSecurityContext:
+    runAsNonRoot: true
+    # TODO: Need to configure S3 storage before this can be enabled
+    readOnlyRootFilesystem: false
+    allowPrivilegeEscalation: false
+    seccompProfile:
+      type: RuntimeDefault
+    capabilities:
+      drop:
+        - ALL
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+      interval: 30s
+      scrapeTimeout: 3s
+      relabelings: []
+      metricRelabelings: []
+      selector: {}
+      # prometheus: kube-prometheus  
+      scheme: ""
+      tlsConfig: {}
+      namespace: ""
+      labels: {}
+      annotations: {}
+geoip:
+  enabled: false
+postgresql:
+  enabled: false
