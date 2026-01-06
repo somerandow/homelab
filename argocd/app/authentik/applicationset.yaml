@@ -1,0 +1,61 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: authentik
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions:
+    - 'missingkey=error'
+  generators:
+    - clusters:
+        selector:
+          matchLabels:
+            argocd.argoproj.io/secret-type: cluster
+        values:
+          # renovate: datasource=helm depName=https://charts.goauthentik.io
+          targetRevision: "2025.10.3"
+          namespace: authentik
+  template:
+    metadata:
+      name: 'authentik-{{.name | slugify}}'
+      labels:
+        app.kubernetes.io/component: argocd-application
+        homelab.wojoinc.xyz/app-group: 'sec'
+    spec:
+      project: default
+      sources:
+        - repoURL: https://charts.goauthentik.io
+          targetRevision: '{{.values.targetRevision}}'
+          chart: authentik
+          helm:
+            releaseName: authentik
+            valueFiles:
+              - $values/argocd/app/authentik/values.yaml
+              - $values/argocd/env/{{index .metadata.labels "cluster-environment"}}/authentik/values.yaml
+              - $values/argocd/clusters/{{.name}}/authentik/values.yaml
+            skipCrds: false
+            ignoreMissingValueFiles: true
+        - repoURL: 'https://github.com/somerandow/homelab'
+          targetRevision: main
+          ref: values
+        - repoURL: 'https://github.com/somerandow/homelab'
+          targetRevision: main
+          path: argocd/app/authentik/base
+          kustomize:
+            components:
+              - ../../../clusters/{{.name}}/authentik
+      destination:
+        server: '{{ .server }}'
+        namespace: '{{ .values.namespace }}'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+          - ApplyOutOfSyncOnly=true
+          - ServerSideApply=true
+          - RespectIgnoreDifferences=true
+      ignoreDifferences: []

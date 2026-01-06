@@ -1,0 +1,23 @@
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: authentik-db
+spec:
+  bootstrap:
+    initdb:
+      database: authentik
+  monitoring:
+    enablePodMonitor: false
+  serviceAccountTemplate:
+    metadata:
+      name: postgres
+  instances: 3
+  storage:
+    size: 1Gi
+  postgresql:
+    parameters:
+      pgaudit.log: "all, -misc"
+      pgaudit.log_catalog: "off"
+      pgaudit.log_parameter: "on"
+      pgaudit.log_relation: "on"

@@ -1,0 +1,47 @@
+---
+apiVersion: kustomize.config.k8s.io/v1alpha1
+kind: Component
+configMapGenerator:
+  - name: replacement-config
+    options:
+      annotations:
+        # Skip rendering CM in build output
+        config.kubernetes.io/local-config: "true"
+    literals:
+      - clusterDomain=homelab.wojoinc.local
+patches:
+  - target:
+      kind: PodMonitor
+    patch: |-
+      - op: add
+        path: /metadata/labels/monitoring.homelab.wojoinc.xyz~1enabled
+        value: "true"
+  - target:
+      kind: VaultAuth
+    patch: |-
+      - op: add
+        path: /spec/kubernetes/audiences/0
+        value: vault.wojoinc.xyz
+      - op: replace
+        path: /spec/kubernetes/role
+        value: homelab-default
+  - target:
+      kind: VaultStaticSecret
+    patch: |-
+      - op: replace
+        path: /spec/mount
+        value: kv-homelab
+  - target:
+      kind: Cluster
+    patch: |-
+      apiVersion: postgresql.cnpg.io/v1
+      kind: Cluster
+      metadata:
+        name: not-used
+      spec:
+        bootstrap:
+          initdb:
+            secret:
+              name: authentik-db-app
+        storage:
+          storageClass: rook-rbd-fast
