@@ -1,20 +1,21 @@
-ingress:
-  enabled: true
-  annotations:
-    cert-manager.io/cluster-issuer: acme
-    dns.homelab.wojoinc.xyz/publish-external: "true"
-    dns.homelab.wojoinc.xyz/publish-internal: ""
-    external-dns.alpha.kubernetes.io/target: wojoinc.xyz.
-  ingressClassName: "traefik-external"
-  hosts:
-    - auth.wojoinc.xyz
-  paths:
-    - "{{ .Values.authentik.web.path }}"
-  tls:
-    - secretName: authentik-tls
-      hosts:
-        - auth.wojoinc.xyz
-  https: false
+server:
+  ingress:
+    enabled: true
+    annotations:
+      cert-manager.io/cluster-issuer: acme
+      dns.homelab.wojoinc.xyz/publish-external: "true"
+      dns.homelab.wojoinc.xyz/publish-internal: ""
+      external-dns.alpha.kubernetes.io/target: wojoinc.xyz.
+    ingressClassName: "traefik-external"
+    hosts:
+      - auth.wojoinc.xyz
+    paths:
+      - "{{ .Values.authentik.web.path }}"
+    tls:
+      - secretName: authentik-tls
+        hosts:
+          - auth.wojoinc.xyz
+    https: false
 prometheus:
   rules:
     enabled: true
