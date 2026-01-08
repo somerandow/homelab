@@ -17,9 +17,11 @@ data:
     skip_provider_button = true
     silence_ping_logging = true
     cookie_domains = ["wojoinc.xyz", ".wojoinc.xyz"]
-    cookie_refresh = "0"
-    cookie_expire = "59m"
-    cookie_csrf_expire = "59m"
+    cookie_refresh = "59m"
+    cookie_expire = "23h59m"
+    cookie_csrf_expire = "15m"
+    cookie_csrf_per_request_limit = "10"
+    cookie_csrf_per_request = true
     cookie_secure = true
     whitelist_domains = ["wojoinc.xyz", ".wojoinc.xyz"]
     upstreams = ["static://202"]
@@ -29,4 +31,3 @@ data:
     set_authorization_header = true
     pass_basic_auth = false
     cookie_name = "__Secure-oauth2_proxy"
-    cookie_csrf_per_request = true
