@@ -51,3 +51,19 @@ provisioning:
   minSize: 50GB
   maxSize: 200GB
   grow: true
+---
+apiVersion: v1alpha1
+kind: EthernetConfig
+name: enp2s0f0np0
+rings:
+  rx: 8160
+  tx: 8160
+#  tcp-data-split: off
+features:
+  tx-tcp-ecn-segmentation: on
+  tx-ipxip4-segmentation: on
+  tx-ipxip6-segmentation: on
+  tx-checksum-sctp: on
+  rx-ntuple-filter: on
+channels:
+  combined: 12
