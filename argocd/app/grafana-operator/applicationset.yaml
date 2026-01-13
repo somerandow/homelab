@@ -15,7 +15,7 @@ spec:
             argocd.argoproj.io/secret-type: cluster
         values:
           namespace: grafana-operator
-          chartVersion: "v5.21.4"
+          chartVersion: "5.21.4"
   template:
     metadata:
       name: 'grafana-operator-{{.name | slugify}}'
