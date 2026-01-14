@@ -4,6 +4,7 @@ kind: Component
 components:
   - ../../../app/grafana/components/persistence
   - ../../../app/grafana/components/database
+  - ../../../app/grafana/components/oauth
 patches:
   - target:
       kind: GrafanaDatasource
