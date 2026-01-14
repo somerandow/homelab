@@ -3,6 +3,7 @@ apiVersion: kustomize.config.k8s.io/v1alpha1
 kind: Component
 resources:
   - cluster.yaml
+  - podmonitor.yaml
   - serviceaccount.yaml
   - vaultauth.yaml
   - vaultstaticsecret.yaml
@@ -29,6 +30,7 @@ patches:
                   - name: db
                     secret:
                       secretName: grafana-db-app
+                      optional: false
         config:
           database:
             type: "postgres"
