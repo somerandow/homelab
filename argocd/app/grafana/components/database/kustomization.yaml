@@ -35,6 +35,6 @@ patches:
           database:
             type: "postgres"
             host: $__file{/var/run/secrets/vault/db/host}
-            name: $__file{/var/run/secrets/vault/db/database}
+            name: $__file{/var/run/secrets/vault/db/dbname}
             user: $__file{/var/run/secrets/vault/db/user}
             password: $__file{/var/run/secrets/vault/db/password}
