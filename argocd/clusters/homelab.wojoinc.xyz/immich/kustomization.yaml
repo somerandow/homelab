@@ -72,6 +72,9 @@ patches:
         path: /spec/tls/0/hosts/0
         value: immich.wojoinc.xyz
       - op: add
+        path: /spec/rules/0/host
+        value: immich.wojoinc.xyz
+      - op: add
         path: /spec/ingressClassName
         value: traefik-external
   - target:
