@@ -16,7 +16,7 @@ spec:
             argocd.argoproj.io/secret-type: cluster
             cluster-environment: prod
         values:
-          targetRevision: 'v1.3.0'
+          targetRevision: 'v1.4.1'
   template:
     metadata:
       name: 'gateway-api-{{ .name | slugify }}'
