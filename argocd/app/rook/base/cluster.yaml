@@ -112,6 +112,7 @@ spec:
       osd:
         disabled: false
   cephConfig:
+    # https://github.com/rook/rook/discussions/15403#discussioncomment-14701720
     class:ssd:
       bdev_enable_discard: true
       bdev_async_discard_threads: true
