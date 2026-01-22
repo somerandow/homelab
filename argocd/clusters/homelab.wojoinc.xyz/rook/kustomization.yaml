@@ -4,7 +4,7 @@ kind: Component
 components:
   - ../../../app/rook/components/host-networking
   - ../../../app/rook/components/host-storage
-  - ../../../app/rook/components/osd-read-affinity
+  # - ../../../app/rook/components/osd-read-affinity
   - ../../../app/rook/components/blockpool
   - ../../../app/rook/components/filesystem
   - ../../../app/rook/components/objectstore
