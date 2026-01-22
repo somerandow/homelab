@@ -1,0 +1,14 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - kubevirts.kubevirt.io.yaml
+  - clusterrolebinding.yaml
+  - clusterroles.yaml
+  - deployment.yaml
+  - kubevirt.yaml
+  - namespace.yaml
+  - priorityclass.yaml
+  - role.yaml
+  - rolebinding.yaml
+  - serviceaccount.yaml
