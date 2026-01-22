@@ -16,6 +16,9 @@ global:
         secretName: homelab-ca-bundle
 loki:
   auth_enabled: false
+  analytics:
+    reporting_enabled: false
+    usage_stats_url: ""
   schemaConfig:
     configs:
       - from: 2024-04-01
