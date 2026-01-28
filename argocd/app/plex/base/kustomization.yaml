@@ -3,7 +3,7 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 images:
   - name: ghcr.io/home-operations/plex
-    newTag: 1.42.2.10156
+    newTag: 1.43.0.10467
 resources:
   - deployment.yaml
   - ingress.yaml
