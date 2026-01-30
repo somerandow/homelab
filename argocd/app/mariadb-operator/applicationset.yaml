@@ -1,0 +1,60 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: mariadb-operator
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions:
+    - 'missingkey=error'
+  generators:
+    - clusters:
+        selector:
+          matchLabels:
+            argocd.argoproj.io/secret-type: cluster
+        values:
+          # renovate: datasource=github-releases depName=mariadb-operator/mariadb-operator
+          targetRevision: "25.10.4"
+          namespace: mariadb-operator
+  template:
+    metadata:
+      name: 'mariadb-operator-{{.name | slugify}}'
+      labels:
+        app.kubernetes.io/component: argocd-application
+        homelab.wojoinc.xyz/app-group: 'infra'
+    spec:
+      project: default
+      sources:
+        - repoURL: 'https://helm.mariadb.com/mariadb-operator'
+          targetRevision: '{{ .targetRevision }}'
+          chart: mariadb-operator-crds
+          helm:
+            releaseName: mariadb-operator-crds
+            skipCrds: false
+        - repoURL: 'https://helm.mariadb.com/mariadb-operator'
+          targetRevision: '{{ .targetRevision }}'
+          chart: mariadb-operator
+          helm:
+            releaseName: mariadb-operator
+            valueFiles:
+              - $values/argocd/app/mariadb-operator/values.yaml
+              - $values/argocd/clusters/{{.name}}/mariadb-operator/values.yaml
+            skipCrds: true
+            ignoreMissingValueFiles: true
+        - repoURL: 'https://github.com/somerandow/homelab'
+          targetRevision: main
+          ref: values
+      destination:
+        server: '{{ .server }}'
+        namespace: '{{ .values.namespace }}'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+          - ApplyOutOfSyncOnly=true
+          - ServerSideApply=true
+          - RespectIgnoreDifferences=true
+      ignoreDifferences: []
