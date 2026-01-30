@@ -67,6 +67,11 @@ spec:
            - key: node-role.kubernetes.io/control-plane
              operator: DoesNotExist
   resources:
+    osd-ssd:
+      requests:
+        memory: 5120Mi
+      limits:
+        memory: 5120Mi
     osd-hdd:
       requests:
         memory: 3072Mi
