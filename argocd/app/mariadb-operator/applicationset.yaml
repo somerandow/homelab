@@ -27,13 +27,13 @@ spec:
       project: default
       sources:
         - repoURL: 'https://helm.mariadb.com/mariadb-operator'
-          targetRevision: '{{ .targetRevision }}'
+          targetRevision: '{{ .values.targetRevision }}'
           chart: mariadb-operator-crds
           helm:
             releaseName: mariadb-operator-crds
             skipCrds: false
         - repoURL: 'https://helm.mariadb.com/mariadb-operator'
-          targetRevision: '{{ .targetRevision }}'
+          targetRevision: '{{ .values.targetRevision }}'
           chart: mariadb-operator
           helm:
             releaseName: mariadb-operator
