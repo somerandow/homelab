@@ -1,0 +1,53 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: bookstack
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions:
+    - 'missingkey=error'
+  generators:
+    - clusters:
+        selector:
+          matchLabels:
+            argocd.argoproj.io/secret-type: cluster
+        values:
+          # TODO: Update renovate config
+          # renovate: datasource=docker depName=REPLACE_ME
+          # TODO: Update targetRevision
+          targetRevision: "main"
+          namespace: bookstack
+  template:
+    metadata:
+      name: 'bookstack-{{.name | slugify}}'
+      labels:
+        app.kubernetes.io/component: argocd-application
+        # TODO: Update labels
+        homelab.wojoinc.xyz/app-group: 'REPLACE_ME'
+    spec:
+      project: default
+      sources:
+        - repoURL: 'https://github.com/somerandow/homelab'
+          targetRevision: main
+          path: argocd/app/bookstack/base
+          kustomize:
+            components:
+              - ../../../env/{{ index .metadata.labels "cluster-environment" }}/bookstack
+              - ../../../flavor/{{ index .metadata.labels "cluster-flavor" }}/bookstack
+              - ../../../clusters/{{ .name }}/bookstack
+            ignoreMissingComponents: true
+      destination:
+        server: '{{ .server }}'
+        namespace: '{{ .values.namespace }}'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+          - ApplyOutOfSyncOnly=true
+          - ServerSideApply=true
+          - RespectIgnoreDifferences=true
+      ignoreDifferences: []
