@@ -71,3 +71,4 @@ spec:
   selector:
     app.kubernetes.io/name: "plex"
     app.kubernetes.io/instance: "plex"
+  externalTrafficPolicy: Local
