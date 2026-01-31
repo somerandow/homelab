@@ -16,7 +16,7 @@ persistence:
     enabled: true
     accessModes:
       - ReadWriteOnce
-    size: "2Gi"
+    size: "4Gi"
     className: "rook-rbd-fast"
   media:
     existingClaim: "media"
