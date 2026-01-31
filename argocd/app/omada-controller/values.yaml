@@ -10,3 +10,6 @@ services:
     additionalAnnotations:
       traefik.ingress.kubernetes.io/service.serversscheme: https
       traefik.ingress.kubernetes.io/service.serverstransport: omada-upstream-tls@kubernetescrd
+
+image:
+  tag: 6.1.0.19
