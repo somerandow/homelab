@@ -19,11 +19,11 @@ persistence:
   data:
     enabled: true
     storageClassName: "rook-rbd-fast"
-    size: 1Gi
+    size: 5Gi
   logs:
     enabled: true
     storageClassName: "rook-rbd-fast"
-    size: 1Gi
+    size: 2Gi
 services:
   controller:
     type: LoadBalancer
