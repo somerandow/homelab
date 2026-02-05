@@ -23,7 +23,6 @@ machine:
         - tpm: { }
           slot: 0
   network:
-    hostname: worker-2
     searchDomains:
       - wojoinc.xyz
     interfaces:
@@ -38,6 +37,11 @@ machine:
         addresses:
           - 10.4.0.8/16
         mtu: 9000
+---
+apiVersion: v1alpha1
+kind: HostnameConfig
+auto: off
+hostname: worker-2
 ---
 apiVersion: v1alpha1
 kind: VolumeConfig
