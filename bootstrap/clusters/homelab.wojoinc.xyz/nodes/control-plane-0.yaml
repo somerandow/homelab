@@ -20,7 +20,6 @@ machine:
         - nodeID: { }
           slot: 0
   network:
-    hostname: control-plane-0
     nameservers:
       - 10.0.0.1
     searchDomains:
@@ -33,3 +32,8 @@ machine:
           - network: 0.0.0.0/0
             gateway: 10.0.0.1
             metric: 1024
+---
+apiVersion: v1alpha1
+kind: HostnameConfig
+auto: off
+hostname: control-plane-0

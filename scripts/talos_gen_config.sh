@@ -1,7 +1,7 @@
 #!/bin/bash
 BASE_DIR="bootstrap/clusters"
 PLAINTEXT_SUFFIX="_plain.yaml"
-INSTALLER_IMAGE="factory.talos.dev/metal-installer-secureboot/735cad5462c0a7cac42071fb192067589ae25105934e5b666bebd8192e66454a:v1.11.1"
+INSTALLER_IMAGE="factory.talos.dev/metal-installer-secureboot/735cad5462c0a7cac42071fb192067589ae25105934e5b666bebd8192e66454a:v1.12.2"
 
 function gen_base_config {
   CLUSTER=$1

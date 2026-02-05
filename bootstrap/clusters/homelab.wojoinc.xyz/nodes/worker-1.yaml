@@ -23,7 +23,6 @@ machine:
         - tpm: { }
           slot: 0
   network:
-    hostname: worker-1
     searchDomains:
       - wojoinc.xyz
     interfaces:
@@ -41,6 +40,11 @@ machine:
   udev:
     rules:
       - SUBSYSTEM=="tty", KERNEL=="ttyACM*", GROUP="20", MODE="0660"
+---
+apiVersion: v1alpha1
+kind: HostnameConfig
+auto: off
+hostname: worker-1
 ---
 apiVersion: v1alpha1
 kind: VolumeConfig

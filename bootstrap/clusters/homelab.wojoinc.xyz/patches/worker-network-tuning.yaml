@@ -15,7 +15,7 @@ machine:
     net.ipv4.tcp_wmem: 8192 262144 536870912
     net.ipv4.tcp_adv_win_scale: -2
     net.ipv4.tcp_slow_start_after_idle: "0"
-    net.ipv4.tcp_collapse_max_bytes: 6291456
+#    net.ipv4.tcp_collapse_max_bytes: 6291456
     net.ipv4.tcp_window_scaling: 1
     sunrpc.tcp_slot_table_entries: 128
     sunrpc.tcp_max_slot_table_entries: 128
