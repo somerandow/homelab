@@ -3,10 +3,9 @@ machine:
     extraConfig:
       featureGates:
         UserNamespacesSupport: true
-        UserNamespacesPodSecurityStandards: true
   sysctls:
     user.max_user_namespaces: 256352
 cluster:
   apiServer:
     extraArgs:
-      feature-gates: UserNamespacesSupport=true,UserNamespacesPodSecurityStandards=true
+      feature-gates: UserNamespacesSupport=true
