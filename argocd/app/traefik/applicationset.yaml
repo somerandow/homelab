@@ -14,7 +14,7 @@ spec:
           matchLabels:
             argocd.argoproj.io/secret-type: cluster
         values:
-          chartVersion: ">= 35.3.0"
+          chartVersion: ">= 39.0.0"
           namespace: traefik
   template:
     metadata:
