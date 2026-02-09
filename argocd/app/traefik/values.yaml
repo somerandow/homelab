@@ -24,9 +24,11 @@ gatewayClass:
 ingressRoute:
   dashboard:
     enabled: false
-rollingUpdate:
-  maxUnavailable: 1
-  maxSurge: 1
+updateStrategy:
+  type: RollingUpdate
+  rollingUpdate:
+    maxUnavailable: 1
+    maxSurge: 1
 providers:
   kubernetesCRD:
     enabled: true
@@ -45,8 +47,6 @@ logs:
   access:
     enabled: false
     level: WARN
-globalArguments:
-  - "--global.checknewversion"
 additionalArguments:
   - "--entrypoints.web.http.redirections.entryPoint.to=:443"
   - "--entrypoints.web.http.redirections.entryPoint.permanent=true"
