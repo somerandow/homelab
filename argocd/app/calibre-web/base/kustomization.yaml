@@ -3,7 +3,7 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 images:
   - name: ghcr.io/linuxserver/calibre-web
-    newTag: 0.6.25
+    newTag: 0.6.26
 resources:
   - deployment.yaml
   - ingress.yaml
