@@ -1,0 +1,23 @@
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: coder-db
+spec:
+  bootstrap:
+    initdb:
+      database: coder
+  monitoring:
+    enablePodMonitor: false
+  instances: 3
+  storage:
+    size: 1Gi
+  serviceAccountTemplate:
+    metadata:
+      name: postgres
+  postgresql:
+    parameters:
+      pgaudit.log: "all, -misc"
+      pgaudit.log_catalog: "off"
+      pgaudit.log_parameter: "on"
+      pgaudit.log_relation: "on"

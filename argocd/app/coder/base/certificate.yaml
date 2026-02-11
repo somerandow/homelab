@@ -1,0 +1,18 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: coder-upstream-tls
+spec:
+  isCA: false
+  commonName: coder.coder.svc.CLUSTER_DOMAIN
+  dnsNames:
+    - "coder.coder.svc.CLUSTER_DOMAIN"
+  secretName: coder-upstream-tls
+  privateKey:
+    algorithm: ECDSA
+    size: 256
+  issuerRef:
+    name: homelab-ca
+    kind: ClusterIssuer
+    group: cert-manager.io

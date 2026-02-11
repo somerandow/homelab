@@ -1,0 +1,131 @@
+# coder -- Primary configuration for `coder server`.
+coder:
+  env:
+    - name: "CODER_ACCESS_URL"
+      value: "https://console.coder.wojoinc.xyz"
+#    - name: "CODER_TLS_ENABLE"
+#      value: "true"
+#    - name: "CODER_TLS_ADDRESS"
+#      value: "0.0.0.0:8443"
+#    - name: "CODER_TLS_CERT_FILE"
+#      value: "/tls/tls.crt"
+#    - name: "CODER_TLS_KEY_FILE"
+#      value: "/tls/tls.key"
+  envFrom:
+    - secretRef:
+        name: coder-env
+  envUseClusterAccessURL: false
+  serviceAccount:
+    workspaceNamespaces:
+      - name: coder-workspaces
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 1000
+    runAsGroup: 1000
+    readOnlyRootFilesystem: true
+    seccompProfile:
+      type: RuntimeDefault
+    allowPrivilegeEscalation: false
+  podSecurityContext:
+    fsGroup: 1000
+  # coder.volumes -- A list of extra volumes to add to the Coder pod.
+  volumes:
+    - name: data
+      persistentVolumeClaim:
+        claimName: coder-data
+    - name: tmp
+      emptyDir: {}
+#    - name: tls
+#      csi:
+#        readOnly: true
+#        driver: csi.cert-manager.io
+#        volumeAttributes:
+#          csi.cert-manager.io/issuer-name: homelab-ca
+#          csi.cert-manager.io/issuer-kind: ClusterIssuer
+#          csi.cert-manager.io/ip-sans: 127.0.0.1
+#          csi.cert-manager.io/fs-group: "1000"
+#          csi.cert-manager.io/dns-names: "coder.${POD_NAMESPACE}.svc.homelab.wojoinc.local"
+
+  # coder.volumeMounts -- A list of extra volume mounts to add to the Coder pod.
+  volumeMounts:
+    - name: data
+      mountPath: /home/coder
+    - name: tmp
+      mountPath: /tmp
+#    - name: tls
+#      mountPath: /tls
+  tls:
+    secretNames:
+      - coder-upstream-tls
+  replicaCount: 1
+
+  # coder.resources -- The resources to request for Coder. The below values are
+  # defaults and can be overridden.
+  resources:
+  # limits:
+  #  cpu: 2000m
+  #  memory: 4096Mi
+  # requests:
+  #  cpu: 2000m
+  #  memory: 4096Mi
+
+  # coder.readinessProbe -- Readiness probe configuration for the Coder container.
+  # See https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#Probe
+  # for default values.
+  readinessProbe:
+    enabled: true
+    initialDelaySeconds: 0
+  livenessProbe:
+    enabled: true
+    initialDelaySeconds: 0
+  certs:
+    secrets:
+      - name: homelab-ca-bundle
+        key: ca.crt
+  affinity:
+    podAntiAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+        - podAffinityTerm:
+            labelSelector:
+              matchExpressions:
+                - key: app.kubernetes.io/instance
+                  operator: In
+                  values:
+                    - "coder"
+            topologyKey: kubernetes.io/hostname
+          weight: 1
+  service:
+    enable: true
+    type: ClusterIP
+    sessionAffinity: None
+    externalTrafficPolicy: Local
+    annotations:
+      traefik.ingress.kubernetes.io/service.serversscheme: https
+      traefik.ingress.kubernetes.io/service.serverstransport: coder-upstream-tls@kubernetescrd
+#      traefik.ingress.kubernetes.io/service.passhostheader: "true"
+  ingress:
+    enable: false
+    className: traefik-external
+    host: "console.coder.wojoinc.xyz"
+    # coder.ingress.wildcardHost -- The wildcard hostname to match on. Should be
+    # in the form "*.example.com" or "*-suffix.example.com". If you are using a
+    # suffix after the wildcard, the suffix will be stripped from the created
+    # ingress to ensure that it is a legal ingress host. Optional if not using
+    # applications over subdomains.
+    # Be sure to also set CODER_WILDCARD_ACCESS_URL within coder.env[]
+    wildcardHost: "*.coder.wojoinc.xyz"
+    # coder.ingress.annotations -- The ingress annotations.
+    annotations:
+      external-dns.alpha.kubernetes.io/target: "wojoinc.xyz."
+      dns.homelab.wojoinc.xyz/publish-external: ""
+      dns.homelab.wojoinc.xyz/publish-internal: ""
+      cert-manager.io/cluster-issuer: acme
+    # coder.ingress.tls -- The TLS configuration to use for the Ingress.
+    tls:
+      # coder.ingress.tls.enable -- Whether to enable TLS on the Ingress.
+      enable: true
+      # coder.ingress.tls.secretName -- The name of the TLS secret to use.
+      secretName: "coder-ingress-tls"
+      # coder.ingress.tls.wildcardSecretName -- The name of the TLS secret to
+      # use for the wildcard host.
+      wildcardSecretName: "coder-ingress-sub-tls"

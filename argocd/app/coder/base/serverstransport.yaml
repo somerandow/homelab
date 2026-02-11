@@ -1,0 +1,9 @@
+---
+apiVersion: traefik.io/v1alpha1
+kind: ServersTransport
+metadata:
+  name: upstream-tls
+spec:
+  rootCAs:
+    - secret: homelab-ca-bundle
+  serverName: 'coder.coder.svc.CLUSTER_DOMAIN'

@@ -1,0 +1,41 @@
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: acme
+    dns.homelab.wojoinc.xyz/publish-external: ""
+    dns.homelab.wojoinc.xyz/publish-internal: ""
+    external-dns.alpha.kubernetes.io/target: wojoinc.xyz.
+  name: coder
+spec:
+  ingressClassName: traefik-external
+  rules:
+  - host: console.coder.wojoinc.xyz
+    http:
+      paths:
+      - backend:
+          service:
+            name: coder
+            port:
+              name: https
+        path: /
+        pathType: Prefix
+  - host: '*.coder.wojoinc.xyz'
+    http:
+      paths:
+      - backend:
+          service:
+            name: coder
+            port:
+              name: https
+        path: /
+        pathType: Prefix
+  tls:
+  - hosts:
+    - console.coder.wojoinc.xyz
+    secretName: coder-ingress-tls
+  - hosts:
+    - '*.coder.wojoinc.xyz'
+    secretName: coder-ingress-sub-tls

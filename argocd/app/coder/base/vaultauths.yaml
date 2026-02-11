@@ -1,0 +1,28 @@
+---
+apiVersion: secrets.hashicorp.com/v1beta1
+kind: VaultAuth
+metadata:
+  name: coder
+spec:
+  kubernetes:
+    audiences: []
+    role: "TO_BE_FILLED"
+    serviceAccount: coder
+    tokenExpirationSeconds: 600
+  method: kubernetes
+  mount: homelab
+  vaultConnectionRef: vault-secrets-operator/default
+---
+apiVersion: secrets.hashicorp.com/v1beta1
+kind: VaultAuth
+metadata:
+  name: postgres
+spec:
+  kubernetes:
+    audiences: []
+    role: "TO_BE_FILLED"
+    serviceAccount: postgres
+    tokenExpirationSeconds: 600
+  method: kubernetes
+  mount: homelab
+  vaultConnectionRef: vault-secrets-operator/default
