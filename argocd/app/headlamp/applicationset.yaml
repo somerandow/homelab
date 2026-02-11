@@ -13,7 +13,7 @@ spec:
         selector:
           matchLabels:
             argocd.argoproj.io/secret-type: cluster
-            homelab.wojoinc.xyz/app-disabled: ""
+            scheduling.homelab.wojoinc.xyz/no-schedule: ""
         values:
           chartVersion: "0.32.1"
           namespace: headlamp

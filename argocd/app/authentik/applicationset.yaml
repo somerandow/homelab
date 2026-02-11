@@ -13,6 +13,7 @@ spec:
         selector:
           matchLabels:
             argocd.argoproj.io/secret-type: cluster
+            scheduling.homelab.wojoinc.xyz/no-schedule: ""
         values:
           # renovate: datasource=helm depName=https://charts.goauthentik.io
           targetRevision: "2025.10.3"
