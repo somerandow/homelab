@@ -15,7 +15,7 @@ spec:
             argocd.argoproj.io/secret-type: cluster
         values:
           # renovate: datasource=docker depName=ghcr.io/somerandow/charts/vaultwarden
-          targetRevision: "1.7.1"
+          targetRevision: "1.7.2"
           namespace: vaultwarden
   template:
     metadata:
