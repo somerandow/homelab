@@ -1,5 +1,20 @@
 ---
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
+labels:
+  - pairs:
+      app: tubearchivist
+    includeTemplates: true
+    includeSelectors: true
+components:
+  - ../components/forward-auth
+  - ../../../clusters/homelab.wojoinc.xyz/tubearchivist
 resources:
+  - deployment.yaml
   - elasticsearch.yaml
+  - ingress.yaml
+  - redis.yaml
+  - service.yaml
+  - serviceaccounts.yaml
+  - vaultauths.yaml
+  - vaultstaticsecrets.yaml

@@ -1,17 +1,47 @@
 ---
 apiVersion: kustomize.config.k8s.io/v1alpha1
 kind: Component
+configMapGenerator:
+  - name: replacement-config
+    options:
+      annotations:
+        # Skip rendering CM in build output
+        config.kubernetes.io/local-config: "true"
+    literals:
+      - storageClass="rook-rbd-fast"
+replacements:
+  - source:
+      kind: ConfigMap
+      name: replacement-config
+      fieldPath: .data.storageClass
+    targets:
+      - select:
+          kind: Elasticsearch
+        fieldPaths:
+          # Not totally sure why this works, really feels like it shouldn't since the key is actually metadata.name
+          - .spec.nodeSets.[name=default].volumeClaimTemplates.[metadata=elasticsearch-data].spec.storageClassName
 patches:
-  - patch: |-
-      apiVersion: elasticsearch.k8s.elastic.co/v1
-      kind: Elasticsearch
-      metadata:
-        name: not-used
-      spec:
-        nodeSets:
-          - name: default
-            volumeClaimTemplates:
-              - metadata:
-                  name: elasticsearch-data
-                spec:
-                  storageClassName: rook-rbd-fast
+  - target:
+      kind: Ingress
+    path: patch-ingress.yaml
+  - target:
+      kind: Redis
+    patch: |-
+      - op: add
+        path: /spec/storage/volumeClaimTemplate/spec/storageClassName
+        value: rook-rbd-fast
+  - target:
+      kind: VaultAuth
+    patch: |-
+      - op: add
+        path: /spec/kubernetes/audiences/0
+        value: vault.wojoinc.xyz
+      - op: replace
+        path: /spec/kubernetes/role
+        value: homelab-default
+  - target:
+      kind: VaultStaticSecret
+    patch: |-
+      - op: replace
+        path: /spec/mount
+        value: kv-homelab

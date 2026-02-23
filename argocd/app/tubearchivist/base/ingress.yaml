@@ -1,0 +1,21 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: tubearchivist
+spec:
+  rules:
+  - host: yt.wojoinc.xyz
+    http:
+      paths:
+      - backend:
+          service:
+            name: tubearchivist
+            port:
+              number: 8000
+        path: /
+        pathType: Exact
+  tls:
+  - hosts:
+    - yt.wojoinc.xyz
+    secretName: tubearchivist-cert

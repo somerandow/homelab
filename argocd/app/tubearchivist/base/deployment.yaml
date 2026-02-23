@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: tubearchivist
+  name: tubearchivist
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 2
+  selector:
+    matchLabels:
+      app: tubearchivist
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: tubearchivist
+    spec:
+      containers:
+      - image: docker.io/bbilly1/tubearchivist:v0.5.9
+        imagePullPolicy: IfNotPresent
+        name: tubearchivist
+        env:
+          - name: ES_URL
+            value: https://tubearchivist-es-http:9200
+          - name: ES_DISABLE_VERIFY_SSL
+            value: "true"
+          - name: HOST_UID
+            value: "568"
+          - name: HOST_GID
+            value: "568"
+          - name: TA_HOST
+            value: https://tubearchivist.local:8000
+          - name: TZ
+            value: America/Chicago
+        envFrom:
+          - secretRef:
+              name: tubearchivist-redis
+              optional: false
+          - secretRef:
+              name: tubearchivist-admin
+              optional: false
+        ports:
+        - containerPort: 8000
+          protocol: TCP
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
