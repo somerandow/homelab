@@ -1,0 +1,15 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: not-used
+spec:
+  template:
+    spec:
+      volumes:
+        - name: cache
+          persistentVolumeClaim:
+            claimName: tubearchivist-cache
+        - name: media
+          persistentVolumeClaim:
+            claimName: media

@@ -5,11 +5,18 @@ metadata:
   name: tubearchivist
 spec:
   version: 8.19.10
+  serviceAccountName: elasticsearch
+  secureSettings:
+    - secretName: es-snapshot
+  auth:
+    fileRealm:
+      - secretName: elasticsearch-filerealm
   nodeSets:
     - name: default
       count: 3
       config:
         node.store.allow_mmap: false
+        path.repo: /usr/share/elasticsearch/data/snapshot
       volumeClaimTemplates:
         - metadata:
             name: elasticsearch-data

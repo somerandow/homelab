@@ -2,12 +2,40 @@
 apiVersion: secrets.hashicorp.com/v1beta1
 kind: VaultAuth
 metadata:
+  name: tubearchivist
+spec:
+  kubernetes:
+    audiences: []
+    role: "TO_BE_FILLED"
+    serviceAccount: tubearchivist
+    tokenExpirationSeconds: 600
+  method: kubernetes
+  mount: homelab
+  vaultConnectionRef: vault-secrets-operator/default
+---
+apiVersion: secrets.hashicorp.com/v1beta1
+kind: VaultAuth
+metadata:
   name: redis
 spec:
   kubernetes:
     audiences: []
     role: "TO_BE_FILLED"
     serviceAccount: redis
+    tokenExpirationSeconds: 600
+  method: kubernetes
+  mount: homelab
+  vaultConnectionRef: vault-secrets-operator/default
+---
+apiVersion: secrets.hashicorp.com/v1beta1
+kind: VaultAuth
+metadata:
+  name: elasticsearch
+spec:
+  kubernetes:
+    audiences: []
+    role: "TO_BE_FILLED"
+    serviceAccount: elasticsearch
     tokenExpirationSeconds: 600
   method: kubernetes
   mount: homelab

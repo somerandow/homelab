@@ -14,7 +14,7 @@ spec:
             port:
               number: 8000
         path: /
-        pathType: Exact
+        pathType: Prefix
   tls:
   - hosts:
     - yt.wojoinc.xyz

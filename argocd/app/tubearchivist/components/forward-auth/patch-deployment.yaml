@@ -12,4 +12,4 @@ spec:
             - name: TA_LOGIN_AUTH_MODE
               value: forwardauth
             - name: TA_AUTH_PROXY_USERNAME_HEADER
-              value: X-Forwarded-User
+              value: X-Auth-Request-User

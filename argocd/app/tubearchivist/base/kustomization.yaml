@@ -8,6 +8,8 @@ labels:
     includeSelectors: true
 components:
   - ../components/forward-auth
+  - ../../../common/ingress-publish-internal
+  - ../../../env/prod/ingress-tls
   - ../../../clusters/homelab.wojoinc.xyz/tubearchivist
 resources:
   - deployment.yaml

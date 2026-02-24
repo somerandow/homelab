@@ -20,7 +20,12 @@ replacements:
         fieldPaths:
           # Not totally sure why this works, really feels like it shouldn't since the key is actually metadata.name
           - .spec.nodeSets.[name=default].volumeClaimTemplates.[metadata=elasticsearch-data].spec.storageClassName
+resources:
+  - pvc.yaml
 patches:
+  - target:
+      kind: Deployment
+    path: patch-deployment.yaml
   - target:
       kind: Ingress
     path: patch-ingress.yaml

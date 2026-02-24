@@ -6,8 +6,8 @@ patches:
   - target:
       kind: Ingress
     path: patch-ingress.yaml
-  - target:
-      kind: Deployment
-    path: patch-deployment.yaml
+#  - target:
+#      kind: Deployment
+#    path: patch-deployment.yaml
 resources:
   - middlewares.yaml
