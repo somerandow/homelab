@@ -2,13 +2,13 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
-  name: kaneo-db
+  name: vikunja-db
 spec:
   bootstrap:
     initdb:
-      database: kaneo
+      database: vikunja
       secret:
-        name: kaneo-db-app-user
+        name: vikunja-db-app-user
   monitoring:
     enablePodMonitor: false
   instances: 3

@@ -1,0 +1,78 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vikunja
+spec:
+  revisionHistoryLimit: 3
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector: {}
+  template:
+    spec:
+      serviceAccountName: vikunja
+      automountServiceAccountToken: false
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+      dnsPolicy: ClusterFirst
+      enableServiceLinks: false
+      containers:
+        - name: vikunja
+          image: vikunja/vikunja:2.1.0
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: VIKUNJA_DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: vikunja-db-app-user
+                  key: password
+                  optional: false
+          envFrom:
+            - secretRef:
+                name: vikunja-app-oidc
+                optional: true
+          ports:
+            - name: http
+              containerPort: 3456
+              protocol: TCP
+          volumeMounts:
+            - name: config
+              mountPath: /etc/vikunja/config.yml
+              subPath: config.yml
+            - name: data
+              mountPath: /app/vikunja/files
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /api/v1/info
+              port: http
+            initialDelaySeconds: 0
+            periodSeconds: 10
+            timeoutSeconds: 1
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /api/v1/info
+              port: http
+            initialDelaySeconds: 0
+            periodSeconds: 10
+            timeoutSeconds: 1
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+      volumes:
+        - name: config
+          configMap:
+            name: vikunja-config
+        - name: data
+          persistentVolumeClaim:
+            claimName: vikunja-data

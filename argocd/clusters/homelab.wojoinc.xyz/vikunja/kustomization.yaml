@@ -1,0 +1,61 @@
+---
+apiVersion: kustomize.config.k8s.io/v1alpha1
+kind: Component
+components:
+  - ../../../app/vikunja/components/persistence
+  - ../../../common/ingress-publish-internal
+patches:
+  - target:
+      kind: Cluster
+    patch: |-
+      - op: add
+        path: /spec/storage/storageClass
+        value: rook-rbd-fast
+  - target:
+      kind: Deployment
+    patch: |-
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: not-used
+      spec:
+        template:
+          spec:
+            containers:
+              - name: vikunja
+                env:
+                  - name: VIKUNJA_SERVICE_PUBLICURL
+                    value: https://vikunja.wojoinc.xyz
+  - target:
+      kind: Ingress
+    patch: |-
+      - op: add
+        path: /spec/tls/0/hosts/0
+        value: vikunja.wojoinc.xyz
+      - op: add
+        path: /spec/rules/0/host
+        value: vikunja.wojoinc.xyz
+      - op: add
+        path: /spec/ingressClassName
+        value: traefik-external
+  - target:
+      kind: PersistentVolumeClaim
+    patch: |-
+      - op: add
+        path: /spec/storageClassName
+        value: rook-cephfs
+  - target:
+      kind: VaultAuth
+    patch: |-
+      - op: add
+        path: /spec/kubernetes/audiences/0
+        value: vault.wojoinc.xyz
+      - op: replace
+        path: /spec/kubernetes/role
+        value: homelab-default
+  - target:
+      kind: VaultStaticSecret
+    patch: |-
+      - op: replace
+        path: /spec/mount
+        value: kv-homelab
