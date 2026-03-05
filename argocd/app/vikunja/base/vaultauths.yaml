@@ -1,0 +1,28 @@
+---
+apiVersion: secrets.hashicorp.com/v1beta1
+kind: VaultAuth
+metadata:
+  name: vikunja-db
+spec:
+  kubernetes:
+    audiences: []
+    role: "TO_BE_FILLED"
+    serviceAccount: vikunja-db
+    tokenExpirationSeconds: 600
+  method: kubernetes
+  mount: homelab
+  vaultConnectionRef: vault-secrets-operator/default
+---
+apiVersion: secrets.hashicorp.com/v1beta1
+kind: VaultAuth
+metadata:
+  name: vikunja
+spec:
+  kubernetes:
+    audiences: []
+    role: "TO_BE_FILLED"
+    serviceAccount: vikunja
+    tokenExpirationSeconds: 600
+  method: kubernetes
+  mount: homelab
+  vaultConnectionRef: vault-secrets-operator/default
