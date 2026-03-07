@@ -10,3 +10,6 @@ spec:
       kubernetes.io/hostname: control-plane-1
   defaults:
     devices: "enp0s25"
+    # Allow the use of Kubevirt, which requires MAC addresses be assigned to pods
+    # which is not possible with netkit running in L3 mode
+    datapath-mode: netkit-l2
