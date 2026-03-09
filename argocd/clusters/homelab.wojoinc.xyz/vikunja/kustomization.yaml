@@ -11,6 +11,9 @@ patches:
       - op: add
         path: /spec/storage/storageClass
         value: rook-rbd-fast
+      - op: replace
+        path: /spec/storage/size
+        value: 3Gi
   - target:
       kind: Deployment
     patch: |-
