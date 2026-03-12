@@ -11,5 +11,3 @@ resources:
   - deployment.yaml
   - service.yaml
   - serviceaccount.yaml
-components:
-  - ../../../clusters/homelab.wojoinc.xyz/calibre
