@@ -3,10 +3,6 @@ apiVersion: v1
 kind: Service
 metadata:
   name: calibre-web
-  labels:
-    app.kubernetes.io/name: "calibre-web"
-    app.kubernetes.io/instance: "calibre-web"
-  annotations: {}
 spec:
   type: ClusterIP
   ports:
@@ -14,6 +10,4 @@ spec:
       targetPort: http
       protocol: TCP
       name: http
-  selector:
-    app.kubernetes.io/name: "calibre-web"
-    app.kubernetes.io/instance: "calibre-web"
+  selector: {}

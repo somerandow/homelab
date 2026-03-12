@@ -30,7 +30,13 @@ spec:
           path: argocd/app/calibre-web/base
           kustomize:
             components:
+              - ../../../flavor/{{index .metadata.labels "cluster-flavor"}}/common
+              - ../../../flavor/{{index .metadata.labels "cluster-flavor"}}/calibre-web
+              - ../../../env/{{index .metadata.labels "cluster-environment"}}/common
+              - ../../../env/{{index .metadata.labels "cluster-environment"}}/calibre-web
+              - ../../../clusters/{{.name}}/common
               - ../../../clusters/{{.name}}/calibre-web
+            ignoreMissingComponents: true
       destination:
         server: '{{ .server }}'
         namespace: '{{ .values.namespace }}'

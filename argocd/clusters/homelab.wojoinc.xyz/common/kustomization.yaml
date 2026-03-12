@@ -3,9 +3,16 @@ apiVersion: kustomize.config.k8s.io/v1alpha1
 kind: Component
 patches:
   - target:
+      kind: Ingress
+    path: patch-ingressclassname.yaml
+  - target:
       kind: PersistentVolumeClaim
       annotationSelector: persistence.homelab.wojoinc.xyz/accessMode=RWX
     path: patch-rwx-pvc.yaml
+  - target:
+      kind: PersistentVolumeClaim
+      annotationSelector: persistence.homelab.wojoinc.xyz/accessMode=RWO
+    path: patch-rwo-pvc.yaml
   - target:
       kind: GrafanaDashboard
     path: patch-grafanadashboard.yaml
