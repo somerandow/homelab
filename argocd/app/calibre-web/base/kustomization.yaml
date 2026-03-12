@@ -1,6 +1,12 @@
 ---
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
+labels:
+  - pairs:
+      app.kubernetes.io/name: "calibre-web"
+      app.kubernetes.io/instance: "calibre-web"
+    includeSelectors: true
+    includeTemplates: true
 images:
   - name: ghcr.io/linuxserver/calibre-web
     newTag: 0.6.26

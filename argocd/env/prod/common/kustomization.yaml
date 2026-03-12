@@ -4,3 +4,7 @@ kind: Component
 labels:
   - pairs:
       env: prod
+patches:
+  - target:
+      kind: Ingress
+    path: patch-ingress.yaml
