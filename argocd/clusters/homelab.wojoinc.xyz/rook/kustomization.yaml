@@ -8,6 +8,8 @@ components:
   - ../../../app/rook/components/blockpool
   - ../../../app/rook/components/filesystem
   - ../../../app/rook/components/objectstore
+  - ../../../app/rook/components/dashboard
+  - ../../../env/prod/grafana-dashboards
   - ../../../env/prod/ingress-tls
   - ../../../common/ingress-publish-internal
 resources:
