@@ -33,6 +33,7 @@ spec:
             releaseName: bazarr
             valueFiles:
               - $values/argocd/app/bazarr/values.yaml
+              - $values/argocd/flavor/{{index .metadata.labels "cluster-flavor"}}/bazarr/values.yaml
               - $values/argocd/env/{{index .metadata.labels "cluster-environment"}}/bazarr/values.yaml
               - $values/argocd/clusters/{{.name}}/bazarr/values.yaml
             skipCrds: false

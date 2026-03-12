@@ -30,6 +30,10 @@ spec:
           path: argocd/app/calibre/base
           kustomize:
             components:
+              - ../../../flavor/{{index .metadata.labels "cluster-flavor"}}/common
+              - ../../../flavor/{{index .metadata.labels "cluster-flavor"}}/calibre
+              - ../../../env/{{index .metadata.labels "cluster-environment"}}/common
+              - ../../../env/{{index .metadata.labels "cluster-environment"}}/calibre
               - ../../../clusters/{{.name}}/calibre
       destination:
         server: '{{ .server }}'

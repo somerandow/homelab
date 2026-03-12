@@ -4,8 +4,7 @@ apiVersion: v1
 metadata:
   name: calibre-config
   labels:
-    app.kubernetes.io/name: "calibre"
-    app.kubernetes.io/instance: "calibre"
+    persistence.homelab.wojoinc.xyz/accessMode: RWX
 spec:
   accessModes: 
     - ReadWriteMany

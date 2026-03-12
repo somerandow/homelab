@@ -1,7 +1,15 @@
 ---
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
+labels:
+  - pairs:
+      app.kubernetes.io/name: "calibre"
+      app.kubernetes.io/instance: "calibre"
+    includeTemplates: true
+    includeSelectors: true
 resources:
   - deployment.yaml
   - service.yaml
   - serviceaccount.yaml
+components:
+  - ../../../clusters/homelab.wojoinc.xyz/calibre

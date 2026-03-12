@@ -7,11 +7,6 @@ patches:
   - target:
       kind: Deployment
     patch: |-
-      - op: remove
-        path: /spec/template/spec/volumes/0/emptyDir
-  - target:
-      kind: Deployment
-    patch: |-
       apiVersion: apps/v1
       kind: Deployment
       metadata:
