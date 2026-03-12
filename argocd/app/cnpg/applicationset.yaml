@@ -43,9 +43,13 @@ spec:
           path: argocd/app/cnpg/base
           kustomize:
             components:
+              - ../../../flavor/{{ index .metadata.labels "cluster-flavor" }}/common
+              - ../../../flavor/{{ index .metadata.labels "cluster-flavor" }}/cnpg
               - ../../../env/{{ index .metadata.labels "cluster-environment" }}/common
+              - ../../../env/{{ index .metadata.labels "cluster-environment" }}/cnpg
               - ../../../clusters/{{ .name }}/common
               - ../../../clusters/{{ .name }}/cnpg
+            ignoreMissingComponents: true
       destination:
         server: '{{ .server }}'
         namespace: '{{ .values.namespace }}'
