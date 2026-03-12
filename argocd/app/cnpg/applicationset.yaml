@@ -50,7 +50,6 @@ spec:
               - ../../../env/{{ index .metadata.labels "cluster-environment" }}/common
               - ../../../env/{{ index .metadata.labels "cluster-environment" }}/cnpg
               - ../../../clusters/{{ .name }}/common
-              - ../../../clusters/{{ .name }}/cnpg
             ignoreMissingComponents: true
       destination:
         server: '{{ .server }}'
