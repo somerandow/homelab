@@ -1,0 +1,11 @@
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: ceph-cluster
+spec:
+  instanceSelector: {}
+  allowCrossNamespaceImport: true
+  uid: tbO9LAiZK
+  folder: Infra
+  url: https://grafana.com/api/dashboards/2842/revisions/18/download
