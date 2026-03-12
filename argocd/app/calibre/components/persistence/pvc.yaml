@@ -3,7 +3,7 @@ kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
   name: calibre-config
-  labels:
+  annotations:
     persistence.homelab.wojoinc.xyz/accessMode: RWX
 spec:
   accessModes: 

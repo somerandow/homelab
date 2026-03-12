@@ -4,7 +4,7 @@ kind: Component
 patches:
   - target:
       kind: PersistentVolumeClaim
-      labelSelector: persistence.homelab.wojoinc.xyz/accessMode=RWX
+      annotationSelector: persistence.homelab.wojoinc.xyz/accessMode=RWX
     path: patch-rwx-pvc.yaml
   - target:
       kind: GrafanaDashboard
