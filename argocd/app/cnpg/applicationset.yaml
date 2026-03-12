@@ -32,6 +32,8 @@ spec:
             releaseName: cnpg
             valueFiles:
               - $values/argocd/app/cnpg/values.yaml
+              - $values/argocd/flavor/{{index .metadata.labels "cluster-flavor"}}/cnpg/values.yaml
+              - $values/argocd/env/{{index .metadata.labels "cluster-environment"}}/cnpg/values.yaml
               - $values/argocd/clusters/{{.name}}/cnpg/values.yaml
             skipCrds: false
             ignoreMissingValueFiles: true
