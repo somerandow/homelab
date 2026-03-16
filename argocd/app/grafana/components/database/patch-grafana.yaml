@@ -1,0 +1,28 @@
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: Grafana
+metadata:
+  name: not-used
+spec:
+  deployment:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: grafana
+              volumeMounts:
+                - name: db
+                  mountPath: /var/run/secrets/vault/db
+                  readOnly: true
+          volumes:
+            - name: db
+              secret:
+                secretName: grafana-db-app
+                optional: false
+  config:
+    database:
+      type: "postgres"
+      host: $__file{/var/run/secrets/vault/db/host}
+      name: $__file{/var/run/secrets/vault/db/dbname}
+      user: $__file{/var/run/secrets/vault/db/user}
+      password: $__file{/var/run/secrets/vault/db/password}

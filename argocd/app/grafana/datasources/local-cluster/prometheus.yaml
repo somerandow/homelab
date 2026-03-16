@@ -5,9 +5,7 @@ metadata:
   name: prometheus
 spec:
   uid: prometheus
-  instanceSelector:
-    matchLabels:
-      monitoring.homelab.wojoinc.xyz/grafana-instance: grafana
+  instanceSelector: {}
   datasource:
     name: prometheus
     type: prometheus

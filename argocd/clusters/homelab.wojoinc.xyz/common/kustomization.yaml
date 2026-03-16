@@ -16,3 +16,16 @@ patches:
   - target:
       kind: GrafanaDashboard
     path: patch-grafanadashboard.yaml
+  - target:
+      version: postgresql.cnpg.io/v1
+      kind: Cluster
+    path: patch-postgres-storageclass.yaml
+  - target:
+      kind: VaultAuth
+    path: patch-vaultauth.yaml
+  - target:
+      kind: VaultStaticSecret
+    path: patch-vaultstaticsecret.yaml
+  - target:
+      kind: PodMonitor
+    path: patch-podmonitor.yaml

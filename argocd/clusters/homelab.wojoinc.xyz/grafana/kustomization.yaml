@@ -1,10 +1,6 @@
 ---
 apiVersion: kustomize.config.k8s.io/v1alpha1
 kind: Component
-components:
-  - ../../../app/grafana/components/persistence
-  - ../../../app/grafana/components/database
-  - ../../../app/grafana/components/oauth
 patches:
   - target:
       kind: GrafanaDatasource
@@ -20,6 +16,9 @@ patches:
       - op: replace
         path: /spec/config/server/root_url
         value: https://grafana.wojoinc.xyz/
+      - op: add
+        path: /spec/ingress/spec/ingressClassName
+        value: traefik-external
       - op: replace
         path: /spec/ingress/spec/rules/0/host
         value: grafana.wojoinc.xyz
@@ -30,32 +29,8 @@ patches:
         path: /spec/persistentVolumeClaim/spec/storageClassName
         value: rook-cephfs
   - target:
-      kind: VaultAuth
-    patch: |-
-      - op: add
-        path: /spec/kubernetes/audiences/0
-        value: vault.wojoinc.xyz
-      - op: replace
-        path: /spec/kubernetes/role
-        value: homelab-default
-  - target:
-      kind: VaultStaticSecret
-    patch: |-
-      - op: replace
-        path: /spec/mount
-        value: kv-homelab
-  - target:
       kind: Cluster
     patch: |-
-      - op: add
-        path: /spec/storage/storageClass
-        value: rook-rbd-fast
       - op: replace
         path: /spec/storage/size
         value: 3Gi
-  - target:
-      kind: PodMonitor
-    patch: |-
-      - op: add
-        path: /metadata/labels/monitoring.homelab.wojoinc.xyz~1enabled
-        value: "true"
