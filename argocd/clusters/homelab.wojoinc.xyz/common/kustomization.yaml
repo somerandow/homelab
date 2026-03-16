@@ -17,6 +17,9 @@ patches:
       kind: GrafanaDashboard
     path: patch-grafanadashboard.yaml
   - target:
+      kind: GrafanaDatasource
+    path: patch-grafanadatasource.yaml
+  - target:
       version: postgresql.cnpg.io/v1
       kind: Cluster
     path: patch-postgres-storageclass.yaml
