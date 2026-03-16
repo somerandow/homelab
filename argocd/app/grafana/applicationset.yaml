@@ -36,6 +36,7 @@ spec:
               - ../../../env/{{index .metadata.labels "cluster-environment"}}/grafana
               - ../../../clusters/{{.name}}/common
               - ../../../clusters/{{.name}}/grafana
+            ignoreMissingComponents: true
       destination:
         server: '{{ .server }}'
         namespace: '{{ .values.namespace }}'
