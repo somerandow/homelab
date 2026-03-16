@@ -1,0 +1,6 @@
+- op: add
+  path: /spec/kubernetes/audiences/0
+  value: vault.wojoinc.xyz
+- op: replace
+  path: /spec/kubernetes/role
+  value: homelab-default

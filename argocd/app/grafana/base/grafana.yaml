@@ -12,9 +12,6 @@ spec:
         spec:
           containers:
             - name: grafana
-              volumeMounts:
-                - mountPath: /var/run/secrets/static/oauth
-                  name: oauth
               resources:
                 requests:
                   cpu: 100m
@@ -22,14 +19,6 @@ spec:
                 limits:
                   cpu: "2"
                   memory: 2Gi
-          volumes:
-            - name: oauth
-              secret:
-                secretName: grafana-oauth
-                optional: false
-        metadata:
-          labels:
-            monitoring.homelab.wojoinc.xyz/grafana-instance: grafana
   config:
     analytics:
       enabled: "false"
@@ -47,19 +36,6 @@ spec:
       enabled: "true"
     auth.anonymous:
       enabled: "false"
-    auth.generic_oauth:
-      name: Keycloak
-      allow_sign_up: "true"
-      client_id: $__file{/var/run/secrets/static/oauth/client_id}
-      client_secret: $__file{/var/run/secrets/static/oauth/client_secret}
-      enabled: "true"
-      scopes: openid profile email groups offline_access
-      use_refresh_token: "true"
-      use_pkce: "true"
-      auth_url: "***** TO_BE_FILLED *****"
-      token_url: "***** TO_BE_FILLED *****"
-      api_url: "***** TO_BE_FILLED *****"
-      role_attribute_path: "***** TO_BE_FILLED *****"
     users:
       allow_org_create: "false"
       auto_assign_org: "true"
@@ -69,14 +45,8 @@ spec:
       serve_from_sub_path: "false"
       root_url: "***** TO_BE_FILLED *****"
   ingress:
-    metadata:
-      annotations:
-        # TODO Parameterize these
-        cert-manager.io/cluster-issuer: acme
-        external-dns.alpha.kubernetes.io/target: "wojoinc.xyz."
-        dns.homelab.wojoinc.xyz/publish-external: "true"
     spec:
-      ingressClassName: traefik-external
+
       rules:
         - host: "***** TO_BE_FILLED *****"
           http:

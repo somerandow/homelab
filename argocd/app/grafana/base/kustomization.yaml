@@ -7,3 +7,8 @@ openapi:
   path: grafanas.openapi.json
 resources:
   - grafana.yaml
+components:
+  - ../../../env/prod/common
+  - ../../../env/prod/grafana
+  - ../../../clusters/homelab.wojoinc.xyz/common
+  - ../../../clusters/homelab.wojoinc.xyz/grafana
