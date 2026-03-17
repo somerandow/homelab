@@ -16,7 +16,7 @@ spec:
         values:
           namespace: grafana-operator
           # renovate: datasource=github-releases depName=grafana/grafana-operator
-          targetRevision: "v5.22.2"
+          targetRevision: "5.22.2"
   template:
     metadata:
       name: 'grafana-operator-{{.name | slugify}}'
