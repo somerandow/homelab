@@ -15,7 +15,8 @@ spec:
             argocd.argoproj.io/secret-type: cluster
         values:
           namespace: grafana-operator
-          chartVersion: "5.21.4"
+          # renovate: datasource=github-releases depName=grafana/grafana-operator
+          targetRevision: "5.21.4"
   template:
     metadata:
       name: 'grafana-operator-{{.name | slugify}}'
@@ -26,12 +27,13 @@ spec:
       project: default
       sources:
         - repoURL: ghcr.io/grafana/helm-charts
-          targetRevision: '{{.values.chartVersion}}'
+          targetRevision: '{{.values.targetRevision}}'
           chart: grafana-operator
           helm:
             releaseName: grafana-operator
             valueFiles:
               - $values/argocd/app/grafana-operator/values.yaml
+              - $values/argocd/env/{{index .metadata.labels "cluster-environment"}}/grafana-operator/values.yaml
               - $values/argocd/clusters/{{.name}}/grafana-operator/values.yaml
             skipCrds: false
             ignoreMissingValueFiles: true
