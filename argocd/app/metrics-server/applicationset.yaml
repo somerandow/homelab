@@ -14,8 +14,9 @@ spec:
           matchLabels:
             argocd.argoproj.io/secret-type: cluster
         values:
+          # renovate: datasource=github-releases depName=kubernetes-sigs/metrics-server
+          targetRevision: "v0.8.0"
           namespace: metrics-server
-          targetRevision: 2b4f3e9bcc626737e9ef224a15bd8c4810261a8e
   template:
     metadata:
       name: 'metrics-server-{{.name | slugify}}'
