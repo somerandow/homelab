@@ -46,7 +46,7 @@ patches:
         value: rook-rbd-fast
       - op: replace
         path: /spec/resources/requests/storage
-        value: "200Gi"
+        value: "220Gi"
   - target:
       kind: Ingress
     patch: |-
