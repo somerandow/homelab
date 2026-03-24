@@ -1,0 +1,12 @@
+metrics:
+  serviceMonitor:
+    enabled: true
+    additionalLabels:
+      monitoring.homelab.wojoinc.xyz/enabled: "true"
+  nodeAgentPodMonitor:
+    enabled: true
+    additionalLabels:
+      monitoring.homelab.wojoinc.xyz/enabled: "true"
+  prometheusRule:
+    additionalLables:
+      monitoring.homelab.wojoinc.xyz/enabled: "true"
