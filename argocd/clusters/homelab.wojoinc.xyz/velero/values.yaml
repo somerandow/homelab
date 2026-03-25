@@ -1,3 +1,19 @@
+configuration:
+  backupStorageLocation:
+    - name: aws
+      provider: "aws"
+      bucket: "3e4e5504-3720-4854-8b72-39b44e116f47"
+      accessMode: ReadWrite
+      default: true
+      credential:
+        name: aws-credentials
+        key: default
+      config:
+        region: us-east-1
+        s3ForcePathStyle: "false"
+        checksumAlgorithm: SHA256
+  # No snapshotting, this will be done via Rook/Ceph
+  volumeSnapshotLocation: []
 metrics:
   serviceMonitor:
     enabled: true
