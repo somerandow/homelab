@@ -1,0 +1,25 @@
+image:
+  repository: docker.io/velero/velero
+  tag: v1.18.0
+  pullPolicy: IfNotPresent
+
+podSecurityContext:
+  runAsUser: 1001
+  runAsGroup: 999
+  runAsNonRoot: true
+
+containerSecurityContext:
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop:
+      - ALL
+  readOnlyRootFilesystem: true
+
+serviceAccount:
+  server:
+    create: true
+    name: velero
+    automountServiceAccountToken: true
+
+deployNodeAgent: false
+schedules: {}
