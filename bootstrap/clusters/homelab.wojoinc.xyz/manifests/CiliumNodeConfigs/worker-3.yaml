@@ -9,7 +9,7 @@ spec:
     matchLabels:
       kubernetes.io/hostname: worker-3
   defaults:
-    devices: "enp6s0,bond0"
+    devices: "enp5s0,bond0"
     # Allow the use of Kubevirt, which requires MAC addresses be assigned to pods
     # which is not possible with netkit running in L3 mode
     datapath-mode: netkit-l2
