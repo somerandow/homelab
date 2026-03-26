@@ -4,3 +4,4 @@ kind: Component
 resources:
   - cephfilesystem.yaml
   - storageclass.yaml
+  - volumesnapshotclass.yaml

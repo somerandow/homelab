@@ -1,0 +1,47 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: external-snapshotter
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions:
+    - 'missingkey=error'
+  generators:
+    - clusters:
+        selector:
+          matchLabels:
+            argocd.argoproj.io/secret-type: cluster
+        values:
+          # renovate: datasource=github-releases depName=kubernetes-csi/external-snapshotter
+          targetRevision: "v8.5.0"
+          namespace: kube-system
+  template:
+    metadata:
+      name: 'external-snapshotter-{{.name | slugify}}'
+      labels:
+        app.kubernetes.io/component: argocd-application
+        homelab.wojoinc.xyz/app-group: 'infra'
+    spec:
+      project: default
+      sources:
+        - repoURL: 'https://github.com/kubernetes-csi/external-snapshotter/'
+          path: client/config/crd
+          targetRevision: '{{ .values.targetRevision }}'
+        - repoURL: 'https://github.com/kubernetes-csi/external-snapshotter/'
+          path: deploy/kubernetes/snapshot-controller
+          targetRevision: '{{ .values.targetRevision }}'
+      destination:
+        server: '{{ .server }}'
+        namespace: '{{ .values.namespace }}'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+          - ApplyOutOfSyncOnly=true
+          - ServerSideApply=true
+          - RespectIgnoreDifferences=true
+      ignoreDifferences: []
