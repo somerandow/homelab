@@ -15,7 +15,7 @@ spec:
             argocd.argoproj.io/secret-type: cluster
         values:
           # renovate: datasource=docker depName=quay.io/jetstack/charts/cert-manager
-          targetRevision: "v1.20.0"
+          targetRevision: "v1.20.1"
           namespace: cert-manager
   template:
     metadata:
