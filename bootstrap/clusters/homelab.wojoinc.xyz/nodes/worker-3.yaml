@@ -26,7 +26,7 @@ machine:
     searchDomains:
       - wojoinc.xyz
     interfaces:
-      - interface: enp6s0
+      - interface: enp5s0
         addresses:
           - 10.0.0.5/24
         routes:
@@ -40,8 +40,8 @@ machine:
           mode: 802.3ad
           lacpRate: fast
           interfaces:
-            - enp4s0f1np0
-            - enp4s0f1np1
+            - enp3s0f0np0
+            - enp3s0f1np1
         mtu: 9000
 ---
 apiVersion: v1alpha1
