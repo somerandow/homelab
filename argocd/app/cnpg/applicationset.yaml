@@ -14,7 +14,7 @@ spec:
           matchLabels:
             argocd.argoproj.io/secret-type: cluster
         values:
-          chartVersion: "0.24.0"
+          chartVersion: "0.27.1"
           namespace: cnpg
   template:
     metadata:
