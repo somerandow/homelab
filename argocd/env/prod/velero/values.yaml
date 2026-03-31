@@ -1,3 +1,5 @@
+configuration:
+  features: EnableCSI
 metrics:
   prometheusRule:
     enabled: true
