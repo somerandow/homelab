@@ -22,11 +22,15 @@ serviceAccount:
     automountServiceAccountToken: true
 
 deployNodeAgent: false
-# Fix issue of /udmrepo not being mounted to a writeable location
+# Fix issues created by readOnlyRootFilesystem
 extraVolumes:
-    - name: udmrepo
-      emptyDir: {}
+  - name: udmrepo
+    emptyDir: {}
+  - name: cache
+    emptyDir: {}
 extraVolumeMounts:
   - mountPath: /udmrepo
     name: udmrepo
+  - mountPath: /.cache
+    name: cache
 schedules: {}

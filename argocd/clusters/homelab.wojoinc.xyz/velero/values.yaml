@@ -28,3 +28,15 @@ metrics:
   prometheusRule:
     additionalLables:
       monitoring.homelab.wojoinc.xyz/enabled: "true"
+nodeAgent:
+  extraArgs: [ "--node-agent-configmap=velero-node-agent-cfg" ]
+configMaps:
+  node-agent-cfg:
+    data:
+      node-agent-config.json: |
+        {
+          "cachePVC": {
+            "thresholdInGB": 5,
+            "storageClass": "rook-rbd-fast"
+          }
+        }
