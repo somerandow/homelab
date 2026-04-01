@@ -1,5 +1,15 @@
 configuration:
   features: EnableCSI
+deployNodeAgent: true
+nodeAgent:
+  disableHostPath: true
+  resources:
+    requests:
+      cpu: 500m
+      memory: 500Mi
+    limits:
+      cpu: '2'
+      memory: 1532Mi
 metrics:
   prometheusRule:
     enabled: true
