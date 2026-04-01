@@ -1,5 +1,6 @@
 configuration:
   features: EnableCSI
+  defaultSnapshotMoveData: true
 deployNodeAgent: true
 nodeAgent:
   disableHostPath: true

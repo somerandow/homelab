@@ -12,8 +12,10 @@ configuration:
         region: us-east-1
         s3ForcePathStyle: "false"
         checksumAlgorithm: SHA256
-  # No snapshotting, this will be done via Rook/Ceph
-  volumeSnapshotLocation: []
+  volumeSnapshotLocation:
+    - name: default
+      provider: csi
+      config: {}
 metrics:
   serviceMonitor:
     enabled: true
