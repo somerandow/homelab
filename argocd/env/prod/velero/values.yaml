@@ -10,6 +10,13 @@ nodeAgent:
     limits:
       cpu: '2'
       memory: 1532Mi
+  # Fix issue of /udmrepo not being mounted to a writeable location
+  extraVolumes:
+    - name: udmrepo
+      emptyDir: {}
+  extraVolumeMounts:
+    - mountPath: /udmrepo
+      name: udmrepo
 metrics:
   prometheusRule:
     enabled: true
