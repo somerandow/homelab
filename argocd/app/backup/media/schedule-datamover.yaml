@@ -1,0 +1,33 @@
+---
+apiVersion: velero.io/v1
+kind: Schedule
+metadata:
+  name: ""
+  namespace: velero
+spec:
+  paused: true
+  skipImmediately: true
+  schedule: 0 4 * * 0,3
+  useOwnerReferencesInBackup: false
+  template:
+    csiSnapshotTimeout: 20m
+#    # resourcePolicy specifies the referenced resource policies that backup should follow
+#    # optional
+#    resourcePolicy:
+#      kind: configmap
+#      name: resource-policy-configmap
+    includedNamespaces: []
+    includedResources:
+      - '*'
+    excludedResources:
+      - secrets
+    includeClusterResources: false
+    snapshotVolumes: true
+    storageLocation: aws
+    volumeSnapshotLocations:
+      - default
+    ttl: 720h0m0s
+    defaultVolumesToFsBackup: false
+    snapshotMoveData: true
+    uploaderConfig:
+      parallelFilesUpload: 30
