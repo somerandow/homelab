@@ -7,7 +7,12 @@ spec:
   certificateRotateStrategy: {}
   configuration:
     developerConfiguration:
-      featureGates: []
+      featureGates:
+        - HostDevices
+      permittedHostDevices:
+        usb:
+          - externalResourceProvider: true
+            resourceName: devices.wojoinc.xyz/zbmatter
     smbios:
       sku: "TalosCloud"
       version: "v0.1.0"
