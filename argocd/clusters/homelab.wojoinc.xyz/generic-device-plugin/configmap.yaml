@@ -18,8 +18,14 @@ data:
               - path: /dev/dri/renderD128
               - path: /dev/dri/card0
         count: 1
-      - name: zbmatter
+      - name: thread
         groups:
-          - paths:
-              - path: /dev/ttyACM*
+          - usb:
+              - vendor: 303a
+                product: 831a
+      - name: zigbee
+        groups:
+          - usb:
+              - vendor: 1a86
+                product: 7523
         count: 1
