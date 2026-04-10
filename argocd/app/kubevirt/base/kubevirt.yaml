@@ -11,8 +11,10 @@ spec:
         - HostDevices
     permittedHostDevices:
       usb:
-        - externalResourceProvider: true
-          resourceName: devices.wojoinc.xyz/zbmatter
+        - resourceName: devices.wojoinc.xyz/zbmatter
+          selectors:
+            - product: 303a
+              vendor: 831a
     smbios:
       sku: "TalosCloud"
       version: "v0.1.0"
