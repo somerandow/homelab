@@ -13,8 +13,8 @@ spec:
       usb:
         - resourceName: devices.wojoinc.xyz/zbmatter
           selectors:
-            - product: 303a
-              vendor: 831a
+            - product: 831a
+              vendor: 303a
     smbios:
       sku: "TalosCloud"
       version: "v0.1.0"
