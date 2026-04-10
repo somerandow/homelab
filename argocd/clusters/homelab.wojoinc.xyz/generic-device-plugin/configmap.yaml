@@ -20,12 +20,10 @@ data:
         count: 1
       - name: thread
         groups:
-          - usb:
-              - vendor: "303a"
-                product: "831a"
+          - paths:
+              - path: /dev/ttyACM*
       - name: zigbee
         groups:
-          - usb:
-              - vendor: "1a86"
-                product: "7523"
+          - paths:
+              - path: /dev/ttyUSB*
         count: 1
