@@ -23,7 +23,6 @@ patches:
       metadata:
         name: not-used
       spec:
-        replicas: 0
         template:
           spec:
             containers:
