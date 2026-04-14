@@ -5,6 +5,8 @@ metadata:
   name: home-assistant
 spec:
   replicas: 1
+  strategy:
+    type: Recreate
   revisionHistoryLimit: 1
   selector: {}
   template:
@@ -13,7 +15,7 @@ spec:
     spec:
       containers:
         - name: home-assistant
-          image: ghcr.io/home-operations/home-assistant:2025.12.4
+          image: ghcr.io/home-operations/home-assistant:2026.4.2
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8123

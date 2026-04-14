@@ -30,8 +30,13 @@ spec:
           path: argocd/app/home-assistant/base
           kustomize:
             components:
-              - ../../../env/{{ index .metadata.labels "cluster-environment" }}/ingress-tls
+              - ../../../flavor/{{index .metadata.labels "cluster-flavor"}}/common
+              - ../../../flavor/{{index .metadata.labels "cluster-flavor"}}/home-assistant
+              - ../../../env/{{index .metadata.labels "cluster-environment"}}/common
+              - ../../../env/{{index .metadata.labels "cluster-environment"}}/home-assistant
+              - ../../../clusters/{{.name}}/common
               - ../../../clusters/{{.name}}/home-assistant
+            ignoreMissingComponents: true
       destination:
         server: '{{ .server }}'
         namespace: '{{ .values.namespace }}'
