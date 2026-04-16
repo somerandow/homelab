@@ -15,7 +15,7 @@ spec:
             argocd.argoproj.io/secret-type: cluster
         values:
           # renovate: datasource=github-tags depName=keycloak/keycloak-k8s-resources
-          targetRevision: "26.6.0"
+          targetRevision: "26.6.1"
           namespace: keycloak
   template:
     metadata:
