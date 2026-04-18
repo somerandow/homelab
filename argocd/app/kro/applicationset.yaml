@@ -14,8 +14,8 @@ spec:
           matchLabels:
             argocd.argoproj.io/secret-type: cluster
         values:
-          # renovate: datasource=github depName=kubernetes-sigs/kro
-          targetRevision: "0.5.1"
+          # renovate: datasource=docker depName=registry.k8s.io/kro/charts/kro
+          targetRevision: "0.9.1"
           namespace: kro
   template:
     metadata:
