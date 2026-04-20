@@ -32,8 +32,10 @@ spec:
           helm:
             releaseName: vaultwarden
             valueFiles:
-              - $values/argocd/app/vaultwarden/values.yaml
-              - $values/argocd/clusters/{{.name}}/vaultwarden/values.yaml
+              - $values/argocd/app/vaultwarden/values/base/values.yaml
+              - $values/argocd/app/vaultwarden/values/flavor/{{index .metadata.labels "cluster-flavor"}}/values.yaml
+              - $values/argocd/app/vaultwarden/values/env/{{index .metadata.labels "cluster-environment"}}/values.yaml
+              - $values/argocd/app/vaultwarden/values/clusters/{{.name}}/values.yaml
             skipCrds: false
             ignoreMissingValueFiles: true
         - repoURL: 'https://github.com/somerandow/homelab'
@@ -44,7 +46,13 @@ spec:
           path: argocd/app/vaultwarden/base
           kustomize:
             components:
-              - ../../../clusters/{{.name}}/vaultwarden
+              - ../../../flavor/{{index .metadata.labels "cluster-flavor"}}/common
+              - ../flavor/{{index .metadata.labels "cluster-flavor"}}/vaultwarden
+              - ../../../env/{{index .metadata.labels "cluster-environment"}}/common
+              - ../env/{{index .metadata.labels "cluster-environment"}}/vaultwarden
+              - ../../../clusters/{{.name}}/common
+              - ../clusters/{{.name}}/vaultwarden
+            ignoreMissingComponents: true
       destination:
         server: '{{ .server }}'
         namespace: '{{ .values.namespace }}'
