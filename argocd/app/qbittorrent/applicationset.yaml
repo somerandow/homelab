@@ -33,8 +33,10 @@ spec:
           helm:
             releaseName: qbittorrent
             valueFiles:
-              - $values/argocd/app/qbittorrent/values.yaml
-              - $values/argocd/clusters/{{.name}}/qbittorrent/values.yaml
+              - $values/argocd/app/qbittorrent/values/base/values.yaml
+              - $values/argocd/app/qbittorrent/values/flavor/{{index .metadata.labels "cluster-flavor"}}/values.yaml
+              - $values/argocd/app/qbittorrent/values/env/{{index .metadata.labels "cluster-environment"}}/values.yaml
+              - $values/argocd/app/qbittorrent/values/cluster/{{.name}}/values.yaml
             ignoreMissingValueFiles: true
         - repoURL: 'https://github.com/somerandow/homelab'
           targetRevision: main
