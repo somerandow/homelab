@@ -31,8 +31,10 @@ spec:
           helm:
             releaseName: renovate
             valueFiles:
-              - $values/argocd/app/renovate/values.yaml
-              - $values/argocd/clusters/{{.name}}/renovate/values.yaml
+              - $values/argocd/app/renovate/values/base/values.yaml
+              - $values/argocd/app/renovate/values/flavor/{{index .metadata.labels "cluster-flavor"}}/values.yaml
+              - $values/argocd/app/renovate/values/env/{{index .metadata.labels "cluster-environment"}}/values.yaml
+              - $values/argocd/app/renovate/values/cluster/{{.name}}/values.yaml
             skipCrds: false
             ignoreMissingValueFiles: true
         - repoURL: 'https://github.com/somerandow/homelab'
@@ -43,7 +45,13 @@ spec:
           path: argocd/app/renovate/base
           kustomize:
             components:
-              - ../../../clusters/{{.name}}/renovate
+              - ../../../flavor/{{index .metadata.labels "cluster-flavor"}}/common
+              - ../flavor/{{index .metadata.labels "cluster-flavor"}}/renovate
+              - ../../../env/{{index .metadata.labels "cluster-environment"}}/common
+              - ../env/{{index .metadata.labels "cluster-environment"}}/renovate
+              - ../../../cluster/{{.name}}/common
+              - ../cluster/{{.name}}/renovate
+            ignoreMissingComponents: true
       destination:
         server: '{{ .server }}'
         namespace: '{{ .values.namespace }}'

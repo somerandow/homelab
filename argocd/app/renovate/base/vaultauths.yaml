@@ -5,9 +5,8 @@ metadata:
   name: renovate
 spec:
   kubernetes:
-    audiences:
-      - vault.wojoinc.xyz
-    role: homelab-default
+    audiences: []
+    role: ""
     serviceAccount: renovate
     tokenExpirationSeconds: 600
   method: kubernetes
@@ -20,9 +19,8 @@ metadata:
   name: redis
 spec:
   kubernetes:
-    audiences:
-      - vault.wojoinc.xyz
-    role: homelab-default
+    audiences: []
+    role: ""
     serviceAccount: redis
     tokenExpirationSeconds: 600
   method: kubernetes
