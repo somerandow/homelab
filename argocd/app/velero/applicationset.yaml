@@ -35,7 +35,7 @@ spec:
               - $values/argocd/app/velero/values/base/values.yaml
               - $values/argocd/app/velero/values/flavor/{{index .metadata.labels "cluster-flavor"}}/values.yaml
               - $values/argocd/app/velero/values/env/{{index .metadata.labels "cluster-environment"}}/values.yaml
-              - $values/argocd/app/velero/values/clusters/{{.name}}/values.yaml
+              - $values/argocd/app/velero/values/cluster/{{.name}}/values.yaml
             skipCrds: false
             ignoreMissingValueFiles: true
         - repoURL: 'https://github.com/somerandow/homelab'
@@ -50,8 +50,8 @@ spec:
               - ../flavor/{{index .metadata.labels "cluster-flavor"}}/velero
               - ../../../env/{{index .metadata.labels "cluster-environment"}}/common
               - ../env/{{index .metadata.labels "cluster-environment"}}/velero
-              - ../../../clusters/{{.name}}/common
-              - ../clusters/{{.name}}/velero
+              - ../../../cluster/{{.name}}/common
+              - ../cluster/{{.name}}/velero
             ignoreMissingComponents: true
       destination:
         server: '{{ .server }}'
