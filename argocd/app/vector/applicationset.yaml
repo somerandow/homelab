@@ -32,9 +32,10 @@ spec:
           helm:
             releaseName: vector-agent
             valueFiles:
-              - $values/argocd/app/vector/values-agent.yaml
-              - $values/argocd/env/{{index .metadata.labels "cluster-environment"}}/vector/values-agent.yaml
-              - $values/argocd/clusters/{{.name}}/vector/values-agent.yaml
+              - $values/argocd/app/vector/values/base/values-agent.yaml
+              - $values/argocd/app/vector/values/flavor/{{index .metadata.labels "cluster-flavor"}}/values-agent.yaml
+              - $values/argocd/app/vector/values/env/{{index .metadata.labels "cluster-environment"}}/values-agent.yaml
+              - $values/argocd/app/vector/values/clusters/{{.name}}/values-agent.yaml
             skipCrds: false
             ignoreMissingValueFiles: true
         - repoURL: ghcr.io/vectordotdev/helm-charts
@@ -43,10 +44,10 @@ spec:
           helm:
             releaseName: vector-aggregator
             valueFiles:
-              - $values/argocd/app/vector/values-aggregator.yaml
-              - $values/argocd/flavor/{{index .metadata.labels "cluster-flavor"}}/vector/values-aggregator.yaml
-              - $values/argocd/env/{{index .metadata.labels "cluster-environment"}}/vector/values-aggregator.yaml
-              - $values/argocd/clusters/{{.name}}/vector/values-aggregator.yaml
+              - $values/argocd/app/vector/values/base/values-aggregator.yaml
+              - $values/argocd/app/vector/values/flavor/{{index .metadata.labels "cluster-flavor"}}/values-aggregator.yaml
+              - $values/argocd/app/vector/values/env/{{index .metadata.labels "cluster-environment"}}/values-aggregator.yaml
+              - $values/argocd/app/vector/values/clusters/{{.name}}/values-aggregator.yaml
             skipCrds: false
             ignoreMissingValueFiles: true
         - repoURL: 'https://github.com/somerandow/homelab'
