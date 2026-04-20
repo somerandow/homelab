@@ -30,7 +30,13 @@ spec:
           path: argocd/app/ombi/base
           kustomize:
             components:
-              - ../../../clusters/{{.name}}/ombi
+              - ../../../flavor/{{index .metadata.labels "cluster-flavor"}}/common
+              - ../flavor/{{index .metadata.labels "cluster-flavor"}}/ombi
+              - ../../../env/{{index .metadata.labels "cluster-environment"}}/common
+              - ../env/{{index .metadata.labels "cluster-environment"}}/ombi
+              - ../../../cluster/{{.name}}/common
+              - ../cluster/{{.name}}/ombi
+            ignoreMissingComponents: true
       destination:
         server: '{{ .server }}'
         namespace: '{{ .values.namespace }}'

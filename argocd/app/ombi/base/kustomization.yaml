@@ -6,3 +6,5 @@ resources:
   - ingress.yaml
   - service.yaml
   - serviceaccount.yaml
+  - vaultauth.yaml
+  - vaultstaticsecret.yaml

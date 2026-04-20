@@ -5,9 +5,8 @@ metadata:
   name: ombi
 spec:
   kubernetes:
-    audiences:
-      - vault.wojoinc.xyz
-    role: homelab-default
+    audiences: []
+    role: ""
     serviceAccount: ombi
     tokenExpirationSeconds: 600
   method: kubernetes
