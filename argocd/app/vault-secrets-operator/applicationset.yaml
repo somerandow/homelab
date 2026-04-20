@@ -31,8 +31,10 @@ spec:
           helm:
             releaseName: vso
             valueFiles:
-              - $values/argocd/app/vault-secrets-operator/values.yaml
-              - $values/argocd/clusters/{{.name}}/vault-secrets-operator/values.yaml
+              - $values/argocd/app/vault-secrets-operator/values/base/values.yaml
+              - $values/argocd/app/vault-secrets-operator/values/flavor/{{index .metadata.labels "cluster-flavor"}}/values.yaml
+              - $values/argocd/app/vault-secrets-operator/values/env/{{index .metadata.labels "cluster-environment"}}/values.yaml
+              - $values/argocd/app/vault-secrets-operator/values/clusters/{{.name}}/values.yaml
             skipCrds: false
             ignoreMissingValueFiles: true
         - repoURL: 'https://github.com/somerandow/homelab'
