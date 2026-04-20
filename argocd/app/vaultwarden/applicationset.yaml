@@ -35,7 +35,7 @@ spec:
               - $values/argocd/app/vaultwarden/values/base/values.yaml
               - $values/argocd/app/vaultwarden/values/flavor/{{index .metadata.labels "cluster-flavor"}}/values.yaml
               - $values/argocd/app/vaultwarden/values/env/{{index .metadata.labels "cluster-environment"}}/values.yaml
-              - $values/argocd/app/vaultwarden/values/clusters/{{.name}}/values.yaml
+              - $values/argocd/app/vaultwarden/values/cluster/{{.name}}/values.yaml
             skipCrds: false
             ignoreMissingValueFiles: true
         - repoURL: 'https://github.com/somerandow/homelab'
@@ -50,8 +50,8 @@ spec:
               - ../flavor/{{index .metadata.labels "cluster-flavor"}}/vaultwarden
               - ../../../env/{{index .metadata.labels "cluster-environment"}}/common
               - ../env/{{index .metadata.labels "cluster-environment"}}/vaultwarden
-              - ../../../clusters/{{.name}}/common
-              - ../clusters/{{.name}}/vaultwarden
+              - ../../../cluster/{{.name}}/common
+              - ../cluster/{{.name}}/vaultwarden
             ignoreMissingComponents: true
       destination:
         server: '{{ .server }}'
