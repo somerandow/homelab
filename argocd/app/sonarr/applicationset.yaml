@@ -32,9 +32,10 @@ spec:
           helm:
             releaseName: sonarr
             valueFiles:
-              - $values/argocd/app/sonarr/values.yaml
-              - $values/argocd/env/{{index .metadata.labels "cluster-environment"}}/sonarr/values.yaml
-              - $values/argocd/clusters/{{.name}}/sonarr/values.yaml
+              - $values/argocd/app/sonarr/values/base/values.yaml
+              - $values/argocd/app/sonarr/values/flavor/{{index .metadata.labels "cluster-flavor"}}/values.yaml
+              - $values/argocd/app/sonarr/values/env/{{index .metadata.labels "cluster-environment"}}/values.yaml
+              - $values/argocd/app/sonarr/values/cluster/{{.name}}/values.yaml
             skipCrds: false
             ignoreMissingValueFiles: true
         - repoURL: 'https://github.com/somerandow/homelab'
