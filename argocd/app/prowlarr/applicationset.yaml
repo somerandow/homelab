@@ -32,9 +32,10 @@ spec:
           helm:
             releaseName: prowlarr
             valueFiles:
-              - $values/argocd/app/prowlarr/values.yaml
-              - $values/argocd/env/{{index .metadata.labels "cluster-environment"}}/prowlarr/values.yaml
-              - $values/argocd/clusters/{{.name}}/prowlarr/values.yaml
+              - $values/argocd/app/prowlarr/values/base/values.yaml
+              - $values/argocd/app/prowlarr/values/flavor/{{index .metadata.labels "cluster-flavor"}}/values.yaml
+              - $values/argocd/app/prowlarr/values/env/{{index .metadata.labels "cluster-environment"}}/values.yaml
+              - $values/argocd/app/prowlarr/values/cluster/{{.name}}/values.yaml
             skipCrds: false
             ignoreMissingValueFiles: true
         - repoURL: 'https://github.com/somerandow/homelab'
