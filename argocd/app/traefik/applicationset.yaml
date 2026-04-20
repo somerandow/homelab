@@ -30,8 +30,10 @@ spec:
           chart: traefik
           helm:
             valueFiles:
-              - $values/argocd/app/traefik/values.yaml
-              - $values/argocd/clusters/{{.name}}/traefik/values.yaml
+              - $values/argocd/app/traefik/values/base/values.yaml
+              - $values/argocd/app/traefik/values/flavor/{{index .metadata.labels "cluster-flavor"}}/values.yaml
+              - $values/argocd/app/traefik/values/env/{{index .metadata.labels "cluster-environment"}}/values.yaml
+              - $values/argocd/app/traefik/values/cluster/{{.name}}/values.yaml
             skipCrds: false
         - repoURL: 'https://github.com/somerandow/homelab'
           targetRevision: main
