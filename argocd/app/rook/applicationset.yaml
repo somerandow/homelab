@@ -30,8 +30,10 @@ spec:
           chart: rook-ceph
           helm:
             valueFiles:
-              - $values/argocd/app/rook/values.yaml
-              - $values/argocd/clusters/{{.name}}/rook/values.yaml
+              - $values/argocd/app/rook/values/base/values.yaml
+              - $values/argocd/app/rook/values/flavor/{{index .metadata.labels "cluster-flavor"}}/values.yaml
+              - $values/argocd/app/rook/values/env/{{index .metadata.labels "cluster-environment"}}/values.yaml
+              - $values/argocd/app/rook/values/cluster/{{.name}}/values.yaml
             skipCrds: false
             ignoreMissingValueFiles: true
         - repoURL: 'https://github.com/somerandow/homelab'
@@ -42,7 +44,13 @@ spec:
           path: argocd/app/rook/base
           kustomize:
             components:
-              - ../../../clusters/{{.name}}/rook
+              - ../../../flavor/{{index .metadata.labels "cluster-flavor"}}/common
+              - ../flavor/{{index .metadata.labels "cluster-flavor"}}/rook
+              - ../../../env/{{index .metadata.labels "cluster-environment"}}/common
+              - ../env/{{index .metadata.labels "cluster-environment"}}/rook
+              - ../../../cluster/{{.name}}/common
+              - ../cluster/{{.name}}/rook
+            ignoreMissingComponents: true
       destination:
         server: '{{.server}}'
         namespace: '{{.values.namespace}}'
