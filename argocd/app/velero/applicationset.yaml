@@ -32,10 +32,10 @@ spec:
           helm:
             releaseName: velero
             valueFiles:
-              - $values/argocd/app/velero/values.yaml
-              - $values/argocd/flavor/{{index .metadata.labels "cluster-flavor"}}/velero/values.yaml
-              - $values/argocd/env/{{index .metadata.labels "cluster-environment"}}/velero/values.yaml
-              - $values/argocd/clusters/{{.name}}/velero/values.yaml
+              - $values/argocd/app/velero/values/base/values.yaml
+              - $values/argocd/app/velero/values/flavor/{{index .metadata.labels "cluster-flavor"}}/values.yaml
+              - $values/argocd/app/velero/values/env/{{index .metadata.labels "cluster-environment"}}/values.yaml
+              - $values/argocd/app/velero/values/clusters/{{.name}}/velero/values.yaml
             skipCrds: false
             ignoreMissingValueFiles: true
         - repoURL: 'https://github.com/somerandow/homelab'
@@ -46,12 +46,12 @@ spec:
           path: argocd/app/velero/base
           kustomize:
             components:
-              - ../../../flavor/{{ index .metadata.labels "cluster-flavor" }}/common
-              - ../../../flavor/{{ index .metadata.labels "cluster-flavor" }}/velero
-              - ../../../env/{{ index .metadata.labels "cluster-environment" }}/common
-              # - ../../../env/{{ index .metadata.labels "cluster-environment" }}/velero
-              - ../../../clusters/{{ .name }}/common
-              - ../../../clusters/{{ .name }}/velero
+              - ../../../flavor/{{index .metadata.labels "cluster-flavor"}}/common
+              - ../flavor/{{index .metadata.labels "cluster-flavor"}}/velero
+              - ../../../env/{{index .metadata.labels "cluster-environment"}}/common
+              - ../env/{{index .metadata.labels "cluster-environment"}}/velero
+              - ../../../clusters/{{.name}}/common
+              - ../clusters/{{.name}}/velero
             ignoreMissingComponents: true
       destination:
         server: '{{ .server }}'
