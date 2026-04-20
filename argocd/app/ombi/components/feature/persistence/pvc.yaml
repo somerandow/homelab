@@ -4,6 +4,8 @@ metadata:
   labels:
     app.kubernetes.io/instance: ombi
     app.kubernetes.io/name: ombi
+  annotations:
+    persistence.homelab.wojoinc.xyz/accessMode: RWO
   name: ombi-config
 spec:
   accessModes:
