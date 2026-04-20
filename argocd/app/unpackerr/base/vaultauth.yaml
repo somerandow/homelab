@@ -2,15 +2,11 @@
 apiVersion: secrets.hashicorp.com/v1beta1
 kind: VaultAuth
 metadata:
-  labels:
-    app.kubernetes.io/name: unpackerr
   name: unpackerr
-  namespace: media
 spec:
   kubernetes:
-    audiences:
-      - vault.wojoinc.xyz
-    role: homelab-default
+    audiences: []
+    role: ""
     serviceAccount: default
     tokenExpirationSeconds: 600
   method: kubernetes

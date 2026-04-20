@@ -32,11 +32,11 @@ spec:
           kustomize:
             components:
               - ../../../flavor/{{index .metadata.labels "cluster-flavor"}}/common
-              - ../../../flavor/{{index .metadata.labels "cluster-flavor"}}/plex
+              - ../flavor/{{index .metadata.labels "cluster-flavor"}}/plex
               - ../../../env/{{index .metadata.labels "cluster-environment"}}/common
-              - ../../../env/{{index .metadata.labels "cluster-environment"}}/plex
+              - ../env/{{index .metadata.labels "cluster-environment"}}/plex
               - ../../../clusters/{{.name}}/common
-              - ../../../clusters/{{.name}}/plex
+              - ../clusters/{{.name}}/plex
             ignoreMissingComponents: true
       destination:
         server: '{{ .server }}'
