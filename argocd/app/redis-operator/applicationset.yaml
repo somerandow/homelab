@@ -31,8 +31,10 @@ spec:
           helm:
             releaseName: redis-operator
             valueFiles:
-              - $values/argocd/app/redis-operator/values.yaml
-              - $values/argocd/clusters/{{.name}}/redis-operator/values.yaml
+              - $values/argocd/app/redis-operator/values/base/values.yaml
+              - $values/argocd/app/redis-operator/values/flavor/{{index .metadata.labels "cluster-flavor"}}/values.yaml
+              - $values/argocd/app/redis-operator/values/env/{{index .metadata.labels "cluster-environment"}}/values.yaml
+              - $values/argocd/app/redis-operator/values/cluster/{{.name}}/values.yaml
             skipCrds: false
             ignoreMissingValueFiles: true
         - repoURL: 'https://github.com/somerandow/homelab'
