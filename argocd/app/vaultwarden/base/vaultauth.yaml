@@ -5,9 +5,8 @@ metadata:
   name: vaultwarden
 spec:
   kubernetes:
-    audiences:
-      - vault.wojoinc.xyz
-    role: homelab-default
+    audiences: []
+    role: ""
     serviceAccount: default
     tokenExpirationSeconds: 600
   method: kubernetes

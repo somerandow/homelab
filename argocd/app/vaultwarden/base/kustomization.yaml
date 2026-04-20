@@ -4,3 +4,5 @@ kind: Kustomization
 resources:
   - cluster.yaml
   - podmonitor.yaml
+  - vaultauth.yaml
+  - vaultstaticsecrets.yaml
