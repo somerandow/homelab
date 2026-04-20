@@ -30,8 +30,10 @@ spec:
           chart: trust-manager
           helm:
             valueFiles:
-              - $values/argocd/app/trust-manager/values.yaml
-              - $values/argocd/clusters/{{.name}}/trust-manager/values.yaml
+              - $values/argocd/app/trust-manager/values/base/values.yaml
+              - $values/argocd/app/trust-manager/values/flavor/{{index .metadata.labels "cluster-flavor"}}/values.yaml
+              - $values/argocd/app/trust-manager/values/env/{{index .metadata.labels "cluster-environment"}}/values.yaml
+              - $values/argocd/app/trust-manager/values/cluster/{{.name}}/values.yaml
             skipCrds: false
             ignoreMissingValueFiles: true
         - repoURL: 'https://github.com/somerandow/homelab'
