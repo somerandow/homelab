@@ -15,8 +15,10 @@ spec:
             cluster-environment: prod
             argocd.argoproj.io/secret-type: cluster
         values:
+          # This may have issues due to multiple release types in same repo
+          # renovate: datasource=github-releases depName=prometheus-community/helm-charts
+          targetRevision: ">= 75.0.0"
           namespace: prometheus-operator
-          chartVersion: ">= 75.0.0"
   template:
     metadata:
       name: 'kube-prometheus-stack-{{.name | slugify}}'
@@ -28,14 +30,16 @@ spec:
       project: default
       sources:
         - repoURL: https://prometheus-community.github.io/helm-charts
-          targetRevision: '{{.values.chartVersion}}'
+          targetRevision: '{{.values.targetRevision}}'
           chart: kube-prometheus-stack
           helm:
             releaseName: "kube-prometheus-stack"
             skipCrds: true
             valueFiles:
-              - $values/argocd/app/kube-prometheus-stack/values.yaml
-              - '$values/argocd/clusters/{{.name}}/kube-prometheus-stack/values.yaml'
+              - $values/argocd/app/kube-prometheus-stack/values/base/values.yaml
+              - $values/argocd/app/kube-prometheus-stack/values/flavor/{{index .metadata.labels "cluster-flavor"}}/values.yaml
+              - $values/argocd/app/kube-prometheus-stack/values/env/{{index .metadata.labels "cluster-environment"}}/values.yaml
+              - $values/argocd/app/kube-prometheus-stack/values/cluster/{{.name}}/values.yaml
             ignoreMissingValueFiles: true
         - repoURL: 'https://github.com/somerandow/homelab'
           targetRevision: main
@@ -43,6 +47,15 @@ spec:
         - repoURL: 'https://github.com/somerandow/homelab'
           targetRevision: main
           path: argocd/app/kube-prometheus-stack/base
+          kustomize:
+            components:
+              - ../../../flavor/{{index .metadata.labels "cluster-flavor"}}/common
+              - ../flavor/{{index .metadata.labels "cluster-flavor"}}/kube-prometheus-stack
+              - ../../../env/{{index .metadata.labels "cluster-environment"}}/common
+              - ../env/{{index .metadata.labels "cluster-environment"}}/kube-prometheus-stack
+              - ../../../cluster/{{.name}}/common
+              - ../cluster/{{.name}}/kube-prometheus-stack
+            ignoreMissingComponents: true
       destination:
         server: '{{.server}}'
         namespace: '{{.values.namespace}}'
