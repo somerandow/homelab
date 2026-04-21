@@ -31,9 +31,12 @@ spec:
           path: "charts/metrics-server"
           helm:
             valueFiles:
-              - $values/argocd/app/metrics-server/values.yaml
-              - $values/argocd/clusters/{{.name}}/metrics-server/values.yaml
+              - $values/argocd/app/metrics-server/values/base/values.yaml
+              - $values/argocd/app/metrics-server/values/flavor/{{index .metadata.labels "cluster-flavor"}}/values.yaml
+              - $values/argocd/app/metrics-server/values/env/{{index .metadata.labels "cluster-environment"}}/values.yaml
+              - $values/argocd/app/metrics-server/values/cluster/{{.name}}/values.yaml
             skipCrds: false
+            ignoreMissingValueFiles: true
         - repoURL: 'https://github.com/somerandow/homelab'
           targetRevision: main
           ref: values
