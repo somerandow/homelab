@@ -32,9 +32,10 @@ spec:
           helm:
             releaseName: lidarr
             valueFiles:
-              - $values/argocd/app/lidarr/values.yaml
-              - $values/argocd/env/{{index .metadata.labels "cluster-environment"}}/lidarr/values.yaml
-              - $values/argocd/clusters/{{.name}}/lidarr/values.yaml
+              - $values/argocd/app/lidarr/values/base/values.yaml
+              - $values/argocd/app/lidarr/values/flavor/{{index .metadata.labels "cluster-flavor"}}/values.yaml
+              - $values/argocd/app/lidarr/values/env/{{index .metadata.labels "cluster-environment"}}/values.yaml
+              - $values/argocd/app/lidarr/values/cluster/{{.name}}/values.yaml
             skipCrds: false
             ignoreMissingValueFiles: true
         - repoURL: 'https://github.com/somerandow/homelab'
