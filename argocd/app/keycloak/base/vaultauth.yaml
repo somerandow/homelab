@@ -5,9 +5,8 @@ metadata:
   name: keycloak
 spec:
   kubernetes:
-    audiences:
-      - vault.wojoinc.xyz
-    role: homelab-default
+    audiences: []
+    role: ""
     serviceAccount: keycloak-db
     tokenExpirationSeconds: 600
   method: kubernetes
