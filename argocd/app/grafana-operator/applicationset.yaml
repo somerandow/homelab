@@ -32,9 +32,10 @@ spec:
           helm:
             releaseName: grafana-operator
             valueFiles:
-              - $values/argocd/app/grafana-operator/values.yaml
-              - $values/argocd/env/{{index .metadata.labels "cluster-environment"}}/grafana-operator/values.yaml
-              - $values/argocd/clusters/{{.name}}/grafana-operator/values.yaml
+              - $values/argocd/app/grafana-operator/values/base/values.yaml
+              - $values/argocd/app/grafana-operator/values/flavor/{{index .metadata.labels "cluster-flavor"}}/values.yaml
+              - $values/argocd/app/grafana-operator/values/env/{{index .metadata.labels "cluster-environment"}}/values.yaml
+              - $values/argocd/app/grafana-operator/values/cluster/{{.name}}/values.yaml
             skipCrds: false
             ignoreMissingValueFiles: true
         - repoURL: 'https://github.com/somerandow/homelab'
