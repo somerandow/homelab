@@ -5,9 +5,8 @@ metadata:
   name: oauth2-proxy
 spec:
   kubernetes:
-    audiences:
-      - vault.wojoinc.xyz
-    role: homelab-default
+    audiences: []
+    role: ""
     serviceAccount: oauth2-proxy
     tokenExpirationSeconds: 600
   method: kubernetes
@@ -20,9 +19,8 @@ metadata:
   name: redis
 spec:
   kubernetes:
-    audiences:
-      - vault.wojoinc.xyz
-    role: homelab-default
+    audiences: []
+    role: ""
     serviceAccount: redis
     tokenExpirationSeconds: 600
   method: kubernetes
