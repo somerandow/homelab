@@ -14,7 +14,7 @@ spec:
           matchLabels:
             argocd.argoproj.io/secret-type: cluster
         values:
-          chartVersion: ">= 7.17.0"
+          targetRevision: "10.1.4"
           namespace: oauth2-proxy
   template:
     metadata:
@@ -26,13 +26,15 @@ spec:
       project: default
       sources:
         - repoURL: https://oauth2-proxy.github.io/manifests
-          targetRevision: '{{.values.chartVersion}}'
+          targetRevision: '{{.values.targetRevision}}'
           chart: oauth2-proxy
           helm:
             releaseName: oauth2-proxy
             valueFiles:
-              - $values/argocd/app/oauth2-proxy/values.yaml
-              - $values/argocd/clusters/{{.name}}/oauth2-proxy/values.yaml
+              - $values/argocd/app/oauth2-proxy/values/base/values.yaml
+              - $values/argocd/app/oauth2-proxy/values/flavor/{{index .metadata.labels "cluster-flavor"}}/values.yaml
+              - $values/argocd/app/oauth2-proxy/values/env/{{index .metadata.labels "cluster-environment"}}/values.yaml
+              - $values/argocd/app/oauth2-proxy/values/cluster/{{.name}}/values.yaml
             skipCrds: false
             ignoreMissingValueFiles: true
         - repoURL: 'https://github.com/somerandow/homelab'
@@ -43,7 +45,13 @@ spec:
           path: argocd/app/oauth2-proxy/base
           kustomize:
             components:
-              - ../../../clusters/{{.name}}/oauth2-proxy
+              - ../../../flavor/{{index .metadata.labels "cluster-flavor"}}/common
+              - ../flavor/{{index .metadata.labels "cluster-flavor"}}/oauth2-proxy
+              - ../../../env/{{index .metadata.labels "cluster-environment"}}/common
+              - ../env/{{index .metadata.labels "cluster-environment"}}/oauth2-proxy
+              - ../../../cluster/{{.name}}/common
+              - ../cluster/{{.name}}/oauth2-proxy
+            ignoreMissingComponents: true
       destination:
         server: '{{ .server }}'
         namespace: '{{ .values.namespace }}'
