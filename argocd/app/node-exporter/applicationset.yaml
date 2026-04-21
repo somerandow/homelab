@@ -34,8 +34,10 @@ spec:
             releaseName: "node-exporter"
             skipCrds: true
             valueFiles:
-              - $values/argocd/app/node-exporter/values.yaml
-              - '$values/argocd/clusters/{{.name}}/node-exporter/values.yaml'
+              - $values/argocd/app/node-exporter/values/base/values.yaml
+              - $values/argocd/app/node-exporter/values/flavor/{{index .metadata.labels "cluster-flavor"}}/values.yaml
+              - $values/argocd/app/node-exporter/values/env/{{index .metadata.labels "cluster-environment"}}/values.yaml
+              - $values/argocd/app/node-exporter/values/cluster/{{.name}}/values.yaml
             ignoreMissingValueFiles: true
         - repoURL: 'https://github.com/somerandow/homelab'
           targetRevision: main
@@ -47,8 +49,13 @@ spec:
             commonAnnotations:
               argocd.argoproj.io/sync-wave: "0"
             components:
-              - ../../../flavor/{{index .metadata.labels "cluster-flavor"}}/node-exporter
-            ignoreMissingComponents: false
+              - ../../../flavor/{{index .metadata.labels "cluster-flavor"}}/common
+              - ../flavor/{{index .metadata.labels "cluster-flavor"}}/node-exporter
+              - ../../../env/{{index .metadata.labels "cluster-environment"}}/common
+              - ../env/{{index .metadata.labels "cluster-environment"}}/node-exporter
+              - ../../../cluster/{{.name}}/common
+              - ../cluster/{{.name}}/node-exporter
+            ignoreMissingComponents: true
       destination:
         server: '{{.server}}'
         namespace: '{{.values.namespace}}'
