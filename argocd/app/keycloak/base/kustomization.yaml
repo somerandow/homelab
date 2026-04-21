@@ -8,3 +8,5 @@ resources:
   - keycloak.yaml
   - podmonitor.yaml
   - serverstransport.yaml
+  - vaultauth.yaml
+  - vaultstaticsecret.yaml

@@ -36,7 +36,13 @@ spec:
           path: argocd/app/keycloak/base
           kustomize:
             components:
-              - ../../../clusters/{{.name}}/keycloak
+              - ../../../flavor/{{index .metadata.labels "cluster-flavor"}}/common
+              - ../flavor/{{index .metadata.labels "cluster-flavor"}}/keycloak
+              - ../../../env/{{index .metadata.labels "cluster-environment"}}/common
+              - ../env/{{index .metadata.labels "cluster-environment"}}/keycloak
+              - ../../../cluster/{{.name}}/common
+              - ../cluster/{{.name}}/keycloak
+            ignoreMissingComponents: true
       destination:
         server: '{{ .server }}'
         namespace: '{{ .values.namespace }}'
