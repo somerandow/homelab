@@ -5,6 +5,8 @@ metadata:
   labels:
     app.kubernetes.io/instance: immich
     app.kubernetes.io/name: immich
+  annotations:
+    persistence.homelab.wojoinc.xyz/accessMode: RWX
   name: immich-data
 spec:
   accessModes:
@@ -20,6 +22,8 @@ metadata:
   labels:
     app.kubernetes.io/instance: immich
     app.kubernetes.io/name: immich
+  annotations:
+    persistence.homelab.wojoinc.xyz/accessMode: RWX
   name: immich-model-cache
 spec:
   accessModes:

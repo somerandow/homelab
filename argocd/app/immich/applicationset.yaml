@@ -30,8 +30,13 @@ spec:
           path: argocd/app/immich/base
           kustomize:
             components:
-              - ../../../env/{{ index .metadata.labels "cluster-environment" }}/ingress-tls
-              - ../../../clusters/{{ .name }}/immich
+              - ../../../flavor/{{index .metadata.labels "cluster-flavor"}}/common
+              - ../flavor/{{index .metadata.labels "cluster-flavor"}}/immich
+              - ../../../env/{{index .metadata.labels "cluster-environment"}}/common
+              - ../env/{{index .metadata.labels "cluster-environment"}}/immich
+              - ../../../cluster/{{.name}}/common
+              - ../cluster/{{.name}}/immich
+            ignoreMissingComponents: true
       destination:
         server: '{{ .server }}'
         namespace: '{{ .values.namespace }}'
