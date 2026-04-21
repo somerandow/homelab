@@ -10,19 +10,9 @@ configMapGenerator:
     literals:
       - clusterDomain=homelab.wojoinc.local
 components:
-  - ../../../app/immich/components/hw-transcode
-  - ../../../app/immich/components/hw-ml
-  - ../../../app/immich/components/persistence
-  - ../../../app/immich/components/file-config
-  - ../../../common/ingress-publish-external
-  - ../../../common/ingress-publish-internal
+  - ../../../../../common/ingress-publish-external
+  - ../../../../../common/ingress-publish-internal
 patches:
-  - target:
-      kind: PodMonitor
-    patch: |-
-      - op: add
-        path: /metadata/labels/monitoring.homelab.wojoinc.xyz~1enabled
-        value: "true"
   - target:
       kind: ServersTransport
     patch: |-
@@ -36,21 +26,6 @@ patches:
         path: /spec/storage/volumeClaimTemplate/spec/storageClassName
         value: rook-rbd-fast
   - target:
-      kind: VaultAuth
-    patch: |-
-      - op: add
-        path: /spec/kubernetes/audiences/0
-        value: vault.wojoinc.xyz
-      - op: replace
-        path: /spec/kubernetes/role
-        value: homelab-default
-  - target:
-      kind: VaultStaticSecret
-    patch: |-
-      - op: replace
-        path: /spec/mount
-        value: kv-homelab
-  - target:
       kind: Cluster
     patch: |-
       - op: add
@@ -60,12 +35,6 @@ patches:
         path: /spec/storage/size
         value: 3Gi
   - target:
-      kind: PersistentVolumeClaim
-    patch: |-
-      - op: add
-        path: /spec/storageClassName
-        value: rook-cephfs
-  - target:
       kind: Ingress
     patch: |-
       - op: add
@@ -74,9 +43,6 @@ patches:
       - op: add
         path: /spec/rules/0/host
         value: immich.wojoinc.xyz
-      - op: add
-        path: /spec/ingressClassName
-        value: traefik-external
   - target:
       kind: PersistentVolumeClaim
       name: immich-data
