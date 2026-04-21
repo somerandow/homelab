@@ -32,9 +32,10 @@ spec:
           helm:
             releaseName: loki
             valueFiles:
-              - $values/argocd/app/loki/values.yaml
-              - $values/argocd/env/{{index .metadata.labels "cluster-environment"}}/loki/values.yaml
-              - $values/argocd/clusters/{{.name}}/loki/values.yaml
+              - $values/argocd/app/loki/values/base/values.yaml
+              - $values/argocd/app/loki/values/flavor/{{index .metadata.labels "cluster-flavor"}}/values.yaml
+              - $values/argocd/app/loki/values/env/{{index .metadata.labels "cluster-environment"}}/values.yaml
+              - $values/argocd/app/loki/values/cluster/{{.name}}/values.yaml
             skipCrds: false
             ignoreMissingValueFiles: true
         - repoURL: 'https://github.com/somerandow/homelab'
@@ -43,6 +44,15 @@ spec:
         - repoURL: 'https://github.com/somerandow/homelab'
           targetRevision: main
           path: argocd/app/loki/base
+          kustomize:
+            components:
+              - ../../../flavor/{{index .metadata.labels "cluster-flavor"}}/common
+              - ../flavor/{{index .metadata.labels "cluster-flavor"}}/loki
+              - ../../../env/{{index .metadata.labels "cluster-environment"}}/common
+              - ../env/{{index .metadata.labels "cluster-environment"}}/loki
+              - ../../../cluster/{{.name}}/common
+              - ../cluster/{{.name}}/loki
+            ignoreMissingComponents: true
       destination:
         server: '{{ .server }}'
         namespace: '{{ .values.namespace }}'
