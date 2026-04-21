@@ -8,3 +8,5 @@ resources:
   - redissentinel.yaml
   - serviceaccounts.yaml
   - serverstransport.yaml
+  - vaultauths.yaml
+  - vaultstaticsecrets.yaml
