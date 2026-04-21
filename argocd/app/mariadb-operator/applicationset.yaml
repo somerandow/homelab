@@ -38,8 +38,10 @@ spec:
           helm:
             releaseName: mariadb-operator
             valueFiles:
-              - $values/argocd/app/mariadb-operator/values.yaml
-              - $values/argocd/clusters/{{.name}}/mariadb-operator/values.yaml
+              - $values/argocd/app/mariadb-operator/values/base/values.yaml
+              - $values/argocd/app/mariadb-operator/values/flavor/{{index .metadata.labels "cluster-flavor"}}/values.yaml
+              - $values/argocd/app/mariadb-operator/values/env/{{index .metadata.labels "cluster-environment"}}/values.yaml
+              - $values/argocd/app/mariadb-operator/values/cluster/{{.name}}/values.yaml
             skipCrds: true
             ignoreMissingValueFiles: true
         - repoURL: 'https://github.com/somerandow/homelab'
