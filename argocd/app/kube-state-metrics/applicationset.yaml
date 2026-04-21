@@ -34,8 +34,10 @@ spec:
             releaseName: "kube-state-metrics"
             skipCrds: true
             valueFiles:
-              - $values/argocd/app/kube-state-metrics/values.yaml
-              - '$values/argocd/clusters/{{.name}}/kube-state-metrics/values.yaml'
+              - $values/argocd/app/kube-state-metrics/values/base/values.yaml
+              - $values/argocd/app/kube-state-metrics/values/flavor/{{index .metadata.labels "cluster-flavor"}}/values.yaml
+              - $values/argocd/app/kube-state-metrics/values/env/{{index .metadata.labels "cluster-environment"}}/values.yaml
+              - $values/argocd/app/kube-state-metrics/values/cluster/{{.name}}/values.yaml
             ignoreMissingValueFiles: true
         - repoURL: 'https://github.com/somerandow/homelab'
           targetRevision: main
