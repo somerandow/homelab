@@ -31,11 +31,11 @@ spec:
           kustomize:
             components:
               - ../../../flavor/{{index .metadata.labels "cluster-flavor"}}/common
-              - ../../../flavor/{{index .metadata.labels "cluster-flavor"}}/grafana
+              - ../flavor/{{index .metadata.labels "cluster-flavor"}}/grafana
               - ../../../env/{{index .metadata.labels "cluster-environment"}}/common
-              - ../../../env/{{index .metadata.labels "cluster-environment"}}/grafana
-              - ../../../clusters/{{.name}}/common
-              - ../../../clusters/{{.name}}/grafana
+              - ../env/{{index .metadata.labels "cluster-environment"}}/grafana
+              - ../../../cluster/{{.name}}/common
+              - ../cluster/{{.name}}/grafana
             ignoreMissingComponents: true
       destination:
         server: '{{ .server }}'
