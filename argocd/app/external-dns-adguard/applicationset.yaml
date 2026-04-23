@@ -31,8 +31,10 @@ spec:
           helm:
             releaseName: external-dns-adguard
             valueFiles:
-              - $values/argocd/app/external-dns-adguard/values.yaml
-              - $values/argocd/clusters/{{.name}}/external-dns-adguard/values.yaml
+              - $values/argocd/app/external-dns-adguard/values/base/values.yaml
+              - $values/argocd/app/external-dns-adguard/values/flavor/{{index .metadata.labels "cluster-flavor"}}/values.yaml
+              - $values/argocd/app/external-dns-adguard/values/env/{{index .metadata.labels "cluster-environment"}}/values.yaml
+              - $values/argocd/app/external-dns-adguard/values/cluster/{{.name}}/values.yaml
             skipCrds: false
             ignoreMissingValueFiles: true
         - repoURL: 'https://github.com/somerandow/homelab'
@@ -41,6 +43,15 @@ spec:
         - repoURL: 'https://github.com/somerandow/homelab'
           targetRevision: main
           path: argocd/app/external-dns-adguard/base
+          kustomize:
+            components:
+              - ../../../flavor/{{index .metadata.labels "cluster-flavor"}}/common
+              - ../flavor/{{index .metadata.labels "cluster-flavor"}}/external-dns-adguard
+              - ../../../env/{{index .metadata.labels "cluster-environment"}}/common
+              - ../env/{{index .metadata.labels "cluster-environment"}}/external-dns-adguard
+              - ../../../cluster/{{.name}}/common
+              - ../cluster/{{.name}}/external-dns-adguard
+            ignoreMissingComponents: true
       destination:
         server: '{{ .server }}'
         namespace: '{{ .values.namespace }}'
