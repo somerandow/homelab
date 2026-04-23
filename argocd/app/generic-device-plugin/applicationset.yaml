@@ -30,14 +30,20 @@ spec:
           path: argocd/app/generic-device-plugin/base
           kustomize:
             components:
-              - ../../../clusters/{{index .metadata.labels "cluster-name"}}/generic-device-plugin
+              - ../../../flavor/{{index .metadata.labels "cluster-flavor"}}/common
+              - ../flavor/{{index .metadata.labels "cluster-flavor"}}/generic-device-plugin
+              - ../../../env/{{index .metadata.labels "cluster-environment"}}/common
+              - ../env/{{index .metadata.labels "cluster-environment"}}/generic-device-plugin
+              - ../../../cluster/{{.name}}/common
+              - ../cluster/{{.name}}/generic-device-plugin
+            ignoreMissingComponents: true
       destination:
         server: '{{ .server }}'
         namespace: '{{ .values.namespace }}'
       syncPolicy:
         automated:
-          prune: false
-          selfHeal: false
+          prune: true
+          selfHeal: true
         syncOptions:
           - CreateNamespace=true
           - ApplyOutOfSyncOnly=true
