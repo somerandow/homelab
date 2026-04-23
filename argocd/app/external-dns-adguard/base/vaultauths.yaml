@@ -6,9 +6,8 @@ metadata:
   namespace: external-dns
 spec:
   kubernetes:
-    audiences:
-      - vault.wojoinc.xyz
-    role: homelab-default
+    audiences: []
+    role: ""
     serviceAccount: external-dns-adguard
     tokenExpirationSeconds: 600
   method: kubernetes
