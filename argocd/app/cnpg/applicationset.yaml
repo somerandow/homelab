@@ -31,10 +31,10 @@ spec:
           helm:
             releaseName: cnpg
             valueFiles:
-              - $values/argocd/app/cnpg/values.yaml
-              - $values/argocd/flavor/{{index .metadata.labels "cluster-flavor"}}/cnpg/values.yaml
-              - $values/argocd/env/{{index .metadata.labels "cluster-environment"}}/cnpg/values.yaml
-              - $values/argocd/clusters/{{.name}}/cnpg/values.yaml
+              - $values/argocd/app/cnpg/values/base/values.yaml
+              - $values/argocd/app/cnpg/values/flavor/{{index .metadata.labels "cluster-flavor"}}/values.yaml
+              - $values/argocd/app/cnpg/values/env/{{index .metadata.labels "cluster-environment"}}/values.yaml
+              - $values/argocd/app/cnpg/values/cluster/{{.name}}/values.yaml
             skipCrds: false
             ignoreMissingValueFiles: true
         - repoURL: 'https://github.com/somerandow/homelab'
@@ -45,11 +45,12 @@ spec:
           path: argocd/app/cnpg/base
           kustomize:
             components:
-              - ../../../flavor/{{ index .metadata.labels "cluster-flavor" }}/common
-              - ../../../flavor/{{ index .metadata.labels "cluster-flavor" }}/cnpg
-              - ../../../env/{{ index .metadata.labels "cluster-environment" }}/common
-              - ../../../env/{{ index .metadata.labels "cluster-environment" }}/cnpg
-              - ../../../clusters/{{ .name }}/common
+              - ../../../flavor/{{index .metadata.labels "cluster-flavor"}}/common
+              - ../flavor/{{index .metadata.labels "cluster-flavor"}}/cnpg
+              - ../../../env/{{index .metadata.labels "cluster-environment"}}/common
+              - ../env/{{index .metadata.labels "cluster-environment"}}/cnpg
+              - ../../../cluster/{{.name}}/common
+              - ../cluster/{{.name}}/cnpg
             ignoreMissingComponents: true
       destination:
         server: '{{ .server }}'
@@ -64,3 +65,5 @@ spec:
           - ServerSideApply=true
           - RespectIgnoreDifferences=true
       ignoreDifferences: []
+applicationset:
+  yaml:
