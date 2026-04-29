@@ -65,5 +65,3 @@ spec:
           - ServerSideApply=true
           - RespectIgnoreDifferences=true
       ignoreDifferences: []
-applicationset:
-  yaml:
