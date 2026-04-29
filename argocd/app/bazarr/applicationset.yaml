@@ -32,10 +32,10 @@ spec:
           helm:
             releaseName: bazarr
             valueFiles:
-              - $values/argocd/app/bazarr/values.yaml
-              - $values/argocd/flavor/{{index .metadata.labels "cluster-flavor"}}/bazarr/values.yaml
-              - $values/argocd/env/{{index .metadata.labels "cluster-environment"}}/bazarr/values.yaml
-              - $values/argocd/clusters/{{.name}}/bazarr/values.yaml
+              - $values/argocd/app/bazarr/values/base/values.yaml
+              - $values/argocd/app/bazarr/values/flavor/{{index .metadata.labels "cluster-flavor"}}/values.yaml
+              - $values/argocd/app/bazarr/values/env/{{index .metadata.labels "cluster-environment"}}/values.yaml
+              - $values/argocd/app/bazarr/values/cluster/{{.name}}/values.yaml
             skipCrds: false
             ignoreMissingValueFiles: true
         - repoURL: 'https://github.com/somerandow/homelab'
