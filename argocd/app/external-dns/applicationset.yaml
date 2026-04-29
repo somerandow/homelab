@@ -31,8 +31,10 @@ spec:
           helm:
             releaseName: external-dns
             valueFiles:
-              - $values/argocd/app/external-dns/values.yaml
-              - $values/argocd/clusters/{{.name}}/external-dns/values.yaml
+              - $values/argocd/app/external-dns/values/base/values.yaml
+              - $values/argocd/app/external-dns/values/flavor/{{index .metadata.labels "cluster-flavor"}}/values.yaml
+              - $values/argocd/app/external-dns/values/env/{{index .metadata.labels "cluster-environment"}}/values.yaml
+              - $values/argocd/app/external-dns/values/cluster/{{.name}}/values.yaml
             skipCrds: false
             ignoreMissingValueFiles: true
         - repoURL: 'https://github.com/somerandow/homelab'
