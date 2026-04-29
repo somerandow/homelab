@@ -32,8 +32,10 @@ spec:
           helm:
             releaseName: cert-manager
             valueFiles:
-              - $values/argocd/app/cert-manager/values.yaml
-              - '$values/argocd/clusters/{{ index .metadata.labels "cluster-name"}}/cert-manager/values.yaml'
+              - $values/argocd/app/cert-manager/values/base/values.yaml
+              - $values/argocd/app/cert-manager/values/flavor/{{index .metadata.labels "cluster-flavor"}}/values.yaml
+              - $values/argocd/app/cert-manager/values/env/{{index .metadata.labels "cluster-environment"}}/values.yaml
+              - $values/argocd/app/cert-manager/values/cluster/{{.name}}/values.yaml
             skipCrds: false
             ignoreMissingValueFiles: true
         - repoURL: 'https://github.com/somerandow/homelab'
@@ -44,9 +46,13 @@ spec:
           path: argocd/app/cert-manager/resources
           kustomize:
             components:
-              - ../../../env/{{index .metadata.labels "cluster-environment"}}/cert-manager
-              - ../../../clusters/{{index .metadata.labels "cluster-name"}}/cert-manager
-            ignoreMissingComponents: false
+              - ../../../flavor/{{index .metadata.labels "cluster-flavor"}}/common
+              - ../flavor/{{index .metadata.labels "cluster-flavor"}}/cert-manager
+              - ../../../env/{{index .metadata.labels "cluster-environment"}}/common
+              - ../env/{{index .metadata.labels "cluster-environment"}}/cert-manager
+              - ../../../cluster/{{.name}}/common
+              - ../cluster/{{.name}}/cert-manager
+            ignoreMissingComponents: true
       destination:
         server: '{{.server}}'
         namespace: '{{.values.namespace}}'
