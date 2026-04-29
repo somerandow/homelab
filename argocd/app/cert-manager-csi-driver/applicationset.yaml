@@ -39,8 +39,13 @@ spec:
             commonAnnotations:
               argocd.argoproj.io/sync-wave: "0"
             components:
-              - ../../../flavor/{{index .metadata.labels "cluster-flavor"}}/cert-manager-csi-driver
-            ignoreMissingComponents: false
+              - ../../../flavor/{{index .metadata.labels "cluster-flavor"}}/common
+              - ../flavor/{{index .metadata.labels "cluster-flavor"}}/cert-manager-csi-driver
+              - ../../../env/{{index .metadata.labels "cluster-environment"}}/common
+              - ../env/{{index .metadata.labels "cluster-environment"}}/cert-manager-csi-driver
+              - ../../../cluster/{{.name}}/common
+              - ../cluster/{{.name}}/cert-manager-csi-driver
+            ignoreMissingComponents: true
       destination:
         server: '{{.server}}'
         namespace: '{{.values.namespace}}'
