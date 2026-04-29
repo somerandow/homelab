@@ -13,6 +13,8 @@ spec:
         selector:
           matchLabels:
             argocd.argoproj.io/secret-type: cluster
+            # Limit to main cluster for now, should not be needed for non-baremetal clusters
+            cluster-name: homelab.wojoinc.xyz
         values:
           namespace: kubernetes-api-external
           targetRevision: "main"
@@ -27,7 +29,7 @@ spec:
       sources:
         - repoURL: 'https://github.com/somerandow/homelab'
           targetRevision: '{{.values.targetRevision}}'
-          path: argocd/clusters/{{ .name }}/controlplane/base
+          path: argocd/app/controlplane/base
       destination:
         server: '{{ .server }}'
         namespace: '{{ .values.namespace }}'
