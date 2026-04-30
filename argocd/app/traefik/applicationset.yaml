@@ -35,6 +35,7 @@ spec:
               - $values/argocd/app/traefik/values/env/{{index .metadata.labels "cluster-environment"}}/values.yaml
               - $values/argocd/app/traefik/values/cluster/{{.name}}/values.yaml
             skipCrds: false
+            ignoreMissingValueFiles: true
         - repoURL: 'https://github.com/somerandow/homelab'
           targetRevision: main
           ref: values
