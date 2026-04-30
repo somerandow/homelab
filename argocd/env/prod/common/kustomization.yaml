@@ -6,5 +6,8 @@ labels:
       env: prod
 patches:
   - target:
+      kind: GrafanaDashboard
+    path: patch-grafanadashboard.yaml
+  - target:
       kind: Ingress
     path: patch-ingress.yaml
