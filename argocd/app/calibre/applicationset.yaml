@@ -35,7 +35,7 @@ spec:
               - ../../../env/{{index .metadata.labels "cluster-environment"}}
               - ../../../env/{{index .metadata.labels "cluster-environment"}}/calibre
               - ../../../cluster/{{.name}}
-              - ../../../clusters/{{.name}}/calibre
+              - ../../../cluster/{{.name}}/calibre
             ignoreMissingComponents: true
       destination:
         server: '{{ .server }}'
