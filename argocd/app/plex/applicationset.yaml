@@ -1,5 +1,4 @@
 ---
-# TODO: Revert to using components, but store in app folder for easier use
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
@@ -32,11 +31,11 @@ spec:
           kustomize:
             components:
               - ../../../flavor/{{index .metadata.labels "cluster-flavor"}}/common
-              - ../flavor/{{index .metadata.labels "cluster-flavor"}}/plex
+              - ../components/flavor/{{index .metadata.labels "cluster-flavor"}}
               - ../../../env/{{index .metadata.labels "cluster-environment"}}/common
-              - ../env/{{index .metadata.labels "cluster-environment"}}/plex
-              - ../../../clusters/{{.name}}/common
-              - ../clusters/{{.name}}/plex
+              - ../components/env/{{index .metadata.labels "cluster-environment"}}
+              - ../../../cluster/{{.name}}/common
+              - ../components/cluster/{{.name}}
             ignoreMissingComponents: true
       destination:
         server: '{{ .server }}'
