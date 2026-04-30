@@ -30,12 +30,12 @@ spec:
           path: argocd/app/prometheus/base
           kustomize:
             components:
-              - ../../../flavor/{{index .metadata.labels "cluster-flavor"}}/common
-              - ../flavor/{{index .metadata.labels "cluster-flavor"}}/prometheus
-              - ../../../env/{{index .metadata.labels "cluster-environment"}}/common
-              - ../env/{{index .metadata.labels "cluster-environment"}}/prometheus
-              - ../../../cluster/{{.name}}/common
-              - ../cluster/{{.name}}/prometheus
+              - ../../../flavor/{{index .metadata.labels "cluster-flavor"}}
+              - ../components/flavor/{{index .metadata.labels "cluster-flavor"}}/prometheus
+              - ../../../env/{{index .metadata.labels "cluster-environment"}}
+              - ../components/env/{{index .metadata.labels "cluster-environment"}}/prometheus
+              - ../../../cluster/{{.name}}
+              - ../components/cluster/{{.name}}/prometheus
             ignoreMissingComponents: true
       destination:
         server: '{{.server}}'
