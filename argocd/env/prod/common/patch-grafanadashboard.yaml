@@ -1,0 +1,6 @@
+---
+- op: add
+  path: /spec/instanceSelector
+  value:
+    matchLabels:
+      monitoring.homelab.wojoinc.xyz/grafana-instance: grafana
