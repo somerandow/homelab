@@ -31,11 +31,11 @@ spec:
           path: argocd/app/plex/base
           kustomize:
             components:
-              - ../../../flavor/{{index .metadata.labels "cluster-flavor"}}/common
+              - ../../../flavor/{{index .metadata.labels "cluster-flavor"}}
               - ../flavor/{{index .metadata.labels "cluster-flavor"}}/plex
-              - ../../../env/{{index .metadata.labels "cluster-environment"}}/common
+              - ../../../env/{{index .metadata.labels "cluster-environment"}}
               - ../env/{{index .metadata.labels "cluster-environment"}}/plex
-              - ../../../clusters/{{.name}}/common
+              - ../../../cluster/{{.name}}
               - ../clusters/{{.name}}/plex
             ignoreMissingComponents: true
       destination:

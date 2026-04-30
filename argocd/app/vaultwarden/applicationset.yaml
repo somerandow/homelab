@@ -46,11 +46,11 @@ spec:
           path: argocd/app/vaultwarden/base
           kustomize:
             components:
-              - ../../../flavor/{{index .metadata.labels "cluster-flavor"}}/common
+              - ../../../flavor/{{index .metadata.labels "cluster-flavor"}}
               - ../flavor/{{index .metadata.labels "cluster-flavor"}}/vaultwarden
-              - ../../../env/{{index .metadata.labels "cluster-environment"}}/common
+              - ../../../env/{{index .metadata.labels "cluster-environment"}}
               - ../env/{{index .metadata.labels "cluster-environment"}}/vaultwarden
-              - ../../../cluster/{{.name}}/common
+              - ../../../cluster/{{.name}}
               - ../cluster/{{.name}}/vaultwarden
             ignoreMissingComponents: true
       destination:

@@ -1,0 +1,22 @@
+---
+apiVersion: kro.run/v1alpha1
+kind: ResourceGraphDefinition
+metadata:
+  name: arr-application
+spec:
+  schema:
+    apiVersion: v1alpha1
+    kind: ArrApplication
+    group: wojoinc.xyz
+    spec:
+      image: string
+      port: int
+      livenessProbe:
+        cmd: string
+    scope: Namespaced
+  resources:
+    - id: service
+      template:
+        apiVersion: v1
+        kind: Service
+        metadata:

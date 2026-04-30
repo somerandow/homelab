@@ -31,11 +31,11 @@ spec:
           path: 'argocd/app/kubevirt/base'
           kustomize:
             components:
-              - ../../../flavor/{{index .metadata.labels "cluster-flavor"}}/common
+              - ../../../flavor/{{index .metadata.labels "cluster-flavor"}}
               - ../flavor/{{index .metadata.labels "cluster-flavor"}}/kubevirt
-              - ../../../env/{{index .metadata.labels "cluster-environment"}}/common
+              - ../../../env/{{index .metadata.labels "cluster-environment"}}
               - ../env/{{index .metadata.labels "cluster-environment"}}/kubevirt
-              - ../../../cluster/{{.name}}/common
+              - ../../../cluster/{{.name}}
               - ../cluster/{{.name}}/kubevirt
             ignoreMissingComponents: true
       destination:
