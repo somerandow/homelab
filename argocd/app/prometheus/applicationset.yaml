@@ -34,7 +34,7 @@ spec:
               - ../components/flavor/{{index .metadata.labels "cluster-flavor"}}/prometheus
               - ../../../env/{{index .metadata.labels "cluster-environment"}}/common
               - ../components/env/{{index .metadata.labels "cluster-environment"}}/prometheus
-              - ../../../cluster/{{.name}}
+              - ../../../cluster/{{.name}}/common
               - ../components/cluster/{{.name}}/prometheus
             ignoreMissingComponents: true
       destination:

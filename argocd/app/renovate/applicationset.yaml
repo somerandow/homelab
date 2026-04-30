@@ -49,7 +49,7 @@ spec:
               - ../components/flavor/{{index .metadata.labels "cluster-flavor"}}/renovate
               - ../../../env/{{index .metadata.labels "cluster-environment"}}/common
               - ../components/env/{{index .metadata.labels "cluster-environment"}}/renovate
-              - ../../../cluster/{{.name}}
+              - ../../../cluster/{{.name}}/common
               - ../components/cluster/{{.name}}/renovate
             ignoreMissingComponents: true
       destination:

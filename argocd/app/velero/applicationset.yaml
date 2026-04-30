@@ -50,7 +50,7 @@ spec:
               - ../components/flavor/{{index .metadata.labels "cluster-flavor"}}/velero
               - ../../../env/{{index .metadata.labels "cluster-environment"}}/common
               - ../components/env/{{index .metadata.labels "cluster-environment"}}/velero
-              - ../../../cluster/{{.name}}
+              - ../../../cluster/{{.name}}/common
               - ../components/cluster/{{.name}}/velero
             ignoreMissingComponents: true
       destination:
