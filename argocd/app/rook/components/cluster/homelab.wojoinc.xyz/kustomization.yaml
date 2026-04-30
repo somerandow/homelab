@@ -7,7 +7,6 @@ components:
   - ../../feature/blockpool
   - ../../feature/filesystem
   - ../../feature/objectstore
-  - ../../feature/dashboard
   - ../../../../../common/ingress-publish-internal
 resources:
   - cephfilesystem.yaml
