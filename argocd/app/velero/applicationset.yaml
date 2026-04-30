@@ -46,9 +46,9 @@ spec:
           path: argocd/app/velero/base
           kustomize:
             components:
-              - ../../../flavor/{{index .metadata.labels "cluster-flavor"}}
+              - ../../../flavor/{{index .metadata.labels "cluster-flavor"}}/common
               - ../components/flavor/{{index .metadata.labels "cluster-flavor"}}/velero
-              - ../../../env/{{index .metadata.labels "cluster-environment"}}
+              - ../../../env/{{index .metadata.labels "cluster-environment"}}/common
               - ../components/env/{{index .metadata.labels "cluster-environment"}}/velero
               - ../../../cluster/{{.name}}
               - ../components/cluster/{{.name}}/velero
