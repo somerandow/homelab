@@ -47,11 +47,11 @@ spec:
           kustomize:
             components:
               - ../../../flavor/{{index .metadata.labels "cluster-flavor"}}/common
-              - ../components/flavor/{{index .metadata.labels "cluster-flavor"}}/velero
+              - ../components/flavor/{{index .metadata.labels "cluster-flavor"}}
               - ../../../env/{{index .metadata.labels "cluster-environment"}}/common
-              - ../components/env/{{index .metadata.labels "cluster-environment"}}/velero
+              - ../components/env/{{index .metadata.labels "cluster-environment"}}
               - ../../../cluster/{{.name}}/common
-              - ../components/cluster/{{.name}}/velero
+              - ../components/cluster/{{.name}}
             ignoreMissingComponents: true
       destination:
         server: '{{ .server }}'
