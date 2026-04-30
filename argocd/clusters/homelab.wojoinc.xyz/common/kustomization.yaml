@@ -20,7 +20,8 @@ patches:
       kind: GrafanaDatasource
     path: patch-grafanadatasource.yaml
   - target:
-      version: postgresql.cnpg.io/v1
+      version: v1
+      group: postgresql.cnpg.io
       kind: Cluster
     path: patch-postgres-storageclass.yaml
   - target:
