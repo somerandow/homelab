@@ -5,6 +5,7 @@ components:
   - ../../feature/persistence
   - ../../feature/database
   - ../../feature/oauth
+  - ../../feature/datasource/local-cluster
 patches:
   - target:
       kind: Grafana
