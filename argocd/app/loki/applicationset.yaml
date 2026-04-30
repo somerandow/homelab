@@ -46,11 +46,11 @@ spec:
           path: argocd/app/loki/base
           kustomize:
             components:
-              - ../../../flavor/{{index .metadata.labels "cluster-flavor"}}/common
+              - ../../../flavor/{{index .metadata.labels "cluster-flavor"}}
               - ../flavor/{{index .metadata.labels "cluster-flavor"}}/loki
-              - ../../../env/{{index .metadata.labels "cluster-environment"}}/common
+              - ../../../env/{{index .metadata.labels "cluster-environment"}}
               - ../env/{{index .metadata.labels "cluster-environment"}}/loki
-              - ../../../cluster/{{.name}}/common
+              - ../../../cluster/{{.name}}
               - ../cluster/{{.name}}/loki
             ignoreMissingComponents: true
       destination:

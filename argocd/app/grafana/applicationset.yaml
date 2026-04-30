@@ -30,11 +30,11 @@ spec:
           path: argocd/app/grafana/base
           kustomize:
             components:
-              - ../../../flavor/{{index .metadata.labels "cluster-flavor"}}/common
+              - ../../../flavor/{{index .metadata.labels "cluster-flavor"}}
               - ../flavor/{{index .metadata.labels "cluster-flavor"}}/grafana
-              - ../../../env/{{index .metadata.labels "cluster-environment"}}/common
+              - ../../../env/{{index .metadata.labels "cluster-environment"}}
               - ../env/{{index .metadata.labels "cluster-environment"}}/grafana
-              - ../../../cluster/{{.name}}/common
+              - ../../../cluster/{{.name}}
               - ../cluster/{{.name}}/grafana
             ignoreMissingComponents: true
       destination:
