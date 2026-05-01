@@ -1,2 +1,0 @@
-prometheusOperator:
-  clusterDomain: "foo.bar.wojoinc.xyz"

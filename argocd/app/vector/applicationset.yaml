@@ -35,7 +35,7 @@ spec:
               - $values/argocd/app/vector/values/base/values-agent.yaml
               - $values/argocd/app/vector/values/flavor/{{index .metadata.labels "cluster-flavor"}}/values-agent.yaml
               - $values/argocd/app/vector/values/env/{{index .metadata.labels "cluster-environment"}}/values-agent.yaml
-              - $values/argocd/app/vector/values/clusters/{{.name}}/values-agent.yaml
+              - $values/argocd/app/vector/values/cluster/{{.name}}/values-agent.yaml
             skipCrds: false
             ignoreMissingValueFiles: true
         - repoURL: ghcr.io/vectordotdev/helm-charts
@@ -47,7 +47,7 @@ spec:
               - $values/argocd/app/vector/values/base/values-aggregator.yaml
               - $values/argocd/app/vector/values/flavor/{{index .metadata.labels "cluster-flavor"}}/values-aggregator.yaml
               - $values/argocd/app/vector/values/env/{{index .metadata.labels "cluster-environment"}}/values-aggregator.yaml
-              - $values/argocd/app/vector/values/clusters/{{.name}}/values-aggregator.yaml
+              - $values/argocd/app/vector/values/cluster/{{.name}}/values-aggregator.yaml
             skipCrds: false
             ignoreMissingValueFiles: true
         - repoURL: 'https://github.com/somerandow/homelab'
