@@ -21,7 +21,7 @@ function add_components() {
     kustomize edit add component "../components/flavor/talos" 2>/dev/null || missing_component "../components/flavor/talos"
     kustomize edit add component ../../../env/prod/common 2>/dev/null || missing_component ../../../env/prod/common
     kustomize edit add component "../components/env/prod" 2>/dev/null || missing_component "../components/env/prod"
-    kustomize edit add component "../../../clusters/$2/common" 2>/dev/null || missing_component "../../../clusters/$2/common"
+    kustomize edit add component "../../../cluster/$2/common" 2>/dev/null || missing_component "../../../cluster/$2/common"
     kustomize edit add component "../components/cluster/$2" 2>/dev/null || missing_component "../components/cluster/$2"
     cd "$olddir" || exit
 }
