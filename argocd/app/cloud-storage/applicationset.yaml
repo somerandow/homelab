@@ -13,6 +13,7 @@ spec:
         selector:
           matchLabels:
             argocd.argoproj.io/secret-type: cluster
+            cluster-name: homelab.wojoinc.xyz
         values:
           namespace: cloud-storage
           targetRevision: "main"
@@ -27,7 +28,7 @@ spec:
       sources:
         - repoURL: 'https://github.com/somerandow/homelab'
           targetRevision: '{{.values.targetRevision}}'
-          path: argocd/clusters/{{ .name }}/cloud-storage/base
+          path: argocd/app/cloud-storage/base
       destination:
         server: '{{ .server }}'
         namespace: '{{ .values.namespace }}'
