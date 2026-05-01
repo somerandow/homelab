@@ -30,11 +30,11 @@ spec:
           path: argocd/app/unpackerr/base
           kustomize:
             components:
-              - ../../../flavor/{{index .metadata.labels "cluster-flavor"}}/common
+              - ../../../flavor/{{index .metadata.labels "cluster-flavor"}}
               - ../components/flavor/{{index .metadata.labels "cluster-flavor"}}
-              - ../../../env/{{index .metadata.labels "cluster-environment"}}/common
+              - ../../../env/{{index .metadata.labels "cluster-environment"}}
               - ../components/env/{{index .metadata.labels "cluster-environment"}}
-              - ../../../cluster/{{.name}}/common
+              - ../../../cluster/{{.name}}
               - ../components/cluster/{{.name}}
             ignoreMissingComponents: true
       destination:
