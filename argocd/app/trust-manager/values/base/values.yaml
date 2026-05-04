@@ -5,3 +5,6 @@ secretTargets:
     - "homelab-ca-bundle"
     - "homelab-ca-secret"
     - "ca-secret"
+tolerations:
+  - key: node-role.kubernetes.io/control-plane
+    operator: Exists
