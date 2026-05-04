@@ -8,3 +8,6 @@ podDisruptionBudget:
   minAvailable: 1
 securityContext:
   runAsUser: 65534
+tolerations:
+  - key: node-role.kubernetes.io/control-plane
+    operator: Exists
