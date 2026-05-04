@@ -38,6 +38,31 @@ webhook:
     runAsUser: 65534
     runAsGroup: 65534
     fsGroup: 65534
+  tolerations:
+    - key: node-role.kubernetes.io/control-plane
+      operator: Exists
+startupapicheck:
+  resources:
+    requests:
+      cpu: 20m
+      memory: 200Mi
+    limits:
+      cpu: 200m
+      memory: 400Mi
+  containerSecurityContext:
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - ALL
+    readOnlyRootFilesystem: true
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 65534
+    runAsGroup: 65534
+    fsGroup: 65534
+  tolerations:
+    - key: node-role.kubernetes.io/control-plane
+      operator: Exists
 cainjector:
   resources:
     requests:
@@ -57,6 +82,9 @@ cainjector:
     runAsUser: 65534
     runAsGroup: 65534
     fsGroup: 65534
+  tolerations:
+    - key: node-role.kubernetes.io/control-plane
+      operator: Exists
 extraArgs:
   - --dns01-recursive-nameservers=1.1.1.1:53,1.0.0.1:53
   - --enable-gateway-api
