@@ -54,6 +54,9 @@ prometheusOperator:
   resources: { }
   prometheusConfigReloader:
     resources: { }
+  tolerations:
+    - key: node-role.kubernetes.io/control-plane
+      operator: Exists
 
 kubeApiServer:
   serviceMonitor:
