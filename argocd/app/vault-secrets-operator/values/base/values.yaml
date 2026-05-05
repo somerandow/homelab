@@ -10,6 +10,9 @@ controller:
       bindAddress: 127.0.0.1:8080
     webhook:
       port: 9443
+  tolerations:
+    - key: node-role.kubernetes.io/control-plane
+      operator: Exists
 metricsService:
   ports:
     - name: https
