@@ -1,2 +1,13 @@
 serviceMonitor:
   enabled: false
+certController:
+  tolerations:
+    - key: node-role.kubernetes.io/control-plane
+      operator: Exists
+tolerations:
+  - key: node-role.kubernetes.io/control-plane
+    operator: Exists
+webhook:
+  tolerations:
+    - key: node-role.kubernetes.io/control-plane
+      operator: Exists
