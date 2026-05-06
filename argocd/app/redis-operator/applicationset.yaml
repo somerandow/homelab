@@ -14,8 +14,9 @@ spec:
           matchLabels:
             argocd.argoproj.io/secret-type: cluster
         values:
+          # renovate: datasource=github-releases depName=ot-container-kit/redis-operator
+          targetRevision: "~0.22.0"
           namespace: redis-operator
-          chartVersion: "~0.22.0"
   template:
     metadata:
       name: 'redis-operator-{{.name | slugify}}'
@@ -26,7 +27,7 @@ spec:
       project: default
       sources:
         - repoURL: https://ot-container-kit.github.io/helm-charts
-          targetRevision: '{{.values.chartVersion}}'
+          targetRevision: '{{.values.targetRevision}}'
           chart: redis-operator
           helm:
             releaseName: redis-operator

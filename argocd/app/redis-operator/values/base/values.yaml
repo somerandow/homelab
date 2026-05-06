@@ -13,3 +13,7 @@ certmanager:
 
 featureGates:
   GenerateConfigInInitContainer: true
+
+tolerations:
+  - key: node-role.kubernetes.io/control-plane
+    operator: Exists
