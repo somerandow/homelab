@@ -25,24 +25,6 @@ machine:
   network:
     searchDomains:
       - wojoinc.xyz
-    interfaces:
-      - interface: enp87s0
-        addresses:
-          - 10.0.0.8/24
-        routes:
-          - network: 0.0.0.0/0
-            gateway: 10.0.0.1
-            metric: 1024
-      - interface: bond0
-        addresses:
-          - 10.4.0.8/16
-        bond:
-          mode: 802.3ad
-          lacpRate: fast
-          interfaces:
-            - enp2s0f0np0
-            - enp2s0f1np1
-        mtu: 9000
 ---
 apiVersion: v1alpha1
 kind: HostnameConfig
@@ -60,17 +42,18 @@ provisioning:
   grow: true
 ---
 apiVersion: v1alpha1
-kind: EthernetConfig
-name: enp2s0f0np0
-rings:
-  rx: 8160
-  tx: 8160
-#  tcp-data-split: off
-features:
-  tx-tcp-ecn-segmentation: on
-  tx-ipxip4-segmentation: on
-  tx-ipxip6-segmentation: on
-  tx-checksum-sctp: on
-  rx-ntuple-filter: on
-channels:
-  combined: 12
+kind: VLANConfig
+name: bond0.vlan103
+addresses:
+  - address: 10.0.0.8/24
+routes:
+  - gateway: 10.0.0.1
+    metric: 1024
+---
+apiVersion: v1alpha1
+kind: VLANConfig
+name: bond0.vlan104
+addresses:
+  - address: 10.4.0.8/16
+routes:
+  - destination: 10.4.0.0/16
