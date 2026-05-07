@@ -58,55 +58,18 @@ channels:
   combined: 12
 ---
 apiVersion: v1alpha1
-kind: EthernetConfig
-name: enp2s0f1np1
-rings:
-  rx: 8160
-  tx: 8160
-#  tcp-data-split: off
-features:
-  tx-tcp-ecn-segmentation: on
-  tx-ipxip4-segmentation: on
-  tx-ipxip6-segmentation: on
-  tx-checksum-sctp: on
-  rx-ntuple-filter: on
-channels:
-  combined: 12
----
-apiVersion: v1alpha1
-kind: BondConfig
-name: bond0
-links:
-  - enp2s0f0np0
-  - enp2s0f1np1
-bondMode: 802.3ad
-miimon: 100
-updelay: 200
-downdelay: 200
-xmitHashPolicy: layer3+4
-lacpRate: fast
-multicast: true
-mtu: 9000
----
-apiVersion: v1alpha1
 kind: VLANConfig
 name: bond0.vlan103
-vlanID: 103
-parent: bond0
 addresses:
   - address: 10.0.0.6/24
 routes:
   - gateway: 10.0.0.1
     metric: 1024
-mtu: 9000
 ---
 apiVersion: v1alpha1
 kind: VLANConfig
 name: bond0.vlan104
-vlanID: 104
-parent: bond0
 addresses:
   - address: 10.4.0.6/16
 routes:
   - destination: 10.4.0.0/16
-mtu: 9000
