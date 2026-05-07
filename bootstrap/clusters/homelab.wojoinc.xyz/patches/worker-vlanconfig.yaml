@@ -1,0 +1,14 @@
+---
+apiVersion: v1alpha1
+kind: VLANConfig
+name: bond0.vlan103
+vlanID: 103
+parent: bond0
+mtu: 9000
+---
+apiVersion: v1alpha1
+kind: VLANConfig
+name: bond0.vlan104
+vlanID: 104
+parent: bond0
+mtu: 9000
