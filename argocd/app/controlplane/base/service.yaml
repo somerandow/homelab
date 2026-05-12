@@ -11,3 +11,5 @@ spec:
       protocol: TCP
       port: 6443
       targetPort: https
+  externalTrafficPolicy: Local
+  internalTrafficPolicy: Cluster
