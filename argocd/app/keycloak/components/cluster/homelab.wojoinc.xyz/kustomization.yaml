@@ -28,6 +28,7 @@ patches:
                 externalCluster: old-keycloak
         storage:
           storageClass: rook-rbd-fast
+          size: 2Gi
         externalClusters:
           - name: old-keycloak
             connectionParameters:
