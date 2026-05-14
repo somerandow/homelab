@@ -11,7 +11,7 @@ spec:
         - HostDevices
     permittedHostDevices:
       usb:
-        - externalResourceProvider: true
+        - externalResourceProvider: false
           resourceName: kubevirt.io/serial
           selectors:
             - vendor: 303a
