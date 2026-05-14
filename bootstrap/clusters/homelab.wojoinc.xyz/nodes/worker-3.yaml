@@ -1,3 +1,4 @@
+---
 machine:
   certSANs:
     - 127.0.0.1
@@ -25,24 +26,6 @@ machine:
   network:
     searchDomains:
       - wojoinc.xyz
-    interfaces:
-      - interface: enp5s0
-        addresses:
-          - 10.0.0.5/24
-        routes:
-          - network: 0.0.0.0/0
-            gateway: 10.0.0.1
-            metric: 1024
-      - interface: bond0
-        addresses:
-          - 10.4.0.5/16
-        bond:
-          mode: 802.3ad
-          lacpRate: fast
-          interfaces:
-            - enp3s0f0np0
-            - enp3s0f1np1
-        mtu: 9000
 ---
 apiVersion: v1alpha1
 kind: HostnameConfig
@@ -58,3 +41,42 @@ provisioning:
   minSize: 50GB
   maxSize: 200GB
   grow: true
+---
+apiVersion: v1alpha1
+kind: BondConfig
+name: bond0
+links:
+  - enp3s0f0np0
+  - enp3s0f1np1
+bondMode: 802.3ad
+miimon: 100
+updelay: 200
+downdelay: 200
+xmitHashPolicy: layer2+3
+lacpRate: fast
+multicast: true
+mtu: 9000
+---
+apiVersion: v1alpha1
+kind: VLANConfig
+name: bond0.vlan103
+addresses:
+  - address: 10.0.0.5/24
+routes:
+  - gateway: 10.0.0.1
+---
+apiVersion: v1alpha1
+kind: VLANConfig
+name: bond0.vlan104
+addresses:
+  - address: 10.4.0.5/16
+routes:
+  - destination: 10.4.0.0/16
+---
+apiVersion: v1alpha1
+kind: VLANConfig
+name: bond0.vlan105
+addresses:
+  - address: 10.5.0.5/16
+routes:
+  - destination: 10.5.0.0/16

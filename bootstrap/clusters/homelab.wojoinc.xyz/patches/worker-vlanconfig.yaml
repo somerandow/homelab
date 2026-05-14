@@ -12,3 +12,10 @@ name: bond0.vlan104
 vlanID: 104
 parent: bond0
 mtu: 9000
+---
+apiVersion: v1alpha1
+kind: VLANConfig
+name: bond0.vlan105
+vlanID: 105
+parent: bond0
+mtu: 1500

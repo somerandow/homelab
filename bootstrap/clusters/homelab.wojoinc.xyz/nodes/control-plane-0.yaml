@@ -5,7 +5,7 @@ machine:
   install:
     wipe: true
     diskSelector:
-      model: Samsung SSD 850
+      model: WDC PC SN530 SDBPMPZ-256G-1101
   # Because the TPM on this node is garbage... thanks Intel...
   systemDiskEncryption:
     ephemeral:
@@ -32,6 +32,15 @@ machine:
           - network: 0.0.0.0/0
             gateway: 10.0.0.1
             metric: 1024
+---
+apiVersion: v1alpha1
+kind: VolumeConfig
+name: EPHEMERAL
+provisioning:
+  diskSelector:
+    match: disk.model == "WDC PC SN530 SDBPMPZ-256G-1101"
+  minSize: 10GB
+  grow: true
 ---
 apiVersion: v1alpha1
 kind: HostnameConfig
