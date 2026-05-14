@@ -12,7 +12,7 @@ spec:
     permittedHostDevices:
       usb:
         - externalResourceProvider: true
-          resourceName: devices.wojoinc.xyz/zbmatter
+          resourceName: devices.wojoinc.xyz/thread
           selectors:
             - vendor: 303a
               product: 831a
