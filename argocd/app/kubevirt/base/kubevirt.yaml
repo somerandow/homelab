@@ -12,10 +12,10 @@ spec:
     permittedHostDevices:
       usb:
         - externalResourceProvider: true
-          resourceName: devices.wojoinc.xyz/thread
-#          selectors:
-#            - vendor: 303a
-#              product: 831a
+          resourceName: kubevirt.io/serial
+          selectors:
+            - vendor: 303a
+              product: 831a
     smbios:
       sku: "TalosCloud"
       version: "v0.1.0"
