@@ -20,7 +20,7 @@ spec:
           resourceName: kubevirt.io/zigbee
           selectors:
             - vendor: 1a86
-              product: 7523
+              product: "7523"
     smbios:
       sku: "TalosCloud"
       version: "v0.1.0"
