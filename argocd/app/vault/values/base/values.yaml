@@ -5,7 +5,7 @@ global:
 server:
   image:
     repository: docker.io/hashicorp/vault
-    tag: "2.0.0"
+    tag: "2.0.1"
   extraEnvironmentVars:
     VAULT_CAPATH: "/tls/ca.crt"
   updateStrategyType: "OnDelete"
