@@ -9,8 +9,9 @@ server:
   statefulSet:
     securityContext:
       container:
-        add:
-          - IPC_LOCK
+        capabilities:
+          add:
+            - IPC_LOCK
   extraEnvironmentVars:
     VAULT_CAPATH: "/tls/ca.crt"
   updateStrategyType: "OnDelete"
