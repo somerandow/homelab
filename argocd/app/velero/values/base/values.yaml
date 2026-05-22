@@ -1,6 +1,6 @@
 image:
   repository: docker.io/velero/velero
-  tag: v1.18.0
+  tag: v1.18.1
   pullPolicy: IfNotPresent
 
 podSecurityContext:
