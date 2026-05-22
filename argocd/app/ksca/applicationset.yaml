@@ -16,7 +16,7 @@ spec:
             argocd.argoproj.io/secret-type: cluster
         values:
           # renovate: datasource=github-releases depName=alex1989hu/kubelet-serving-cert-approver
-          targetRevision: "v0.10.3"
+          targetRevision: "v0.11.0"
           namespace: kubelet-serving-cert-approver
   template:
     metadata:
