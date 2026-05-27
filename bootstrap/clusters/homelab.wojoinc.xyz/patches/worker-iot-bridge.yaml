@@ -1,0 +1,8 @@
+---
+apiVersion: v1alpha1
+kind: BridgeConfig
+name: br.105
+links:
+  - bond0.vlan105
+# Should be inherited from underlying interface, but just in case
+mtu: 1500

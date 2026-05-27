@@ -103,11 +103,3 @@ addresses:
   - address: 10.4.0.8/16
 routes:
   - destination: 10.4.0.0/16
----
-apiVersion: v1alpha1
-kind: VLANConfig
-name: bond0.vlan105
-addresses:
-  - address: 10.5.0.8/16
-routes:
-  - destination: 10.5.0.0/16
