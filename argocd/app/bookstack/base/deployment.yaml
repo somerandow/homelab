@@ -26,8 +26,7 @@ spec:
         app.kubernetes.io/name: "bookstack"
         app.kubernetes.io/instance: "bookstack"
     spec:
-      # TODO handle service account creation
-      serviceAccountName: default
+      serviceAccountName: bookstack
       automountServiceAccountToken: true
       securityContext:
         fsGroup: 33
@@ -37,7 +36,8 @@ spec:
       enableServiceLinks: true
       containers:
         - name: bookstack
-          image: "docker.io/solidnerd/bookstack:25.12.3"
+          # TODO: Likely will just build image on our own as we want to be able to use .env file, which isn't supported with this image
+          image: "docker.io/solidnerd/bookstack:latest"
           imagePullPolicy: IfNotPresent
           securityContext:
             allowPrivilegeEscalation: false

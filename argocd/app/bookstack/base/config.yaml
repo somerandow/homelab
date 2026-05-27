@@ -1,0 +1,140 @@
+APP_ENV=production
+APP_DEBUG=false
+APP_KEY=SomeRandomString # TODO: Populate from secret instead
+APP_URL=https://example.com # TODO: Patch in environment/cluster component
+APP_LANG=en
+APP_AUTO_LANG_PUBLIC=true
+APP_TIMEZONE=CST
+APP_DISPLAY_TIMEZONE=CST
+APP_THEME=false
+APP_PROXIES=null # TODO: Add trusted proxies in cluster component
+
+# TODO: All DB values should be populated by secrets
+DB_HOST=localhost
+DB_PORT=3306
+DB_DATABASE=database_database
+DB_USERNAME=database_username
+DB_PASSWORD=database_user_password
+  
+  # MySQL specific connection options
+  # Path to Certificate Authority (CA) certificate file for your MySQL instance.
+  # When this option is used host name identity verification will be performed
+  # which checks the hostname, used by the client, against names within the
+  # certificate itself (Common Name or Subject Alternative Name).
+MYSQL_ATTR_SSL_CA="/path/to/ca.pem"
+
+  
+  # Cache & Session driver to use
+  # Can be 'file', 'database', 'memcached' or 'redis'
+
+# TODO: Patch to 'redis' for production
+CACHE_DRIVER=file
+SESSION_DRIVER=file
+
+SESSION_LIFETIME=120
+SESSION_COOKIE_NAME=bookstack_session
+
+# TODO: Patch to true in production
+SESSION_SECURE_COOKIE=false
+CACHE_PREFIX=bookstack
+  
+  # Memcached server configuration
+  # If using a UNIX socket path for the host, set the port to 0
+  # This follows the following format: HOST:PORT:WEIGHT
+  # For multiple servers separate with a comma
+MEMCACHED_SERVERS=127.0.0.1:11211:100
+  
+  # Redis server configuration
+  # This follows the following format: HOST:PORT:DATABASE
+  # or, if using a password: HOST:PORT:DATABASE:PASSWORD
+  # For multiple servers separate with a comma. These will be clustered.
+REDIS_SERVERS=127.0.0.1:6379:0
+  
+  # Queue driver to use
+  # Can be 'sync', 'database' or 'redis'
+# TODO: Patch to s3 in production
+QUEUE_CONNECTION=sync
+  
+  # Storage system to use
+  # Can be 'local', 'local_secure' or 's3'
+# TODO: Patch to s3 in production
+STORAGE_TYPE=local
+  
+  # Image storage system to use
+  # Defaults to the value of STORAGE_TYPE if unset.
+  # Accepts the same values as STORAGE_TYPE.
+# TODO: Patch to s3 in production
+STORAGE_IMAGE_TYPE=local
+  
+  # Attachment storage system to use
+  # Defaults to the value of STORAGE_TYPE if unset.
+  # Accepts the same values as STORAGE_TYPE although 'local' will be forced to 'local_secure'.
+# TODO: Patch to s3 in production
+STORAGE_ATTACHMENT_TYPE=local_secure
+  
+  # Amazon S3 storage configuration
+STORAGE_S3_KEY=your-s3-key
+STORAGE_S3_SECRET=your-s3-secret
+STORAGE_S3_BUCKET=s3-bucket-name
+STORAGE_S3_REGION=s3-bucket-region
+  
+  # S3 endpoint to use for storage calls
+  # Only set this if using a non-Amazon s3-compatible service such as Minio
+STORAGE_S3_ENDPOINT=https://my-custom-s3-compatible.service.com:8001
+  
+  # Storage URL prefix
+  # Used as a base for any generated image urls.
+  # An s3-format URL will be generated if not set.
+STORAGE_URL=false
+  
+  # Authentication method to use
+  # Can be 'standard', 'ldap', 'saml2' or 'oidc'
+# TODO: Patch to oidc in prod
+AUTH_METHOD=standard
+AUTH_AUTO_INITIATE=false
+
+  # OpenID Connect authentication configuration
+  # Refer to https://www.bookstackapp.com/docs/admin/oidc-auth/
+OIDC_NAME=SSO
+OIDC_DISPLAY_NAME_CLAIMS=name
+OIDC_CLIENT_ID=null
+OIDC_CLIENT_SECRET=null
+OIDC_ISSUER=null
+OIDC_ISSUER_DISCOVER=false
+OIDC_PUBLIC_KEY=null
+OIDC_AUTH_ENDPOINT=null
+OIDC_TOKEN_ENDPOINT=null
+OIDC_USERINFO_ENDPOINT=null
+OIDC_ADDITIONAL_SCOPES=null
+OIDC_DUMP_USER_DETAILS=false
+OIDC_USER_TO_GROUPS=false
+OIDC_GROUPS_CLAIM=groups
+OIDC_REMOVE_FROM_GROUPS=false
+OIDC_EXTERNAL_ID_CLAIM=sub
+OIDC_END_SESSION_ENDPOINT=false
+
+DISABLE_EXTERNAL_SERVICES=false
+
+DRAWIO=true
+APP_VIEWS_BOOKS=list
+APP_VIEWS_BOOKSHELVES=grid
+APP_VIEWS_BOOKSHELF=grid
+APP_DEFAULT_DARK_MODE=false
+REVISION_LIMIT=100
+RECYCLE_BIN_LIFETIME=30
+FILE_UPLOAD_SIZE_LIMIT=50
+EXPORT_PAGE_SIZE=letter
+APP_CONTENT_FILTERING="jfha"
+ALLOW_ROBOTS=null
+ALLOW_UNTRUSTED_SERVER_FETCHING=false
+ALLOWED_IFRAME_HOSTS=null
+ALLOWED_IFRAME_SOURCES="https://*.draw.io https://*.youtube.com https://*.youtube-nocookie.com https://*.vimeo.com"
+ALLOWED_STYLE_SOURCES=null
+ALLOWED_IMAGE_SOURCES=null
+ALLOWED_SSR_HOSTS="*"
+API_DEFAULT_ITEM_COUNT=100
+API_MAX_ITEM_COUNT=500
+API_REQUESTS_PER_MIN=180
+LOG_FAILED_LOGIN_MESSAGE=false
+LOG_FAILED_LOGIN_CHANNEL=errorlog_plain_webserver
+IP_ADDRESS_PRECISION=4
