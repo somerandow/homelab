@@ -26,7 +26,7 @@ spec:
     spec:
       project: default
       sources:
-        - repoURL: charts.gitlab.io
+        - repoURL: https://charts.gitlab.io
           targetRevision: '{{ .values.targetRevision }}'
           chart: gitlab-runner
           helm:
