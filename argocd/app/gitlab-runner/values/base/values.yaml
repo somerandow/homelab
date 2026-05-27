@@ -1,0 +1,62 @@
+useTini: false
+replicas: 1
+revisionHistoryLimit: 3
+gitlabUrl: https://gitlab.com/
+unregisterRunners: true
+terminationGracePeriodSeconds: 3600
+concurrent: 2
+shutdown_timeout: 0
+checkInterval: 10
+serviceAccount:
+  create: false
+  name: gitlab-runner
+rbac:
+  create: true
+  rules:
+    - apiGroups: ["*"]
+      resources: ["*"]
+      verbs: ["*"]
+  clusterWideAccess: false
+extraEnv:
+  FF_USE_ADVANCED_POD_SPEC_CONFIGURATION: true
+runners:
+  config: |
+    [[runners]]
+      environment = ["FF_USE_ADVANCED_POD_SPEC_CONFIGURATION=true"]
+      builds_dir = "/tmp/builds"
+    [runners.kubernetes]
+      namespace = "{{.Release.Namespace}}"
+      logs_base_dir = "/tmp/logs"
+      scripts_base_dir = "/tmp/scripts"
+      privileged = false
+      allowPrivilegeEscalation = false
+    [[runners.kubernetes.pod_spec]]
+      name = "hostUsers"
+      patch = '''
+        [{"op": "add", "path": "/hostUsers", "value": false}]
+      '''
+      patch_type = "json"
+  secret: gitlab-runner-token
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: false
+  privileged: false
+  capabilities:
+    drop: ["ALL"]
+  seccompProfile:
+    type: RuntimeDefault
+strategy:
+  rollingUpdate:
+    maxSurge: 2
+    maxUnavailable: 2
+  type: RollingUpdate
+podSecurityContext:
+  runAsUser: 100
+  fsGroup: 65533
+topologySpreadConstraints:
+  - maxSkew: 3
+    topologyKey: kubernetes.io/hostname
+    whenUnsatisfiable: ScheduleAnyway
+    labelSelector:
+      matchLabels:
+        app.kubernetes.io/name: gitlab-runner

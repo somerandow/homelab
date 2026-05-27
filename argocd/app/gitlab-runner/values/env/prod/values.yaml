@@ -1,0 +1,24 @@
+replicas: 3
+concurrent: 20
+metrics:
+  enabled: true
+  portName: metrics
+  port: 9252
+  serviceMonitor:
+    enabled: true
+    labels:
+      monitoring.homelab.wojoinc.xyz/enabled: "true"
+service:
+  enabled: true
+  labels:
+    monitoring.homelab.wojoinc.xyz/enabled: "true"
+  type: ClusterIP
+resources:
+  limits:
+    memory: 1Gi
+    cpu: 1
+    ephemeral-storage: 512Mi
+  requests:
+    memory: 128Mi
+    cpu: 100m
+    ephemeral-storage: 256Mi

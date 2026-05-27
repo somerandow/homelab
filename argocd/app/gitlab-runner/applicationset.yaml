@@ -1,0 +1,68 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: gitlab-runner
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions:
+    - 'missingkey=error'
+  generators:
+    - clusters:
+        selector:
+          matchLabels:
+            argocd.argoproj.io/secret-type: cluster
+        values:
+          # renovate: datasource=helm depName=https://charts.gitlab.io/gitlab-runner
+          targetRevision: "0.89.0"
+          namespace: gitlab-runner
+  template:
+    metadata:
+      name: 'gitlab-runner-{{.name | slugify}}'
+      labels:
+        app.kubernetes.io/component: argocd-application
+        homelab.wojoinc.xyz/app-group: 'infra'
+    spec:
+      project: default
+      sources:
+        - repoURL: charts.gitlab.io
+          targetRevision: '{{ .values.targetRevision }}'
+          chart: gitlab-runner
+          helm:
+            releaseName: gitlab-runner
+            valueFiles:
+              - $values/argocd/app/gitlab-runner/values/base/values.yaml
+              - $values/argocd/app/gitlab-runner/values/flavor/{{index .metadata.labels "cluster-flavor"}}/values.yaml
+              - $values/argocd/app/gitlab-runner/values/env/{{index .metadata.labels "cluster-environment"}}/values.yaml
+              - $values/argocd/app/gitlab-runner/values/cluster/{{.name}}/values.yaml
+            skipCrds: false
+            ignoreMissingValueFiles: true
+        - repoURL: 'https://github.com/somerandow/homelab'
+          targetRevision: main
+          ref: values
+        - repoURL: 'https://github.com/somerandow/homelab'
+          targetRevision: main
+          path: argocd/app/gitlab-runner/base
+          kustomize:
+            components:
+              - ../../../flavor/{{index .metadata.labels "cluster-flavor"}}
+              - ../components/flavor/{{index .metadata.labels "cluster-flavor"}}
+              - ../../../env/{{index .metadata.labels "cluster-environment"}}
+              - ../components/env/{{index .metadata.labels "cluster-environment"}}
+              - ../../../cluster/{{.name}}
+              - ../components/cluster/{{.name}}
+            ignoreMissingComponents: true
+      destination:
+        server: '{{.server}}'
+        namespace: '{{.values.namespace}}'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+          - ApplyOutOfSyncOnly=true
+          - ServerSideApply=true
+          - RespectIgnoreDifferences=true
+      ignoreDifferences: []
