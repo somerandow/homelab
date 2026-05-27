@@ -4,7 +4,7 @@ revisionHistoryLimit: 3
 gitlabUrl: https://gitlab.com/
 unregisterRunners: true
 terminationGracePeriodSeconds: 3600
-concurrent: 20
+concurrent: 2
 shutdown_timeout: 0
 checkInterval: 10
 serviceAccount:
@@ -12,26 +12,11 @@ serviceAccount:
   name: gitlab-runner
 rbac:
   create: true
-  ## Define the generated serviceAccountName when create is set to true
-  ## It defaults to "gitlab-runner.fullname" if not provided
   rules:
     - apiGroups: ["*"]
       resources: ["*"]
       verbs: ["*"]
   clusterWideAccess: false
-metrics:
-  enabled: true
-  portName: metrics
-  port: 9252
-  serviceMonitor:
-    enabled: true
-    labels:
-      monitoring.homelab.wojoinc.xyz/enabled: "true"
-service:
-  enabled: true
-  labels:
-    monitoring.homelab.wojoinc.xyz/enabled: "true"
-  type: ClusterIP
 extraEnv:
   FF_USE_ADVANCED_POD_SPEC_CONFIGURATION: true
 runners:
@@ -58,6 +43,8 @@ securityContext:
   privileged: false
   capabilities:
     drop: ["ALL"]
+  seccompProfile:
+    type: RuntimeDefault
 strategy:
   rollingUpdate:
     maxSurge: 2
@@ -66,15 +53,6 @@ strategy:
 podSecurityContext:
   runAsUser: 100
   fsGroup: 65533
-resources:
-  limits:
-    memory: 1Gi
-    cpu: 1
-    ephemeral-storage: 512Mi
-  requests:
-    memory: 128Mi
-    cpu: 100m
-    ephemeral-storage: 256Mi
 topologySpreadConstraints:
   - maxSkew: 3
     topologyKey: kubernetes.io/hostname
