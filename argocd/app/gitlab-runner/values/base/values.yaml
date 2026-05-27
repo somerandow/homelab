@@ -1,0 +1,84 @@
+useTini: false
+replicas: 1
+revisionHistoryLimit: 3
+gitlabUrl: https://gitlab.com/
+unregisterRunners: true
+terminationGracePeriodSeconds: 3600
+concurrent: 20
+shutdown_timeout: 0
+checkInterval: 10
+serviceAccount:
+  create: false
+  name: gitlab-runner
+rbac:
+  create: true
+  ## Define the generated serviceAccountName when create is set to true
+  ## It defaults to "gitlab-runner.fullname" if not provided
+  rules:
+    - apiGroups: ["*"]
+      resources: ["*"]
+      verbs: ["*"]
+  clusterWideAccess: false
+metrics:
+  enabled: true
+  portName: metrics
+  port: 9252
+  serviceMonitor:
+    enabled: true
+    labels:
+      monitoring.homelab.wojoinc.xyz/enabled: "true"
+service:
+  enabled: true
+  labels:
+    monitoring.homelab.wojoinc.xyz/enabled: "true"
+  type: ClusterIP
+extraEnv:
+  FF_USE_ADVANCED_POD_SPEC_CONFIGURATION: true
+runners:
+  config: |
+    [[runners]]
+      environment = ["FF_USE_ADVANCED_POD_SPEC_CONFIGURATION=true"]
+      builds_dir = "/tmp/builds"
+    [runners.kubernetes]
+      namespace = "{{.Release.Namespace}}"
+      logs_base_dir = "/tmp/logs"
+      scripts_base_dir = "/tmp/scripts"
+      privileged = false
+      allowPrivilegeEscalation = false
+    [[runners.kubernetes.pod_spec]]
+      name = "hostUsers"
+      patch = '''
+        [{"op": "add", "path": "/hostUsers", "value": false}]
+      '''
+      patch_type = "json"
+  secret: gitlab-runner-token
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: false
+  privileged: false
+  capabilities:
+    drop: ["ALL"]
+strategy:
+  rollingUpdate:
+    maxSurge: 2
+    maxUnavailable: 2
+  type: RollingUpdate
+podSecurityContext:
+  runAsUser: 100
+  fsGroup: 65533
+resources:
+  limits:
+    memory: 1Gi
+    cpu: 1
+    ephemeral-storage: 512Mi
+  requests:
+    memory: 128Mi
+    cpu: 100m
+    ephemeral-storage: 256Mi
+topologySpreadConstraints:
+  - maxSkew: 3
+    topologyKey: kubernetes.io/hostname
+    whenUnsatisfiable: ScheduleAnyway
+    labelSelector:
+      matchLabels:
+        app.kubernetes.io/name: gitlab-runner
