@@ -15,7 +15,7 @@ spec:
             argocd.argoproj.io/secret-type: cluster
         values:
           # renovate: datasource=github-releases depName=kubernetes-csi/external-snapshotter
-          targetRevision: "v8.5.0"
+          targetRevision: "v8.6.0"
           namespace: kube-system
   template:
     metadata:
