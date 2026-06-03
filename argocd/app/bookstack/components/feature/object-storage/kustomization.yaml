@@ -8,3 +8,7 @@ configMapGenerator:
     envs:
       - config.env
     behavior: merge
+resources:
+  - cephobjectstoreuser.yaml
+  - objectbucketclaim.yaml
+  - vaultstaticsecret.yaml

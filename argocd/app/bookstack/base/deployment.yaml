@@ -56,7 +56,6 @@ spec:
                 optional: true
             - secretRef:
                 name: bookstack-db-user
-            # TODO: Move to component
             - secretRef:
                 name: redis-auth-app
                 optional: true

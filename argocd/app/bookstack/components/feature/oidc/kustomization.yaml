@@ -8,3 +8,5 @@ configMapGenerator:
     envs:
       - config.env
     behavior: merge
+resources:
+  - vaultstaticsecret.yaml

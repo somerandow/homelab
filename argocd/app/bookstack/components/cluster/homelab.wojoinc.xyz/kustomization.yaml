@@ -3,7 +3,8 @@ apiVersion: kustomize.config.k8s.io/v1alpha1
 kind: Component
 components:
   - ../../../../../common/ingress-publish-internal
-#  - ../../feature/object-storage
+  - ../../feature/oidc
+  - ../../feature/object-storage
 configMapGenerator:
   - name: bookstack-env
     options:
@@ -11,3 +12,8 @@ configMapGenerator:
     envs:
       - config.env
     behavior: merge
+patches:
+  # Required as cluster component is included after the cluster common component
+  - target:
+      kind: VaultStaticSecret
+    path: patch-vaultstaticsecret.yaml

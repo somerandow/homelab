@@ -1,0 +1,27 @@
+---
+apiVersion: objectbucket.io/v1alpha1
+kind: ObjectBucketClaim
+metadata:
+  name: bookstack
+spec:
+  bucketName: bookstack-9f5df2fa-c39d-4987-847a-588a9e3c2b9b
+  storageClassName: rgw-fast-bucket
+  additionalConfig:
+    bucketOwner: bookstack
+    bucketPolicy: |-
+      {
+        "Version": "2012-10-17",
+        "Statement": [
+          {
+            "Effect": "Allow",
+            "Principal": "*",
+            "Action": [
+              "s3:GetObject"
+            ],
+            "Resource": [
+              "arn:aws:s3:::bookstack-9f5df2fa-c39d-4987-847a-588a9e3c2b9b/uploads/files/*",
+              "arn:aws:s3:::bookstack-9f5df2fa-c39d-4987-847a-588a9e3c2b9b/uploads/images/*"
+            ]
+          }
+        ]
+      }
