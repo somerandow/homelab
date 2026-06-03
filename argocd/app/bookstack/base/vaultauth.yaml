@@ -1,0 +1,28 @@
+---
+apiVersion: secrets.hashicorp.com/v1beta1
+kind: VaultAuth
+metadata:
+  name: bookstack
+spec:
+  kubernetes:
+    audiences: []
+    role: ""
+    serviceAccount: bookstack
+    tokenExpirationSeconds: 600
+  method: kubernetes
+  mount: homelab
+  vaultConnectionRef: vault-secrets-operator/default
+---
+apiVersion: secrets.hashicorp.com/v1beta1
+kind: VaultAuth
+metadata:
+  name: mariadb
+spec:
+  kubernetes:
+    audiences: []
+    role: ""
+    serviceAccount: mariadb
+    tokenExpirationSeconds: 600
+  method: kubernetes
+  mount: homelab
+  vaultConnectionRef: vault-secrets-operator/default

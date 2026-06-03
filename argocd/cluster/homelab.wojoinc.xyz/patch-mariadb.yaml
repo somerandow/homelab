@@ -1,0 +1,3 @@
+- op: add
+  path: /spec/storage/storageClassName
+  value: "rook-rbd-fast"

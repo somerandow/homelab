@@ -36,7 +36,6 @@ spec:
       enableServiceLinks: true
       containers:
         - name: bookstack
-          # TODO: Likely will just build image on our own as we want to be able to use .env file, which isn't supported with this image
           image: "docker.io/solidnerd/bookstack:latest"
           imagePullPolicy: IfNotPresent
           securityContext:
@@ -45,22 +44,25 @@ spec:
               drop:
                 - ALL
             readOnlyRootFilesystem: false
-          env:
-            - name: APP_URL
-              value: https://docs.wojoinc.xyz
-            - name: APP_TIMEZONE
-              value: America/Chicago
-            - name: AUTH_METHOD
-              value: oidc
-            - name: APP_DEFAULT_DARK_MODE
-              value: "true"
-            - name: EXPORT_PAGE_SIZE
-              value: letter
           envFrom:
-            - secretRef:
+            - configMapRef:
                 name: bookstack-env
+                optional: false
             - secretRef:
-                name: bookstack-db-auth
+                name: bookstack-oidc
+                optional: true
+            - secretRef:
+                name: bookstack-s3
+                optional: true
+            - secretRef:
+                name: bookstack-db-user
+            # TODO: Move to component
+            - secretRef:
+                name: redis-auth-app
+                optional: true
+            - secretRef:
+                name: bookstack-app-key
+                optional: false
           ports:
             - name: http
               containerPort: 8080
