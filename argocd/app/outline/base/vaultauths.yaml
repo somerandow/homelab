@@ -1,0 +1,42 @@
+---
+apiVersion: secrets.hashicorp.com/v1beta1
+kind: VaultAuth
+metadata:
+  name: outline
+spec:
+  kubernetes:
+    audiences: []
+    role: ""
+    serviceAccount: outline
+    tokenExpirationSeconds: 600
+  method: kubernetes
+  mount: homelab
+  vaultConnectionRef: vault-secrets-operator/default
+---
+apiVersion: secrets.hashicorp.com/v1beta1
+kind: VaultAuth
+metadata:
+  name: outline-db
+spec:
+  kubernetes:
+    audiences: []
+    role: ""
+    serviceAccount: outline-db
+    tokenExpirationSeconds: 600
+  method: kubernetes
+  mount: homelab
+  vaultConnectionRef: vault-secrets-operator/default
+---
+apiVersion: secrets.hashicorp.com/v1beta1
+kind: VaultAuth
+metadata:
+  name: redis
+spec:
+  kubernetes:
+    audiences: []
+    role: ""
+    serviceAccount: redis
+    tokenExpirationSeconds: 600
+  method: kubernetes
+  mount: homelab
+  vaultConnectionRef: vault-secrets-operator/default

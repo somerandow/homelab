@@ -33,3 +33,6 @@ patches:
   - target:
       kind: PodMonitor
     path: patch-podmonitor.yaml
+  - target:
+      kind: RedisReplication
+    path: patch-redisreplication.yaml
