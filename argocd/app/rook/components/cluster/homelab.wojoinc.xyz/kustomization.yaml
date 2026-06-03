@@ -67,3 +67,6 @@ patches:
       - op: add
         path: /spec/allowUsersInNamespaces/0
         value: "cloud-storage"
+      - op: add
+        path: /spec/allowUsersInNamespaces/0
+        value: "bookstack"
