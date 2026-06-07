@@ -1,16 +1,8 @@
 ---
-# Source: bookstack/templates/common.yaml
 apiVersion: v1
 kind: Service
 metadata:
   name: bookstack
-  labels:
-    helm.sh/chart: "bookstack"
-    app.kubernetes.io/version: "25.2.0"
-    app.kubernetes.io/managed-by: "Helm"
-    app.kubernetes.io/name: "bookstack"
-    app.kubernetes.io/instance: "bookstack"
-  annotations: {}
 spec:
   type: ClusterIP
   ports:
@@ -18,6 +10,4 @@ spec:
       targetPort: http
       protocol: TCP
       name: http
-  selector:
-    app.kubernetes.io/name: "bookstack"
-    app.kubernetes.io/instance: "bookstack"
+  selector: { }

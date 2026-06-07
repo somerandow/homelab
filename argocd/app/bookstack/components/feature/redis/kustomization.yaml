@@ -1,0 +1,15 @@
+---
+apiVersion: kustomize.config.k8s.io/v1alpha1
+kind: Component
+configMapGenerator:
+  - name: bookstack-env
+    options:
+      disableNameSuffixHash: true
+    envs:
+      - config.env
+    behavior: merge
+resources:
+  - redisreplication.yaml
+  - serviceaccount.yaml
+  - vaultauth.yaml
+  - vaultstaticsecrets.yaml

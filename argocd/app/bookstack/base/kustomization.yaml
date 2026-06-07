@@ -1,3 +1,26 @@
 ---
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
+configMapGenerator:
+  - name: bookstack-env
+    options:
+      disableNameSuffixHash: true
+    envs:
+      - config.env
+images:
+  - name: docker.io/solidnerd/bookstack
+    newTag: 26.3.5
+labels:
+  - pairs:
+      app.kubernetes.io/name: bookstack
+      app.kubernetes.io/instance: bookstack
+    includeSelectors: true
+    includeTemplates: true
+resources:
+  - deployment.yaml
+  - ingress.yaml
+  - mariadb.yaml
+  - service.yaml
+  - serviceaccounts.yaml
+  - vaultauth.yaml
+  - vaultstaticsecret.yaml

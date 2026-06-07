@@ -10,7 +10,7 @@ metadata:
     app.kubernetes.io/managed-by: "Helm"
     app.kubernetes.io/name: "bookstack"
     app.kubernetes.io/instance: "bookstack"
-  annotations: {}
+  annotations: { }
 spec:
   revisionHistoryLimit: 1
   replicas: 1
@@ -26,10 +26,10 @@ spec:
         app.kubernetes.io/name: "bookstack"
         app.kubernetes.io/instance: "bookstack"
     spec:
-      # TODO handle service account creation
-      serviceAccountName: default
+      serviceAccountName: bookstack
       automountServiceAccountToken: true
       securityContext:
+        runAsNonRoot: true
         fsGroup: 33
         runAsGroup: 33
         runAsUser: 33
@@ -37,30 +37,34 @@ spec:
       enableServiceLinks: true
       containers:
         - name: bookstack
-          image: "docker.io/solidnerd/bookstack:25.12.3"
+          image: "docker.io/solidnerd/bookstack:latest"
           imagePullPolicy: IfNotPresent
           securityContext:
+            seccompProfile:
+              type: RuntimeDefault
             allowPrivilegeEscalation: false
             capabilities:
               drop:
                 - ALL
             readOnlyRootFilesystem: false
-          env:
-            - name: APP_URL
-              value: https://docs.wojoinc.xyz
-            - name: APP_TIMEZONE
-              value: America/Chicago
-            - name: AUTH_METHOD
-              value: oidc
-            - name: APP_DEFAULT_DARK_MODE
-              value: "true"
-            - name: EXPORT_PAGE_SIZE
-              value: letter
           envFrom:
-            - secretRef:
+            - configMapRef:
                 name: bookstack-env
+                optional: false
             - secretRef:
-                name: bookstack-db-auth
+                name: bookstack-oidc
+                optional: true
+            - secretRef:
+                name: bookstack-s3
+                optional: true
+            - secretRef:
+                name: bookstack-db-user
+            - secretRef:
+                name: redis-auth-app
+                optional: true
+            - secretRef:
+                name: bookstack-app-key
+                optional: false
           ports:
             - name: http
               containerPort: 8080

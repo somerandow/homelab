@@ -1,0 +1,13 @@
+---
+apiVersion: ceph.rook.io/v1
+kind: CephObjectStoreUser
+metadata:
+  name: bookstack
+spec:
+  keys:
+    - accessKeyRef:
+        name: bookstack-s3
+        key: AWS_ACCESS_KEY_ID
+      secretKeyRef:
+        name: bookstack-s3
+        key: AWS_SECRET_ACCESS_KEY
