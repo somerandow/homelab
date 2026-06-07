@@ -29,6 +29,7 @@ spec:
       serviceAccountName: bookstack
       automountServiceAccountToken: true
       securityContext:
+        runAsNonRoot: true
         fsGroup: 33
         runAsGroup: 33
         runAsUser: 33
@@ -39,6 +40,8 @@ spec:
           image: "docker.io/solidnerd/bookstack:latest"
           imagePullPolicy: IfNotPresent
           securityContext:
+            seccompProfile:
+              type: RuntimeDefault
             allowPrivilegeEscalation: false
             capabilities:
               drop:
