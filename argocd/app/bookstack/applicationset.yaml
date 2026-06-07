@@ -49,4 +49,4 @@ spec:
           - ApplyOutOfSyncOnly=true
           - ServerSideApply=true
           - RespectIgnoreDifferences=true
-      ignoreDifferences: []
+      ignoreDifferences: [ ]

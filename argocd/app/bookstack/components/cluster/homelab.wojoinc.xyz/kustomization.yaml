@@ -13,6 +13,9 @@ configMapGenerator:
       - config.env
     behavior: merge
 patches:
+  - target:
+      kind: CephObjectStoreUser
+    path: patch-cephobjectstoreuser.yaml
   # Required as cluster component is included after the cluster common component
   - target:
       kind: VaultStaticSecret

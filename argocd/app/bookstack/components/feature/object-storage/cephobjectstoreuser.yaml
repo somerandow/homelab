@@ -4,8 +4,6 @@ kind: CephObjectStoreUser
 metadata:
   name: bookstack
 spec:
-  store: rgw-fast
-  clusterNamespace: rook-ceph
   keys:
     - accessKeyRef:
         name: bookstack-s3

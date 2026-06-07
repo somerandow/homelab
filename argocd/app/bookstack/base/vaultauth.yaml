@@ -5,7 +5,7 @@ metadata:
   name: bookstack
 spec:
   kubernetes:
-    audiences: []
+    audiences: [ ]
     role: ""
     serviceAccount: bookstack
     tokenExpirationSeconds: 600
@@ -19,7 +19,7 @@ metadata:
   name: mariadb
 spec:
   kubernetes:
-    audiences: []
+    audiences: [ ]
     role: ""
     serviceAccount: mariadb
     tokenExpirationSeconds: 600

@@ -5,7 +5,7 @@ metadata:
   name: redis
 spec:
   kubernetes:
-    audiences: []
+    audiences: [ ]
     role: ""
     serviceAccount: redis
     tokenExpirationSeconds: 600
