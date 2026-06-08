@@ -24,19 +24,31 @@ spec:
               mountPropagation: Bidirectional
               name: cnibin
           command:
+            - /bin/sh
+          args:
+            - "-c"
             - |
-              cd /tmp
-              apk update && apk add curl
+              cd /tmp;
+              apk update && apk add curl;
               curl -fSsL https://github.com/containernetworking/plugins/releases/download/v1.9.1/cni-plugins-linux-amd64-v1.9.1.tgz | \
-              tar -xzvf - && rm LICENSE README.md
-              cp ./* /host/opt/cni/bin
+              tar -xzvf - && rm LICENSE README.md;
+              cp ./* /host/opt/cni/bin;
               ls -la /host/opt/cni/bin
+      containers:
+        - name: kube-multus
+          resources:
+            limits:
+              cpu: 300m
+              memory: 300Mi
+            requests:
+              cpu: 100m
+              memory: 100Mi
       resources:
         limits:
-          cpu: 500m
-          memory: 500Mi
+          cpu: 300m
+          memory: 300Mi
         requests:
-          cpu: 200m
+          cpu: 100m
           memory: 100Mi
       volumes:
         - name: host-run-netns
