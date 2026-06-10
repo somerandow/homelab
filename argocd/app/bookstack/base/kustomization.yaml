@@ -9,7 +9,7 @@ configMapGenerator:
       - config.env
 images:
   - name: docker.io/solidnerd/bookstack
-    newTag: 26.5.0
+    newTag: 26.5.1
 labels:
   - pairs:
       app.kubernetes.io/name: bookstack
