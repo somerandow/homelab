@@ -1,0 +1,19 @@
+---
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: ScrapeConfig
+metadata:
+  name: homeassistant
+spec:
+  scheme: http
+  authorization:
+    type: Bearer
+    credentials:
+      key: bearer-token
+      name: homeassistant-prometheus
+  enableHTTP2: true
+  metricsPath: /api/prometheus
+  staticConfigs:
+    - labels:
+        job: homeassistant
+      targets:
+        - hass.default.svc.homelab.wojoinc.local:8123

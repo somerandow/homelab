@@ -1,0 +1,77 @@
+---
+apiVersion: kubevirt.io/v1
+kind: VirtualMachine
+metadata:
+  name: hass-vm
+spec:
+  runStrategy: Always
+  template:
+    metadata:
+      labels:
+        kubevirt.io/vm: hass-vm
+        kubevirt.io/domain: hass-vm
+    spec:
+      evictionStrategy: LiveMigrate
+      domain:
+        features:
+          smm:
+            enabled: false
+        firmware:
+          bootloader:
+            efi:
+              secureBoot: false
+        cpu:
+          cores: 2
+        resources:
+          limits:
+            memory: 5G
+          requests:
+            memory: 4G
+        devices:
+          hostDevices:
+            - deviceName: kubevirt.io/serial
+              name: zbt2
+            - deviceName: kubevirt.io/zigbee
+              name: zigbee
+          disks:
+            - name: hass-os-disk
+              bootOrder: 1
+              disk:
+                bus: virtio
+          interfaces:
+            - name: pod
+              masquerade: { }
+              ports:
+                - port: 8123
+                  name: cluster
+            - name: external
+              bridge: {}
+              macAddress: d6:7f:57:72:8a:7a
+              ports:
+                - port: 8123
+                  name: integrations
+      networks:
+        - name: pod
+          pod: {}
+        - name: external
+          multus:
+            networkName: home-assistant/iot-bridge
+      volumes:
+        - name: hass-os-disk
+          persistentVolumeClaim:
+            claimName: hass-os-disk
+  dataVolumeTemplates:
+    - metadata:
+        name: hass-os-disk
+      spec:
+        storage:
+          resources:
+            requests:
+              storage: 35Gi
+          accessModes:
+            - ReadWriteOnce
+          storageClassName: "rook-rbd-fast"
+          volumeMode: Filesystem
+        source:
+          http:
+            url: "https://github.com/home-assistant/operating-system/releases/download/17.2/haos_ova-17.2.qcow2.xz"

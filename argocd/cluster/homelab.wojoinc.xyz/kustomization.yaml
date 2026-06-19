@@ -34,6 +34,9 @@ patches:
       kind: PodMonitor
     path: patch-podmonitor.yaml
   - target:
+      kind: ScrapeConfig
+    path: patch-scrapeconfig.yaml
+  - target:
       kind: MariaDB
     path: patch-mariadb.yaml
   - target:
