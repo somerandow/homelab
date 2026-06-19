@@ -9,7 +9,7 @@ spec:
   quotas:
     maxBuckets: 3
     maxSize: 50G
-    maxObjects: 100000
+    maxObjects: 10000000
   capabilities:
     user: "*"
     bucket: "*"
