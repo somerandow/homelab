@@ -1,0 +1,66 @@
+---
+apiVersion: pool.kubevirt.io/v1alpha1
+kind: VirtualMachinePool
+metadata:
+  name: sandbox-cluster-talos
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      kubevirt.io/vmpool: sandbox-cluster-talos
+  virtualMachineTemplate:
+    metadata:
+      labels:
+        kubevirt.io/vmpool: sandbox-cluster-talos
+    spec:
+      runStrategy: Always
+      template:
+        metadata:
+          labels:
+            kubevirt.io/vmpool: sandbox-cluster-talos
+            kubevirt.io/vm: talos-vm
+            kubevirt.io/domain: talos-vm
+        spec:
+          evictionStrategy: LiveMigrate
+          domain:
+            cpu:
+              cores: 2
+            resources:
+              requests:
+                memory: 4G
+            devices:
+              disks:
+                - name: talos-vm-pvc
+                  disk:
+                    bus: virtio
+              interfaces:
+                - name: podnet
+                  # Must use masquerade here, bridge mode would mean that pod does not get its own IP
+                  # and thus things like port-forward (to init the nodes) won't work
+                  # https://kubevirt.io/user-guide/network/interfaces_and_networks/#bridge
+                  masquerade: {}
+                  ports:
+                    - port: 50000
+                    - port: 6443
+          networks:
+            - name: podnet
+              pod: {}
+          volumes:
+            - name: talos-vm-pvc
+              persistentVolumeClaim:
+                claimName: talos-vm-pvc
+      dataVolumeTemplates:
+        - metadata:
+            name: talos-vm-pvc
+          spec:
+            storage:
+              resources:
+                requests:
+                  storage: 35Gi
+              accessModes:
+                - ReadWriteMany
+              storageClassName: "rook-cephfs"
+              volumeMode: Filesystem
+            source:
+              http:
+                url: "https://factory.talos.dev/image/43a1a6104d8dcd6547983f4ed13abb6f5e8a1b2fdad796c69e7db6e95d122884/v1.12.4/metal-amd64.qcow2"

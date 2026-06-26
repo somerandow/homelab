@@ -1,0 +1,11 @@
+cluster:
+  network:
+    dnsDomain: sbx.wojoinc.local
+    podSubnets:
+      - 10.7.0.0/16
+    serviceSubnets:
+      - 10.8.0.0/16
+    cni:
+      name: none
+  proxy:
+    disabled: true

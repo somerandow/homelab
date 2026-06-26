@@ -1,0 +1,5 @@
+machine:
+  install:
+    wipe: true
+    diskSelector:
+      size: '> 10G'

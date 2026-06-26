@@ -1,0 +1,11 @@
+machine:
+  kubelet:
+    extraConfig:
+      featureGates:
+        UserNamespacesSupport: true
+  sysctls:
+    user.max_user_namespaces: 256352
+cluster:
+  apiServer:
+    extraArgs:
+      feature-gates: UserNamespacesSupport=true
