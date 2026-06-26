@@ -4,7 +4,7 @@ logLevel: info
 logFormat: text
 sources:
   - ingress
-  - services
+  - service
 policy: upsert-only
 registry: txt
 txtOwnerId: ""
