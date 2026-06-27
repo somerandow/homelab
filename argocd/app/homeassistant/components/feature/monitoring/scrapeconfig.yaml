@@ -16,4 +16,4 @@ spec:
     - labels:
         job: homeassistant
       targets:
-        - hass.default.svc.homelab.wojoinc.local:8123
+        - hass.home-assistant.svc.homelab.wojoinc.local:8123
