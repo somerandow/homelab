@@ -62,6 +62,7 @@ spec:
             claimName: hass-os-disk
   dataVolumeTemplates:
     - metadata:
+        creationTimestamp: null
         name: hass-os-disk
       spec:
         storage:
