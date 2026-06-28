@@ -38,7 +38,7 @@
     {
       "customType": "regex",
       "managerFilePatterns": ["/^.+/kube-prometheus-stack/applicationset.yaml$/"],
-      "datasourceTemplate": "helmv3",
+      "datasourceTemplate": "helm",
       "matchStrings": [
         "# renovate: helmRepository=(?<registryUrl>.*?) chart=(?<depName>.*?)\\s+targetRevision: \\S?(?<currentValue>[^\"]+)\\S"
       ],
