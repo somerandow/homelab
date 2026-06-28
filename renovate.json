@@ -31,7 +31,7 @@
       "customType": "regex",
       "managerFilePatterns": ["/^.+applicationset.yaml$/"],
       "matchStrings": [
-        "# renovate: datasource=(?<helmRepository>.*?) depName=(?<depName>.*?)\\s+targetRevision: \\S?(?<currentValue>[^\"]+)\\S"
+        "# renovate: datasource=(?<datasource>.*?) depName=(?<depName>.*?)\\s+targetRevision: \\S?(?<currentValue>[^\"]+)\\S"
       ],
       "versioningTemplate": "helm"
     },
