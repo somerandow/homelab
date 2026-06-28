@@ -16,8 +16,8 @@ spec:
             argocd.argoproj.io/secret-type: cluster
         values:
           # This may have issues due to multiple release types in same repo
-          # renovate: datasource=github-releases depName=prometheus-community/helm-charts
-          targetRevision: ">= 75.0.0"
+          # renovate: datasource=helm depName=https://prometheus-community.github.io/helm-charts/kube-prometheus-stack
+          targetRevision: "~87.2.0"
           namespace: prometheus-operator
   template:
     metadata:
