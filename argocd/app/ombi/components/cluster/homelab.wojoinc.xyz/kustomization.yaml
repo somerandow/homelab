@@ -34,4 +34,4 @@ patches:
               name: ombi-db-app
         storage:
           storageClass: rook-rbd-fast
-          size: 5Gi
+          size: 7Gi
