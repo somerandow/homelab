@@ -17,7 +17,7 @@ spec:
         values:
           # This may have issues due to multiple release types in same repo
           # renovate: helmRepository=https://prometheus-community.github.io/helm-charts chart=kube-prometheus-stack
-          targetRevision: "~87.5.0"
+          targetRevision: "~87.10.0"
           namespace: prometheus-operator
   template:
     metadata:
