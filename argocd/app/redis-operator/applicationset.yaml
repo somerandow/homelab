@@ -15,7 +15,7 @@ spec:
             argocd.argoproj.io/secret-type: cluster
         values:
           # renovate: datasource=github-releases depName=ot-container-kit/redis-operator
-          targetRevision: "~0.25.0"
+          targetRevision: "~0.26.0"
           namespace: redis-operator
   template:
     metadata:
