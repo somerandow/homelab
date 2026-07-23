@@ -15,7 +15,7 @@ spec:
             argocd.argoproj.io/secret-type: cluster
         values:
           # renovate: datasource=github-releases depName=mariadb-operator/mariadb-operator
-          targetRevision: "26.3.0"
+          targetRevision: "26.6.0"
           namespace: mariadb-operator
   template:
     metadata:
