@@ -10,11 +10,12 @@ configMapGenerator:
     literals:
       - clusterDomain=homelab.wojoinc.local
 resources:
-  - ../../env/prod
+  - https://github.com/somerandow/manifests//immich/base?ref=main
 components:
+  - ../../../components/env/prod
+  - ../../../../../cluster/homelab.wojoinc.xyz
   - ../../../../../common/ingress-publish-external
   - ../../../../../common/ingress-publish-internal
-  - ../../../../../cluster/homelab.wojoinc.xyz
 patches:
   - target:
       kind: ServersTransport
