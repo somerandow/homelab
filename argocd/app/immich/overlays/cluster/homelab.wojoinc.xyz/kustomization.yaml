@@ -1,6 +1,6 @@
 ---
-apiVersion: kustomize.config.k8s.io/v1alpha1
-kind: Component
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
 configMapGenerator:
   - name: replacement-config
     options:
@@ -9,9 +9,12 @@ configMapGenerator:
         config.kubernetes.io/local-config: "true"
     literals:
       - clusterDomain=homelab.wojoinc.local
+resources:
+  - ../../env/prod
 components:
   - ../../../../../common/ingress-publish-external
   - ../../../../../common/ingress-publish-internal
+  - ../../../../../cluster/homelab.wojoinc.xyz
 patches:
   - target:
       kind: ServersTransport

@@ -27,7 +27,7 @@ spec:
       sources:
         - repoURL: 'https://github.com/somerandow/homelab'
           targetRevision: '{{.values.targetRevision}}'
-          path: argocd/app/immich/base
+          path: 'argocd/app/immich/overlays/cluster/{{ .name }}'
           kustomize:
             components:
               - ../../../flavor/{{index .metadata.labels "cluster-flavor"}}
