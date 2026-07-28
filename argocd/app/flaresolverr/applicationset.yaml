@@ -24,9 +24,9 @@ spec:
     spec:
       project: default
       sources:
-        - repoURL: 'https://github.com/somerandow/homelab'
+        - repoURL: 'https://github.com/somerandow/manifests'
           targetRevision: main
-          path: argocd/app/flaresolverr/base
+          path: flaresolverr/base
       destination:
         server: '{{ .server }}'
         namespace: '{{ .values.namespace }}'
