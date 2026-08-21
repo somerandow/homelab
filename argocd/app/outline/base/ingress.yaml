@@ -1,0 +1,20 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: outline
+spec:
+  rules:
+    - host: ""
+      http:
+        paths:
+          - backend:
+              service:
+                name: outline
+                port:
+                  name: http
+            pathType: Prefix
+            path: /
+  tls:
+    - hosts: []
+      secretName: outline-cert

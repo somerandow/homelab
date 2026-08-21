@@ -1,11 +1,19 @@
 ---
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
+labels:
+  - pairs:
+      app.kubernetes.io/name: outline
+      app.kubernetes.io/instance: outline
+    includeTemplates: true
+    includeSelectors: true
 resources:
   - cluster.yaml
   - deployment.yaml
+  - ingress.yaml
   - redisreplication.yaml
   - redissentinel.yaml
+  - service.yaml
   - serviceaccounts.yaml
   - vaultauths.yaml
   - vaultstaticsecret.yaml

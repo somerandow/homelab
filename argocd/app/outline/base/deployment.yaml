@@ -9,12 +9,11 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: outline
+      app.kubernetes.io/component: app
   template:
     metadata:
-      name: outline
       labels:
-        app: outline
+        app.kubernetes.io/component: app
     spec:
       containers:
         - name: outline
@@ -33,9 +32,10 @@ spec:
             - secretRef:
                 name: outline-config
                 optional: false
+            - secretRef:
+                name: outline-oidc
+                optional: true
           env:
-            - name: URL
-              value: http://localhost:3000
 #            - name: COLLABORATION_URL
 #              value: http://localhost
             - name: FORCE_HTTPS
