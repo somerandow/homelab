@@ -34,6 +34,8 @@ deployments:
         type: pvc
     containers:
       main:
+        image:
+          tag: "1.37.2"
         volumeMounts:
           config:
             path: "/config"
