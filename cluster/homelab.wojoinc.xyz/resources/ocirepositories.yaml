@@ -1,0 +1,11 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: OCIRepository
+metadata:
+  name: somerandow-charts
+  namespace: media
+spec:
+  interval: 5m0s
+  url: oci://ghcr.io/somerandow/charts/arr
+  ref:
+    tag: 0.7.7

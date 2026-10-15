@@ -8,9 +8,10 @@ configMapGenerator:
         # Skip rendering CM in build output
         config.kubernetes.io/local-config: "true"
     literals:
-      - CLUSTER=homelab
+      - CLUSTER=homelab.wojoinc.xyz
 resources:
   - ../../../app/a
+  - ../../../app/bazarr
   - ../../../app/flaresolverr
   - ../../../app/immich
   - ../../../app/generic-device-plugin

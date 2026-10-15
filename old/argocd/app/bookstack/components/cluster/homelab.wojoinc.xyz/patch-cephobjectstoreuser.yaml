@@ -1,6 +1,0 @@
-- op: add
-  path: /spec/store
-  value: rgw-fast
-- op: add
-  path: /spec/clusterNamespace
-  value: rook-ceph
