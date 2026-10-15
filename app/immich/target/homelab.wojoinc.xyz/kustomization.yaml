@@ -1,0 +1,81 @@
+---
+apiVersion: kustomize.config.k8s.io/v1alpha1
+kind: Component
+configMapGenerator:
+  - name: replacement-config
+    options:
+      annotations:
+        # Skip rendering CM in build output
+        config.kubernetes.io/local-config: "true"
+    literals:
+      - clusterDomain=homelab.wojoinc.local
+components:
+  - ../../flavor/talos
+  - ../../env/prod
+  - ../../../../cluster/homelab.wojoinc.xyz/components/common
+  - ../../../../common/ingress-publish-external
+  - ../../../../common/ingress-publish-internal
+resources:
+  - ../../base
+patches:
+  - target:
+      kind: ServersTransport
+    patch: |-
+      - op: replace
+        path: /spec/serverName
+        value: oauth2-proxy.oauth2-proxy.svc.homelab.wojoinc.local
+  - target:
+      kind: RedisReplication
+    patch: |-
+      - op: add
+        path: /spec/storage/volumeClaimTemplate/spec/storageClassName
+        value: rook-rbd-fast
+  - target:
+      kind: Cluster
+    patch: |-
+      - op: add
+        path: /spec/storage/storageClass
+        value: rook-rbd-fast
+      - op: replace
+        path: /spec/storage/size
+        value: 3Gi
+  - target:
+      kind: Ingress
+    patch: |-
+      - op: add
+        path: /spec/tls/0/hosts/0
+        value: immich.wojoinc.xyz
+      - op: add
+        path: /spec/rules/0/host
+        value: immich.wojoinc.xyz
+  - target:
+      kind: PersistentVolumeClaim
+      name: immich-data
+    patch: |-
+      - op: replace
+        path: /spec/resources/requests/storage
+        value: 400Gi
+replacements:
+  - source:
+      name: replacement-config
+      kind: ConfigMap
+      fieldPath: data.clusterDomain
+    targets:
+      - select:
+          kind: Certificate
+        fieldPaths:
+          - spec.commonName
+          - spec.dnsNames.0
+          - spec.dnsNames.1
+        options:
+          delimiter: '.'
+          index: 3
+      - select:
+          kind: Certificate
+          name: session-cache
+        fieldPaths:
+          - spec.dnsNames.2
+          - spec.dnsNames.3
+        options:
+          delimiter: '.'
+          index: 3

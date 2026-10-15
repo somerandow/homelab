@@ -1,0 +1,42 @@
+---
+apiVersion: secrets.hashicorp.com/v1beta1
+kind: VaultAuth
+metadata:
+  name: redis
+spec:
+  kubernetes:
+    audiences: []
+    role: "TO_BE_FILLED"
+    serviceAccount: redis
+    tokenExpirationSeconds: 600
+  method: kubernetes
+  mount: homelab
+  vaultConnectionRef: vault-secrets-operator/default
+---
+apiVersion: secrets.hashicorp.com/v1beta1
+kind: VaultAuth
+metadata:
+  name: immich
+spec:
+  kubernetes:
+    audiences: []
+    role: "TO_BE_FILLED"
+    serviceAccount: immich
+    tokenExpirationSeconds: 600
+  method: kubernetes
+  mount: homelab
+  vaultConnectionRef: vault-secrets-operator/default
+---
+apiVersion: secrets.hashicorp.com/v1beta1
+kind: VaultAuth
+metadata:
+  name: postgres
+spec:
+  kubernetes:
+    audiences: []
+    role: "TO_BE_FILLED"
+    serviceAccount: postgres
+    tokenExpirationSeconds: 600
+  method: kubernetes
+  mount: homelab
+  vaultConnectionRef: vault-secrets-operator/default

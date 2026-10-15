@@ -1,0 +1,17 @@
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  labels: {}
+  name: grafana-db-monitor
+spec:
+  namespaceSelector: {}
+  podMetricsEndpoints:
+    - bearerTokenSecret:
+        key: ""
+        name: ""
+      port: metrics
+  selector:
+    matchLabels:
+      cnpg.io/cluster: grafana-db
+      cnpg.io/podRole: instance

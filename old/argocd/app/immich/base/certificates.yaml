@@ -1,0 +1,44 @@
+---
+# Redis certificate
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: cache
+spec:
+  isCA: false
+  commonName: cache.immich.svc.CLUSTER_DOMAIN
+  dnsNames:
+    - "cache-additional.immich.svc.CLUSTER_DOMAIN"
+    - "cache-headless.immich.svc.CLUSTER_DOMAIN"
+    - "cache-master.immich.svc.CLUSTER_DOMAIN"
+    - "cache-replica.immich.svc.CLUSTER_DOMAIN"
+    - "cache"
+  secretName: cache-tls
+  privateKey:
+    algorithm: ECDSA
+    size: 256
+  issuerRef:
+    name: homelab-ca
+    kind: ClusterIssuer
+    group: cert-manager.io
+---
+# Redis sentinel certificate
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: cache-sentinel
+spec:
+  isCA: false
+  commonName: cache-sentinel.immich.svc.CLUSTER_DOMAIN
+  dnsNames:
+    - "cache-sentinel-additional.immich.svc.CLUSTER_DOMAIN"
+    - "cache-sentinel-headless.immich.svc.CLUSTER_DOMAIN"
+    - "cache-sentinel"
+  secretName: cache-sentinel-tls
+  privateKey:
+    algorithm: ECDSA
+    size: 256
+  issuerRef:
+    name: homelab-ca
+    kind: ClusterIssuer
+    group: cert-manager.io

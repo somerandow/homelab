@@ -1,0 +1,3 @@
+- op: add
+  path: /metadata/labels/monitoring.homelab.wojoinc.xyz~1enabled
+  value: "true"

@@ -1,0 +1,27 @@
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: Grafana
+metadata:
+  name: not-used
+spec:
+  deployment:
+    spec:
+      template:
+        metadata:
+          labels:
+            monitoring.homelab.wojoinc.xyz/grafana-instance: grafana
+  config:
+    auth:
+      signout_redirect_url: https://kc.wojoinc.xyz/realms/homelab/protocol/openid-connect/logout
+    auth.generic_oauth:
+      auth_url: https://kc.wojoinc.xyz/realms/homelab/protocol/openid-connect/auth
+      token_url: https://kc.wojoinc.xyz/realms/homelab/protocol/openid-connect/token
+      api_url: https://kc.wojoinc.xyz/realms/homelab/protocol/openid-connect/userinfo
+      role_attribute_path: "contains(groups[*], 'Monitoring Admins') && 'Admin' || 'Viewer'"
+  ingress:
+    metadata:
+      annotations:
+        cert-manager.io/cluster-issuer: acme
+        external-dns.alpha.kubernetes.io/target: "wojoinc.xyz."
+        dns.homelab.wojoinc.xyz/publish-external: ""
+        dns.homelab.wojoinc.xyz/publish-internal: ""
