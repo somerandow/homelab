@@ -1,0 +1,13 @@
+---
+apiVersion: kustomize.config.k8s.io/v1alpha1
+kind: Component
+resources:
+  - ../../base
+components:
+  - ../../env/prod
+  - ../../../../cluster/homelab.wojoinc.xyz/components/common
+patches:
+  - target:
+      kind: HelmRelease
+      name: cnpg
+    path: patch-helmrelease.yaml
