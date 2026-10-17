@@ -1,0 +1,31 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: not-used
+spec:
+  values:
+    ingress:
+      main:
+        className: "traefik-external"
+        host: "radarr.wojoinc.xyz"
+        forwardAuth:
+          enabled: true
+          endpoint: oauth2-proxy.oauth2-proxy.svc.homelab.wojoinc.local
+      api:
+        className: "traefik-external"
+        host: "radarr.wojoinc.xyz"
+        path: "/api"
+        forwardAuth:
+          enabled: false
+          endpoint: oauth2-proxy.oauth2-proxy.svc.homelab.wojoinc.local
+    persistence:
+      config:
+        enabled: true
+        accessModes:
+          - ReadWriteOnce
+        size: "4Gi"
+        className: "rook-rbd-fast"
+      media:
+        existingClaim: "media"
+        enabled: true

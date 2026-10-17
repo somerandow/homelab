@@ -1,0 +1,37 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: prowlarr
+spec:
+  interval: 15m
+  timeout: 5m
+  chart:
+    spec:
+      chart: arr
+      version: "0.7.7"
+      sourceRef:
+        kind: HelmRepository
+        name: somerandow-charts
+        namespace: media
+      interval: 5m
+  releaseName: prowlarr
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
+  values:
+    serviceAccount:
+      create: true
+    service:
+      port: 9696
+    image:
+      repository: ghcr.io/home-operations/prowlarr
+      tag: 2.6.5.5623
+    ingress:
+      main:
+        forwardAuth:
+          allowedGroups:
+            - Prowlarr-Admins

@@ -1,3 +1,0 @@
-monitoring:
-  podMonitorAdditionalLabels:
-    monitoring.homelab.wojoinc.xyz/enabled: "true"
