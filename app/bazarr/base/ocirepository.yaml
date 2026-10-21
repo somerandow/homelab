@@ -1,0 +1,13 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: OCIRepository
+metadata:
+  name: bazarr
+spec:
+  interval: 10m
+  layerSelector:
+    mediaType: "application/vnd.cncf.helm.chart.content.v1.tar+gzip"
+    operation: copy
+  url: oci://ghcr.io/somerandow/charts/arr
+  ref:
+    semver: ">= 0.7.7"

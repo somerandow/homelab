@@ -8,7 +8,7 @@ spec:
   timeout: 5m
   chartRef:
     kind: OCIRepository
-    name: somerandow-charts
+    name: bazarr
     namespace: media
 #  chart:
 #    spec:
