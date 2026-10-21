@@ -11,6 +11,7 @@ configMapGenerator:
       - CLUSTER=homelab.wojoinc.xyz
 resources:
   - ../../../app/bazarr
+  - ../../../cluster/homelab.wojoinc.xyz/resources
 replacements:
   - source:
       kind: ConfigMap
