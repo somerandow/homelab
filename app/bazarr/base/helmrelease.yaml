@@ -6,15 +6,19 @@ metadata:
 spec:
   interval: 15m
   timeout: 5m
-  chart:
-    spec:
-      chart: arr
-      version: '0.7.7'
-      sourceRef:
-        kind: OCIRepository
-        name: somerandow-charts
-        namespace: media
-      interval: 5m
+  chartRef:
+    kind: OCIRepository
+    name: somerandow-charts
+    namespace: media
+#  chart:
+#    spec:
+#      chart: arr
+#      version: '0.7.7'
+#      sourceRef:
+#        kind: OCIRepository
+#        name: somerandow-charts
+#        namespace: media
+#      interval: 5m
   releaseName: bazarr
   install:
     remediation:
