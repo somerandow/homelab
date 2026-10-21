@@ -9,7 +9,7 @@ spec:
   targetNamespace: media
   sourceRef:
     kind: GitRepository
-    name: homelab
+    name: flux-system
   path: "app/bazarr/target/TARGET"
   prune: true
   timeout: 5m
