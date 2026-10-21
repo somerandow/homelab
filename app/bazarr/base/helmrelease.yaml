@@ -11,7 +11,7 @@ spec:
       chart: arr
       version: '0.7.7'
       sourceRef:
-        kind: HelmRepository
+        kind: OCIRepository
         name: somerandow-charts
         namespace: media
       interval: 5m
