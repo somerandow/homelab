@@ -1,0 +1,29 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+configMapGenerator:
+  - name: target-app
+    options:
+      annotations:
+        # Skip rendering CM in build output
+        config.kubernetes.io/local-config: "true"
+    literals:
+      - CLUSTER=homelab.wojoinc.xyz
+resources:
+  - ../../../app/bazarr
+replacements:
+  - source:
+      kind: ConfigMap
+      name: target-app
+      fieldPath: .data.CLUSTER
+    targets:
+      - select:
+          group: kustomize.toolkit.fluxcd.io
+          kind: Kustomization
+        reject:
+          - annotationSelector: "app.homelab.wojoinc.xyz/target in (base)"
+        fieldPaths:
+          - .spec.path
+        options:
+          delimiter: /
+          index: 3
