@@ -1,4 +1,5 @@
-cluster:
-  controlPlane:
-    endpoint: https://api.homelab.wojoinc.xyz:6443
-  clusterName: homelab.wojoinc.xyz
+---
+apiVersion: v1alpha1
+kind: KubeClusterConfig
+clusterName: homelab.wojoinc.xyz
+endpoint: https://api.homelab.wojoinc.xyz:6443

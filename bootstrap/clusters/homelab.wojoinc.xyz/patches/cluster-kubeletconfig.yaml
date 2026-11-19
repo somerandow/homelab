@@ -1,0 +1,9 @@
+---
+apiVersion: v1alpha1
+kind: KubeletConfig
+config:
+  featureGates:
+    UserNamespacesSupport: true
+defaultRuntimeSeccompProfileEnabled: true
+extraArgs:
+  rotate-server-certificates: true

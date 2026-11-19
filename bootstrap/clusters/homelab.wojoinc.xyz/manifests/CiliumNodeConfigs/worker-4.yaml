@@ -1,0 +1,15 @@
+---
+apiVersion: cilium.io/v2
+kind: CiliumNodeConfig
+metadata:
+  name: worker-4
+  namespace: kube-system
+spec:
+  nodeSelector:
+    matchLabels:
+      kubernetes.io/hostname: worker-4
+  defaults:
+    devices: "bond0.vlan103,bond0.vlan104,bond0.vlan105"
+    # Allow the use of Kubevirt, which requires MAC addresses be assigned to pods
+    # which is not possible with netkit running in L3 mode
+    datapath-mode: netkit-l2

@@ -1,0 +1,12 @@
+---
+apiVersion: v1alpha1
+kind: ResolverConfig
+hostDNS:
+  enabled: true
+  # Disable forwarding kubeDNS to host resolver as it doesn't yet work with Cilium eBPF
+  forwardKubeDNSToHost: false
+nameservers:
+  - address: 10.0.0.1
+searchDomains:
+  domains:
+    - wojoinc.xyz

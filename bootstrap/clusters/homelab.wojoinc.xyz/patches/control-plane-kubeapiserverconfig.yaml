@@ -1,0 +1,10 @@
+---
+apiVersion: v1alpha1
+kind: KubeAPIServerConfig
+certExtraSANs:
+  - 127.0.0.1
+  - 10.0.0.10
+  - 10.0.0.11
+  - 10.0.0.12
+extraArgs:
+  feature-gates: UserNamespacesSupport=true

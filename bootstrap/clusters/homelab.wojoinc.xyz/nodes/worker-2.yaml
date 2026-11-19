@@ -3,28 +3,13 @@ machine:
     - 127.0.0.1
     - 10.0.0.8
     - 10.4.0.8
-  install:
-    wipe: true
-    diskSelector:
-      uuid: 36363530-5720-1488-0025-384e00000006
-  systemDiskEncryption:
-    ephemeral:
-      provider: luks2
-      cipher: aes-xts-plain64
-      keySize: 256
-      keys:
-        - tpm: { }
-          slot: 0
-    state:
-      provider: luks2
-      cipher: aes-xts-plain64
-      keySize: 256
-      keys:
-        - tpm: { }
-          slot: 0
-  network:
-    searchDomains:
-      - wojoinc.xyz
+---
+apiVersion: v1alpha1
+kind: UnattendedInstallConfig
+provisioning:
+  wipe: true
+  diskSelector:
+    match: disk.uuid == "36363530-5720-1488-0025-384e00000006"
 ---
 apiVersion: v1alpha1
 kind: HostnameConfig
@@ -40,10 +25,28 @@ provisioning:
   minSize: 50GB
   maxSize: 200GB
   grow: true
+encryption:
+  provider: luks2
+  cipher: aes-xts-plain64
+  keySize: 256
+  keys:
+    - tpm: { }
+      slot: 0
+---
+apiVersion: v1alpha1
+kind: VolumeConfig
+name: STATE
+encryption:
+  provider: luks2
+  cipher: aes-xts-plain64
+  keySize: 256
+  keys:
+    - tpm: { }
+      slot: 0
 ---
 apiVersion: v1alpha1
 kind: EthernetConfig
-name: enp2s0f0np0
+name: enp3s0f0np0
 rings:
   rx: 8160
   tx: 8160
@@ -59,7 +62,7 @@ channels:
 ---
 apiVersion: v1alpha1
 kind: EthernetConfig
-name: enp2s0f1np1
+name: enp3s0f1np1
 rings:
   rx: 8160
   tx: 8160
@@ -77,8 +80,8 @@ apiVersion: v1alpha1
 kind: BondConfig
 name: bond0
 links:
-  - enp2s0f0np0
-  - enp2s0f1np1
+  - enp3s0f0np0
+  - enp3s0f1np1
 bondMode: 802.3ad
 miimon: 100
 updelay: 200
@@ -103,3 +106,27 @@ addresses:
   - address: 10.4.0.8/16
 routes:
   - destination: 10.4.0.0/16
+---
+apiVersion: v1alpha1
+kind: VLANConfig
+name: bond0.vlan105
+addresses:
+  - address: 10.5.0.8/16
+routes:
+  - destination: 10.5.0.0/16
+---
+apiVersion: v1alpha1
+kind: KernelModuleConfig
+name: nvidia
+---
+apiVersion: v1alpha1
+kind: KernelModuleConfig
+name: nvidia_uvm
+---
+apiVersion: v1alpha1
+kind: KernelModuleConfig
+name: nvidia_drm
+---
+apiVersion: v1alpha1
+kind: KernelModuleConfig
+name: nvidia_modeset

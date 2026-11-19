@@ -1,31 +1,17 @@
 ---
 machine:
+  # TODO: Check if this can be removed now
   certSANs:
     - 127.0.0.1
     - 10.0.0.5
     - 10.4.0.5
-  install:
-    wipe: true
-    diskSelector:
-      uuid: 36363530-54b1-0074-0025-384e00000008
-  systemDiskEncryption:
-    ephemeral:
-      provider: luks2
-      cipher: aes-xts-plain64
-      keySize: 256
-      keys:
-        - tpm: { }
-          slot: 0
-    state:
-      provider: luks2
-      cipher: aes-xts-plain64
-      keySize: 256
-      keys:
-        - tpm: { }
-          slot: 0
-  network:
-    searchDomains:
-      - wojoinc.xyz
+---
+apiVersion: v1alpha1
+kind: UnattendedInstallConfig
+provisioning:
+  wipe: true
+  diskSelector:
+    match: disk.uuid == "36363530-54b1-0074-0025-384e00000008"
 ---
 apiVersion: v1alpha1
 kind: HostnameConfig
@@ -41,6 +27,24 @@ provisioning:
   minSize: 50GB
   maxSize: 200GB
   grow: true
+encryption:
+  provider: luks2
+  cipher: aes-xts-plain64
+  keySize: 256
+  keys:
+    - tpm: { }
+      slot: 0
+---
+apiVersion: v1alpha1
+kind: VolumeConfig
+name: STATE
+encryption:
+  provider: luks2
+  cipher: aes-xts-plain64
+  keySize: 256
+  keys:
+    - tpm: { }
+      slot: 0
 ---
 apiVersion: v1alpha1
 kind: BondConfig

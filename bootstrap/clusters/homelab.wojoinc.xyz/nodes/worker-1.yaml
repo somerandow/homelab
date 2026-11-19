@@ -3,32 +3,19 @@ machine:
     - 127.0.0.1
     - 10.0.0.7
     - 10.4.0.7
-  install:
-    wipe: true
-    diskSelector:
-      uuid: 36363530-5481-1345-0025-385300000002
-  systemDiskEncryption:
-    ephemeral:
-      provider: luks2
-      cipher: aes-xts-plain64
-      keySize: 256
-      keys:
-        - tpm: { }
-          slot: 1
-    state:
-      provider: luks2
-      cipher: aes-xts-plain64
-      keySize: 256
-      keys:
-        - tpm: { }
-          slot: 0
-  network:
-    searchDomains:
-      - wojoinc.xyz
-  udev:
-    rules:
-      - SUBSYSTEM=="tty", KERNEL=="ttyACM*", GROUP="20", MODE="0660"
-      - SUBSYSTEM=="tty", KERNEL=="ttyUSB*", GROUP="20", MODE="0660"
+---
+apiVersion: v1alpha1
+kind: UdevRulesConfig
+rules:
+  - SUBSYSTEM=="tty", KERNEL=="ttyACM*", GROUP="20", MODE="0660"
+  - SUBSYSTEM=="tty", KERNEL=="ttyUSB*", GROUP="20", MODE="0660"
+---
+apiVersion: v1alpha1
+kind: UnattendedInstallConfig
+provisioning:
+  wipe: true
+  diskSelector:
+    match: disk.uuid == "36363530-5481-1345-0025-385300000002"
 ---
 apiVersion: v1alpha1
 kind: HostnameConfig
@@ -44,6 +31,24 @@ provisioning:
   minSize: 50GB
   maxSize: 200GB
   grow: true
+encryption:
+  provider: luks2
+  cipher: aes-xts-plain64
+  keySize: 256
+  keys:
+    - tpm: { }
+      slot: 1
+---
+apiVersion: v1alpha1
+kind: VolumeConfig
+name: STATE
+encryption:
+  provider: luks2
+  cipher: aes-xts-plain64
+  keySize: 256
+  keys:
+    - tpm: { }
+      slot: 0
 ---
 apiVersion: v1alpha1
 kind: EthernetConfig

@@ -1,7 +1,9 @@
 #!/bin/bash
 BASE_DIR="bootstrap/clusters"
 PLAINTEXT_SUFFIX="_plain.yaml"
-INSTALLER_IMAGE="factory.talos.dev/metal-installer-secureboot/735cad5462c0a7cac42071fb192067589ae25105934e5b666bebd8192e66454a:v1.12.2"
+# NVIDIA schematic ID: b3a7d1d06c9b960577ac31983698a8c6fef1e14cd2ec7cbc2def6407cbadc0ef
+# Normal schematic ID: 735cad5462c0a7cac42071fb192067589ae25105934e5b666bebd8192e66454a
+INSTALLER_IMAGE="factory.talos.dev/metal-installer-secureboot/b3a7d1d06c9b960577ac31983698a8c6fef1e14cd2ec7cbc2def6407cbadc0ef:v1.14.5"
 
 function gen_base_config {
   CLUSTER=$1
